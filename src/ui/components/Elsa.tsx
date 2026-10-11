@@ -1,3 +1,5 @@
+import { frTypo } from '../../domain/typo';
+
 export type ElsaExpression = 'contente' | 'concentree' | 'grimace' | 'fiere';
 
 const FACE: Record<ElsaExpression, string> = { contente: '😊', concentree: '🙂', grimace: '😜', fiere: '🤩' };
@@ -12,7 +14,7 @@ export function Elsa({ expression, line }: { expression: ElsaExpression; line?: 
       <div className="elsa-face" aria-hidden>
         {FACE[expression]}
       </div>
-      {line && <div className="bubble">{line}</div>}
+      {line && <div className="bubble">{frTypo(line)}</div>}
     </div>
   );
 }

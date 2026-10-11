@@ -1,6 +1,7 @@
 import { type FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import type { Settings, Word } from '../../domain/model';
 import { autoHint } from '../../domain/hints';
+import { frTypo } from '../../domain/typo';
 import { OOPS_LINES, randomLine } from '../../domain/lines';
 import { type WordRun, acceptHint, declineHint, startTyping, startWordRun, submitWord } from '../../domain/wordRun';
 import { stopSpeaking } from '../../speech/tts';
@@ -77,7 +78,7 @@ export function WordExercise({ word, itemId, presentation, failures, settings, o
       </aside>
 
       <section className="exercise-main">
-        <p className="instruction">{run.phase === 'correction' ? (run.revealCorrect ? 'Pas encore. Regarde :' : 'Écris-le de mémoire.') : 'Écris le mot que tu entends.'}</p>
+        <p className="instruction">{frTypo(run.phase === 'correction' ? (run.revealCorrect ? 'Pas encore. Regarde :' : 'Écris-le de mémoire.') : 'Écris le mot que tu entends.')}</p>
 
         {voiceError && <div className="hint-box">La voix ne marche pas : demande à un parent. ({voiceError})</div>}
 
@@ -89,7 +90,7 @@ export function WordExercise({ word, itemId, presentation, failures, settings, o
 
         {run.phase === 'answer' && run.hintUsed && (
           <div className="hint-box">
-            <strong>Indice :</strong> {hint}
+            <strong>{frTypo('Indice :')}</strong> {hint}
           </div>
         )}
 

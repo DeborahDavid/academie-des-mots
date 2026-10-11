@@ -3,6 +3,8 @@ import { type WordTask, planWordTasks, recordPresentation } from '../../db/sessi
 import { AFTER_FAIL_LINES, END_LINES, randomLine, successLine } from '../../domain/lines';
 import { newId } from '../../domain/model';
 import { requeue } from '../../domain/session';
+import { frTypo } from '../../domain/typo';
+import { db } from '../../db/db';
 import { type WordRun, shouldRequeue } from '../../domain/wordRun';
 import { Elsa, type ElsaExpression } from '../components/Elsa';
 import { useSettings } from '../hooks';
@@ -36,11 +38,13 @@ export function Session({ onExit }: { onExit: () => void }) {
   const settings = useSettings();
   const sessionId = useRef(newId()).current;
   const [queue, setQueue] = useState<Task[] | null>(null);
+  const [hasWords, setHasWords] = useState(true);
   const [index, setIndex] = useState(0);
   const [transition, setTransition] = useState<Transition | null>(null);
   const [summary, setSummary] = useState<Summary>({ firstTry: 0, withHint: 0, toReview: 0, stars: 0 });
 
   useEffect(() => {
+    db.words.count().then((n) => setHasWords(n > 0));
     planWordTasks().then((tasks) => setQueue(tasks.map((t) => ({ key: `${t.item.id}#1`, word: t, presentation: 1, failures: 0 }))));
   }, []);
 
@@ -94,7 +98,10 @@ export function Session({ onExit }: { onExit: () => void }) {
   if (queue.length === 0) {
     return (
       <main className="session-screen center-col">
-        <Elsa expression="contente" line="Tout est fait pour aujourd’hui ! Reviens demain." />
+        <Elsa
+          expression="contente"
+          line={hasWords ? 'Tout est fait pour aujourd’hui ! Reviens demain.' : 'Il n’y a pas encore de mots. Demande à un parent d’ajouter la liste de la semaine.'}
+        />
         <button className="primary big" onClick={onExit}>
           Retour à la tour
         </button>
@@ -105,7 +112,7 @@ export function Session({ onExit }: { onExit: () => void }) {
   if (finished && !transition) {
     return (
       <main className="session-screen center-col">
-        <h1 className="title-gold">Séance terminée !</h1>
+        <h1 className="title-gold">{frTypo('Séance terminée !')}</h1>
         <Elsa expression="fiere" line={randomLine(END_LINES)} />
         <div className="card summary">
           <p>✦ {summary.firstTry} sort{summary.firstTry > 1 ? 's' : ''} réussi{summary.firstTry > 1 ? 's' : ''} du premier coup</p>
