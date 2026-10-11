@@ -1,0 +1,209 @@
+{
+  "format": "academie-vocab",
+  "version": 1,
+  "words": [
+    {
+      "id": "perseverant",
+      "lemma": "persévérant",
+      "pos": "adjectif",
+      "definition": "Qui continue ses efforts malgré les difficultés, sans abandonner.",
+      "examples": [
+        "Léo est persévérant : il s’entraîne au piano tous les jours, même quand c’est difficile.",
+        "Sois persévérante, tu finiras par réussir ce puzzle."
+      ],
+      "synonyms": ["tenace"],
+      "antonyms": [],
+      "level": 2,
+      "week": 1,
+      "sources": ["corpus"],
+      "questions": [
+        {
+          "id": "sens-1",
+          "type": "sens",
+          "prompt": "Qui continue ses efforts malgré les difficultés.",
+          "choices": ["persévérant", "curieux", "maladroit"],
+          "explanation": "Être persévérant, c’est continuer sans abandonner, même quand c’est dur."
+        },
+        {
+          "id": "situation-1",
+          "type": "situation",
+          "prompt": "Emma essaie cinq fois de résoudre une énigme. Elle ne renonce pas. Emma est…",
+          "choices": ["persévérante", "paresseuse", "distraite"],
+          "explanation": "Emma n’abandonne pas : elle est persévérante."
+        },
+        {
+          "id": "phrase-1",
+          "type": "phrase",
+          "prompt": "Dans quelle phrase « persévérant » est-il bien utilisé ?",
+          "choices": [
+            "Malgré ses chutes, Tom est persévérant : il remonte sur son vélo.",
+            "Tom est persévérant parce qu’il a les cheveux bruns.",
+            "Tom est persévérant : il abandonne dès que c’est difficile."
+          ],
+          "explanation": "On est persévérant quand on continue malgré les difficultés, comme Tom qui remonte sur son vélo."
+        }
+      ]
+    },
+    {
+      "id": "minuscule",
+      "lemma": "minuscule",
+      "pos": "adjectif",
+      "definition": "Très, très petit.",
+      "examples": [
+        "Une fourmi minuscule marche sur la table.",
+        "J’ai trouvé un coquillage minuscule sur la plage."
+      ],
+      "synonyms": ["tout petit"],
+      "antonyms": ["immense", "gigantesque"],
+      "level": 1,
+      "week": 1,
+      "sources": ["corpus"],
+      "questions": [
+        {
+          "id": "sens-1",
+          "type": "sens",
+          "prompt": "Très, très petit.",
+          "choices": ["minuscule", "immense", "rapide"],
+          "explanation": "Minuscule veut dire très, très petit."
+        },
+        {
+          "id": "synonyme-1",
+          "type": "synonyme",
+          "prompt": "Quel groupe de mots veut dire presque la même chose que « minuscule » ?",
+          "choices": ["tout petit", "très lourd", "très vieux"],
+          "explanation": "Une chose minuscule est toute petite."
+        },
+        {
+          "id": "antonyme-1",
+          "type": "antonyme",
+          "prompt": "Quel est le contraire de « minuscule » ?",
+          "choices": ["gigantesque", "petit", "mignon"],
+          "explanation": "Le contraire de minuscule, c’est gigantesque : très, très grand."
+        }
+      ]
+    },
+    {
+      "id": "prudent",
+      "lemma": "prudent",
+      "pos": "adjectif",
+      "definition": "Qui fait attention pour éviter un danger.",
+      "examples": [
+        "Sois prudent en traversant la rue.",
+        "La randonneuse est prudente : elle regarde où elle met les pieds."
+      ],
+      "synonyms": ["attentif"],
+      "antonyms": ["imprudent"],
+      "level": 1,
+      "week": 1,
+      "sources": ["corpus"],
+      "questions": [
+        {
+          "id": "sens-1",
+          "type": "sens",
+          "prompt": "Qui fait attention pour éviter un danger.",
+          "choices": ["prudent", "bavard", "pressé"],
+          "explanation": "Être prudent, c’est faire attention pour ne pas se mettre en danger."
+        },
+        {
+          "id": "situation-1",
+          "type": "situation",
+          "prompt": "Avant de traverser, Hugo regarde à gauche, puis à droite, puis encore à gauche. Hugo est…",
+          "choices": ["prudent", "gourmand", "timide"],
+          "explanation": "Hugo fait attention au danger avant de traverser : il est prudent."
+        },
+        {
+          "id": "antonyme-1",
+          "type": "antonyme",
+          "prompt": "Quel est le contraire de « prudent » ?",
+          "choices": ["imprudent", "attentif", "gentil"],
+          "explanation": "Le contraire de prudent, c’est imprudent : on ne fait pas attention au danger."
+        }
+      ]
+    },
+    {
+      "id": "perplexe",
+      "lemma": "perplexe",
+      "pos": "adjectif",
+      "definition": "Qui ne sait pas quoi penser, parce que quelque chose est difficile à comprendre.",
+      "examples": [
+        "Ces deux explications se contredisent : je suis perplexe.",
+        "Devant la carte au trésor toute bizarre, les pirates restent perplexes."
+      ],
+      "synonyms": ["indécis"],
+      "antonyms": [],
+      "level": 3,
+      "week": 1,
+      "sources": ["corpus"],
+      "questions": [
+        {
+          "id": "phrase-1",
+          "type": "phrase",
+          "prompt": "Dans quelle phrase « perplexe » est-il bien utilisé ?",
+          "choices": [
+            "Je suis perplexe, car ces deux explications se contredisent.",
+            "Je suis perplexe, car j’ai très faim.",
+            "Je suis perplexe, car mes chaussures sont mouillées."
+          ],
+          "explanation": "On est perplexe quand on ne sait plus quoi penser, par exemple devant deux explications qui se contredisent."
+        },
+        {
+          "id": "sens-1",
+          "type": "sens",
+          "prompt": "Qui ne sait pas quoi penser devant quelque chose de difficile à comprendre.",
+          "choices": ["perplexe", "joyeux", "fatigué"],
+          "explanation": "Perplexe : on hésite, on ne sait pas quoi penser."
+        },
+        {
+          "id": "situation-1",
+          "type": "situation",
+          "prompt": "La maîtresse dit que le chemin est à gauche, mais le panneau indique la droite. Lina ne sait plus quoi penser. Elle est…",
+          "choices": ["perplexe", "furieuse", "endormie"],
+          "explanation": "Lina reçoit deux informations qui se contredisent : elle est perplexe."
+        }
+      ]
+    },
+    {
+      "id": "curieux",
+      "lemma": "curieux",
+      "pos": "adjectif",
+      "definition": "Qui a envie de découvrir, de savoir et d’apprendre des choses nouvelles.",
+      "examples": [
+        "Mia est curieuse : elle pose plein de questions sur les étoiles.",
+        "Le petit chat curieux renifle le carton."
+      ],
+      "synonyms": [],
+      "antonyms": ["indifférent"],
+      "otherSenses": ["Bizarre, étrange : « Quel bruit curieux ! »"],
+      "level": 1,
+      "week": 1,
+      "sources": ["corpus"],
+      "questions": [
+        {
+          "id": "sens-1",
+          "type": "sens",
+          "prompt": "Qui a envie de découvrir et d’apprendre des choses nouvelles.",
+          "choices": ["curieux", "prudent", "maladroit"],
+          "explanation": "Être curieux, c’est avoir envie de découvrir et de savoir."
+        },
+        {
+          "id": "situation-1",
+          "type": "situation",
+          "prompt": "Sami ouvre tous les livres de la bibliothèque pour savoir ce qu’il y a dedans. Sami est…",
+          "choices": ["curieux", "triste", "bruyant"],
+          "explanation": "Sami veut savoir ce qu’il y a dans les livres : il est curieux."
+        },
+        {
+          "id": "phrase-1",
+          "type": "phrase",
+          "prompt": "Dans quelle phrase « curieux » veut-il dire « qui veut savoir » ?",
+          "choices": [
+            "Le bébé curieux touche à tout pour découvrir le monde.",
+            "Le bébé curieux dort profondément dans son lit.",
+            "Le bébé curieux ne regarde jamais rien."
+          ],
+          "explanation": "Un bébé curieux veut découvrir : il touche à tout."
+        }
+      ]
+    }
+  ]
+}

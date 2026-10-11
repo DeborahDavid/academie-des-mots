@@ -20,7 +20,7 @@ export interface WordTask {
   practice: boolean;
 }
 
-export type SessionKind = 'daily' | 'bonus';
+export type SessionKind = 'daily' | 'bonus' | 'vocab';
 
 export interface SentenceTask {
   sentence: Sentence;
@@ -194,7 +194,7 @@ export interface SessionCompletion {
 export async function completeSession(kind: SessionKind, now = new Date(), db: AcademieDB = defaultDb): Promise<SessionCompletion> {
   return db.transaction('rw', db.days, async () => {
     const wasLit = !!(await db.days.get(localDate(now)))?.dailyDoneAt;
-    const bonusPoints = kind === 'daily' ? POINTS.dailyBonus : POINTS.extraSessionBonus;
+    const bonusPoints = kind === 'daily' ? POINTS.dailyBonus : kind === 'vocab' ? POINTS.vocabQuestBonus : POINTS.extraSessionBonus;
     await addToDay(db, now, { points: bonusPoints, sessions: 1, dailyDone: true });
     const flameDays = await db.days.filter((d) => !!d.dailyDoneAt).count();
     return { bonusPoints, flameLit: !wasLit, flameDays };

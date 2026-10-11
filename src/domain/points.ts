@@ -10,6 +10,8 @@ export const POINTS = {
   withHint: 3,
   sentenceFirstTry: 15,
   sentenceLater: 8,
+  vocabAnswer: 8,
+  vocabQuestBonus: 15,
   dailyBonus: 20,
   extraSessionBonus: 10,
 } as const;

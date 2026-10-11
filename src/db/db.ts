@@ -1,5 +1,6 @@
 import Dexie, { type Table } from 'dexie';
-import type { AudioClip, DayRecord, ImageAsset, Item, Notion, ReviewLog, Sentence, Settings, Week, Word } from '../domain/model';
+import type { VocabWord } from '../domain/vocab';
+import type { AudioClip, DayRecord, ImageAsset, Item, VocabProduction, Notion, ReviewLog, Sentence, Settings, Week, Word } from '../domain/model';
 
 export interface SettingsRow {
   key: 'settings';
@@ -17,6 +18,8 @@ export class AcademieDB extends Dexie {
   audio!: Table<AudioClip, string>;
   days!: Table<DayRecord, string>;
   images!: Table<ImageAsset, string>;
+  vocabWords!: Table<VocabWord, string>;
+  productions!: Table<VocabProduction, string>;
 
   constructor(name = 'academie-des-mots') {
     super(name);
@@ -33,10 +36,11 @@ export class AcademieDB extends Dexie {
     this.version(2).stores({ days: 'date' });
     this.version(3).stores({ reviewLogs: '++id, itemId, sessionId, at, kind' });
     this.version(4).stores({ images: 'id' });
+    this.version(5).stores({ vocabWords: 'id, week, status', productions: 'id, wordId, status' });
   }
 }
 
 export const db = new AcademieDB();
 
-export const ALL_TABLES = ['weeks', 'words', 'items', 'reviewLogs', 'notions', 'sentences', 'settings', 'audio', 'days', 'images'] as const;
+export const ALL_TABLES = ['weeks', 'words', 'items', 'reviewLogs', 'notions', 'sentences', 'settings', 'audio', 'days', 'images', 'vocabWords', 'productions'] as const;
 export type TableName = (typeof ALL_TABLES)[number];

@@ -62,6 +62,21 @@ export interface ReviewLog {
   notionIds?: string[];
   /** Phrase dictée (items de type notion). */
   sentenceId?: string;
+  /** Vocabulaire : question posée, type d'épreuve, réponse choisie, stabilité avant la réponse. */
+  questionId?: string;
+  questionType?: string;
+  answerGiven?: string;
+  stabilityBefore?: number;
+}
+
+/** Phrase personnelle écrite par l'enfant avec un mot (« sortilège personnel »), validée par le parent. */
+export interface VocabProduction {
+  id: string;
+  wordId: string;
+  text: string;
+  status: ValidationStatus;
+  createdAt: number;
+  reviewedAt?: number;
 }
 
 export type NotionStatus = 'seen' | 'not_yet';
@@ -160,6 +175,8 @@ export interface Settings {
   wardrobe?: { unlocked: Record<string, number>; worn: string[] };
   /** Portraits importés (id d'image), à la place des dessins par défaut. */
   portraits?: Partial<Record<ArtSlot, string>>;
+  /** L'Exploratrice des mots. */
+  vocab?: { newPerWeek: number; exampleSeeded?: boolean };
   /** Version de la banque de phrases déjà proposée au parent. */
   seedSentencesVersion?: number;
 }
