@@ -19,6 +19,8 @@ import type { Reward } from '../../domain/rewards';
 import { RewardIcon } from '../components/Avatar';
 import { usePortraitUrl } from '../components/Portrait';
 import { ConstellationArt } from '../components/Sky';
+import { Fireworks } from '../components/Fireworks';
+import { AdaSleeping } from './home/AdaSleeping';
 import { shapeById } from '../../domain/constellations';
 import { playStarChime, playSuccessChime } from '../../speech/sfx';
 import { playConstellationJingle, playFanfare } from '../../speech/music';
@@ -246,8 +248,12 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
   if (finished && !transition) {
     if (!completion) return null;
     return (
-      <main className="session-screen center-col">
+      <main className={`session-screen center-col ${settings.animations === false ? 'no-motion' : ''}`}>
+        <Fireworks />
         <h1 className="title-gold">{frTypo('Séance terminée !')}</h1>
+        <div className="end-ada" title="Ada s’est réveillée pour regarder le ciel">
+          <AdaSleeping awake />
+        </div>
         {completion.flameLit && (
           <div className="flame-lit">
             <div className="flame-big" aria-hidden>
@@ -290,7 +296,7 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
           <p>✦ {summary.firstTry} sort{summary.firstTry > 1 ? 's' : ''} réussi{summary.firstTry > 1 ? 's' : ''} du premier coup</p>
           {summary.sentences > 0 && (
             <p>
-              ✦ {summary.sentencesOk}/{summary.sentences} phrase{summary.sentences > 1 ? 's' : ''} réussie{summary.sentencesOk > 1 ? 's' : ''}
+              ✦ {summary.sentencesOk} phrase{summary.sentencesOk > 1 ? 's' : ''} réussie{summary.sentencesOk > 1 ? 's' : ''} sur {summary.sentences}
             </p>
           )}
           {summary.withHint > 0 && (

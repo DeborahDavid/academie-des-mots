@@ -13,6 +13,7 @@ import { playFanfare } from '../../speech/music';
 import { speak } from '../../speech/tts';
 import { RewardIcon } from '../components/Avatar';
 import { Elsa } from '../components/Elsa';
+import { Fireworks } from '../components/Fireworks';
 import { useSettings } from '../hooks';
 
 const ROLE_LABEL = { learn: 'Nouvelle découverte', review: 'Sortilège à renforcer', challenge: 'Défi final' } as const;
@@ -63,7 +64,8 @@ export function VocabQuest({ onExit, onGrimoire }: { onExit: () => void; onGrimo
   if (done) {
     if (!completion) return null;
     return (
-      <main className="session-screen center-col">
+      <main className={`session-screen center-col ${settings.animations === false ? 'no-motion' : ''}`}>
+        <Fireworks />
         <h1 className="title-gold">{frTypo('Quête accomplie !')}</h1>
         {completion.flameLit && (
           <div className="flame-lit">
