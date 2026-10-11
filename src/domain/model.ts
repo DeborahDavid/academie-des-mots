@@ -105,6 +105,15 @@ export interface DayRecord {
   points: number;
 }
 
+/** Image importée par le parent (portraits). Reste dans le navigateur, jamais dans le code. */
+export interface ImageAsset {
+  id: string;
+  blob: Blob;
+  mime: string;
+}
+
+export type CharacterId = 'leyu' | 'elsa';
+
 export interface AudioClip {
   id: string;
   blob: Blob;
@@ -144,6 +153,8 @@ export interface Settings {
   thresholds: Thresholds;
   /** Formes des constellations, dans l'ordre d'attribution. */
   constellations: string[];
+  /** Portraits importés (id d'image), à la place des dessins par défaut. */
+  portraits?: Partial<Record<CharacterId, string>>;
   /** Version de la banque de phrases déjà proposée au parent. */
   seedSentencesVersion?: number;
 }

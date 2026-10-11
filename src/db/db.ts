@@ -1,5 +1,5 @@
 import Dexie, { type Table } from 'dexie';
-import type { AudioClip, DayRecord, Item, Notion, ReviewLog, Sentence, Settings, Week, Word } from '../domain/model';
+import type { AudioClip, DayRecord, ImageAsset, Item, Notion, ReviewLog, Sentence, Settings, Week, Word } from '../domain/model';
 
 export interface SettingsRow {
   key: 'settings';
@@ -16,6 +16,7 @@ export class AcademieDB extends Dexie {
   settings!: Table<SettingsRow, string>;
   audio!: Table<AudioClip, string>;
   days!: Table<DayRecord, string>;
+  images!: Table<ImageAsset, string>;
 
   constructor(name = 'academie-des-mots') {
     super(name);
@@ -31,10 +32,11 @@ export class AcademieDB extends Dexie {
     });
     this.version(2).stores({ days: 'date' });
     this.version(3).stores({ reviewLogs: '++id, itemId, sessionId, at, kind' });
+    this.version(4).stores({ images: 'id' });
   }
 }
 
 export const db = new AcademieDB();
 
-export const ALL_TABLES = ['weeks', 'words', 'items', 'reviewLogs', 'notions', 'sentences', 'settings', 'audio', 'days'] as const;
+export const ALL_TABLES = ['weeks', 'words', 'items', 'reviewLogs', 'notions', 'sentences', 'settings', 'audio', 'days', 'images'] as const;
 export type TableName = (typeof ALL_TABLES)[number];

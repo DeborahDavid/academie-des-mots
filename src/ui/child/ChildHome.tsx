@@ -6,6 +6,7 @@ import { useSettings } from '../hooks';
 import { frTypo } from '../../domain/typo';
 import { navigate } from '../../router';
 import { Session } from './Session';
+import { Portrait } from '../components/Portrait';
 
 /** Écran provisoire : la tour, le ciel et les personnages arrivent avec la direction artistique. */
 export function ChildHome() {
@@ -36,6 +37,16 @@ export function ChildHome() {
       </div>
       <h1 className="title-gold">L’Académie des Mots</h1>
       <p className="muted">La Tour des meilleures amies et d’Ada</p>
+      <div className="friends">
+        <div className="friend">
+          <Portrait who="leyu" size={150} fallback="🧙‍♀️" />
+          <span className="title-chip">{settings?.titles[0] ?? 'Titre 1'}</span>
+        </div>
+        <div className="friend">
+          <Portrait who="elsa" size={150} fallback="😊" />
+          <span className="muted small-text">Elsa</span>
+        </div>
+      </div>
       <button className="primary big" onClick={() => setSession(1)}>
         {progress?.litToday ? frTypo('Encore une séance !') : 'Commencer la séance'}
       </button>

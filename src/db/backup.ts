@@ -4,6 +4,9 @@ import type { Item } from '../domain/model';
 export const BACKUP_FORMAT = 'academie-des-mots';
 export const BACKUP_VERSION = 1;
 
+/** Tables qui contiennent des fichiers (exportés en base64). */
+const BLOB_TABLES: string[] = ['audio', 'images'];
+
 interface SerializedAudio {
   id: string;
   mime: string;
@@ -42,14 +45,16 @@ function reviveItem(raw: Item): Item {
 export async function exportData(db: AcademieDB = defaultDb): Promise<Backup> {
   const tables: Record<string, unknown[]> = {};
   for (const name of ALL_TABLES) {
-    if (name === 'audio') continue;
+    if (BLOB_TABLES.includes(name)) continue;
     tables[name] = await db.table(name).toArray();
   }
-  const audio: SerializedAudio[] = [];
-  for (const clip of await db.audio.toArray()) {
-    audio.push({ id: clip.id, mime: clip.mime, base64: await blobToBase64(clip.blob) });
+  for (const name of BLOB_TABLES) {
+    const out: SerializedAudio[] = [];
+    for (const row of (await db.table(name).toArray()) as { id: string; mime: string; blob: Blob }[]) {
+      out.push({ id: row.id, mime: row.mime, base64: await blobToBase64(row.blob) });
+    }
+    tables[name] = out;
   }
-  tables.audio = audio;
   return { format: BACKUP_FORMAT, version: BACKUP_VERSION, exportedAt: new Date().toISOString(), tables };
 }
 
@@ -70,8 +75,8 @@ export async function importData(b: Backup, db: AcademieDB = defaultDb): Promise
     for (const name of ALL_TABLES) await db.table(name).clear();
     for (const name of ALL_TABLES) {
       const rows = b.tables[name] ?? [];
-      if (name === 'audio') {
-        await db.audio.bulkAdd((rows as SerializedAudio[]).map((a) => ({ id: a.id, mime: a.mime, blob: base64ToBlob(a.base64, a.mime) })));
+      if (BLOB_TABLES.includes(name)) {
+        await db.table(name).bulkAdd((rows as SerializedAudio[]).map((a) => ({ id: a.id, mime: a.mime, blob: base64ToBlob(a.base64, a.mime) })));
       } else if (name === 'items') {
         await db.items.bulkAdd((rows as Item[]).map(reviveItem));
       } else {

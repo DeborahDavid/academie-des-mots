@@ -217,3 +217,12 @@ button.big { min-height: 60px; font-size: 1.2rem; padding: 0.6em 1.6em; }
 .flame-lit { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
 .flame-big { font-size: 4.5rem; line-height: 1; }
 .model-word .mistake { color: #d64545; text-decoration: underline; text-decoration-thickness: 3px; text-underline-offset: 6px; }
+
+.portrait { border-radius: 50%; overflow: hidden; border: 4px solid var(--gold); background: var(--panel); display: grid; place-items: center; flex-shrink: 0; box-shadow: 0 0 0 4px rgba(242, 193, 78, 0.18); }
+.portrait img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cropper { position: relative; overflow: hidden; border-radius: 16px; background: #000; touch-action: none; cursor: grab; }
+.cropper img { position: absolute; left: 50%; top: 50%; max-width: none; user-select: none; pointer-events: none; }
+.cropper-ring { position: absolute; inset: 0; border-radius: 50%; box-shadow: 0 0 0 999px rgba(0, 0, 0, 0.55); border: 3px solid var(--gold); pointer-events: none; }
+.friends { display: flex; gap: 2rem; align-items: flex-end; }
+.friend { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+.title-chip { background: var(--panel); color: var(--gold); border-radius: 999px; padding: 0.2em 1em; font-weight: 700; font-size: 0.95rem; }
