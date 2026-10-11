@@ -77,6 +77,10 @@ export function SettingsPanel() {
         </p>
       </section>
 
+      <p className="muted small-text">
+        Version du {new Date(__BUILD_TIME__).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' })}
+      </p>
+
       {message && <p className="notice">{message}</p>}
     </div>
   );

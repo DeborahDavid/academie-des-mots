@@ -5,11 +5,15 @@ import '@fontsource/andika/700.css';
 import './styles.css';
 import { App } from './App';
 import { ensureSeeded } from './db/repo';
+import { reloadIfOutdated } from './updateCheck';
 
-ensureSeeded().then(() => {
-  createRoot(document.getElementById('root')!).render(
-    <StrictMode>
-      <App />
-    </StrictMode>,
-  );
-});
+reloadIfOutdated()
+  // Si une nouvelle version se charge, on n'affiche rien de l'ancienne.
+  .then((reloading) => (reloading ? new Promise<void>(() => {}) : ensureSeeded()))
+  .then(() => {
+    createRoot(document.getElementById('root')!).render(
+      <StrictMode>
+        <App />
+      </StrictMode>,
+    );
+  });

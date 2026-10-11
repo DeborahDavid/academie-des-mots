@@ -99,7 +99,8 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
       stars: s.stars + (effect.newlyAcquired ? 1 : 0),
       points: s.points + effect.points,
     }));
-    if (outcome !== 'fail') (effect.newlyAcquired ? playStarChime : playSuccessChime)(settings!.muted);
+    // Mot écrit juste (du premier coup, avec indice, ou recopié de mémoire après une erreur) : tintement.
+    (effect.newlyAcquired ? playStarChime : playSuccessChime)(settings!.muted);
     setTransition(
       outcome === 'fail'
         ? { expression: 'contente', line: randomLine(AFTER_FAIL_LINES), star: false, ada: false, points: 0 }
