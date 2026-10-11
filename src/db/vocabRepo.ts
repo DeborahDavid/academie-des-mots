@@ -1,7 +1,6 @@
 import { createEmptyCard } from 'ts-fsrs';
 import { type AcademieDB, db as defaultDb } from './db';
 import { getSettings } from './repo';
-import exemple from '../content/vocab-exemple.json';
 import { type Outcome, itemId, newId } from '../domain/model';
 import { POINTS, localDate } from '../domain/points';
 import { review } from '../domain/scheduler';
@@ -23,12 +22,37 @@ import {
 
 export const DEFAULT_NEW_PER_WEEK = 5;
 
-/** Premier lancement : le corpus d'exemple est proposé au parent (« à valider »). */
-export async function ensureVocabSeeded(db: AcademieDB = defaultDb): Promise<void> {
+/** Lots d'enrichissement livrés avec l'application (src/content/vocab/lot-XXX.json). */
+const LOTS = Object.values(import.meta.glob('../content/vocab/lot-*.json', { eager: true, import: 'default' })) as (VocabCorpusFile & { batch: number })[];
+
+/** Anciens mots d'exemple, probablement déjà connus à 8 ans : retirés s'ils n'ont jamais servi. */
+const OLD_EXAMPLE_IDS = ['minuscule', 'prudent', 'curieux'];
+
+/**
+ * Chaque lot livré est importé une seule fois, « à valider » (le parent vérifie avant que l'enfant le voie).
+ * Un mot déjà présent n'est pas écrasé : les corrections du parent sont conservées.
+ */
+export async function ensureVocabSeeded(db: AcademieDB = defaultDb, lots = LOTS): Promise<void> {
   const s = await getSettings(db);
-  if (s.vocab?.exampleSeeded) return;
-  if ((await db.vocabWords.count()) === 0) await importCorpus(exemple as VocabCorpusFile, db);
-  await db.settings.put({ key: 'settings', value: { ...(await getSettings(db)), vocab: { newPerWeek: s.vocab?.newPerWeek ?? DEFAULT_NEW_PER_WEEK, exampleSeeded: true } } });
+  const seeded = new Set(s.vocab?.seededBatches ?? []);
+  for (const lot of [...lots].sort((a, b) => a.batch - b.batch)) {
+    if (seeded.has(lot.batch)) continue;
+    const fresh = { ...lot, words: [] as VocabCorpusFile['words'] };
+    for (const w of lot.words) if (!(await db.vocabWords.get(w.id))) fresh.words.push(w);
+    if (fresh.words.length) await importCorpus(fresh, db);
+    seeded.add(lot.batch);
+  }
+  if (s.vocab?.exampleSeeded) {
+    for (const id of OLD_EXAMPLE_IDS) {
+      const w = await db.vocabWords.get(id);
+      if (w?.status === 'pending' && !(await db.items.get(itemId('vocab', id)))) await db.vocabWords.delete(id);
+    }
+  }
+  const latest = await getSettings(db);
+  await db.settings.put({
+    key: 'settings',
+    value: { ...latest, vocab: { newPerWeek: latest.vocab?.newPerWeek ?? DEFAULT_NEW_PER_WEEK, seededBatches: [...seeded].sort((a, b) => a - b) } },
+  });
 }
 
 export interface ImportResult {

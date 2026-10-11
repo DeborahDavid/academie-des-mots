@@ -1,0 +1,25 @@
+# Lemmes exclus du parcours de vocabulaire (un par ligne : lemme<TAB>raison)
+# Ajouter ici toute entrée jugée inadaptée ; le pipeline l'écarte à chaque reconstruction.
+juif	terme identitaire : ne se prête pas à des exercices automatisés
+nègre	terme injurieux
+putain	vulgaire
+merde	vulgaire
+con	vulgaire
+salaud	vulgaire
+foutre	vulgaire
+cul	vulgaire
+bordel	vulgaire
+drogue	thème inadapté à des exercices pour 8 ans
+suicide	thème inadapté à des exercices pour 8 ans
+alcool	thème inadapté à des exercices pour 8 ans
+vin	thème inadapté à des exercices pour 8 ans
+ivre	thème inadapté à des exercices pour 8 ans
+assassin	violence : inadapté à l’univers du jeu
+cadavre	violence : inadapté à l’univers du jeu
+crime	violence : inadapté à l’univers du jeu
+pendre	violence (sens fréquent) : inadapté à l’univers du jeu
+suisse	adjectif de nationalité : pas un mot de vocabulaire à enrichir
+breton	adjectif de nationalité : pas un mot de vocabulaire à enrichir
+soviétique	adjectif de nationalité : pas un mot de vocabulaire à enrichir
+mini	préfixe familier
+chic	familier

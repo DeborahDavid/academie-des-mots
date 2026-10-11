@@ -16,27 +16,32 @@ beforeEach(async () => {
 });
 
 describe('import', () => {
-  it('corpus d’exemple proposé « à valider » ; rien dans la quête avant validation', async () => {
-    expect(await db.vocabWords.count()).toBe(5);
+  it('lot 1 proposé « à valider » ; rien dans la quête avant validation ; importé une seule fois', async () => {
+    expect(await db.vocabWords.count()).toBe(20);
+    expect((await db.vocabWords.toArray()).every((w) => w.status === 'pending')).toBe(true);
     expect(await planVocabQuest(day1, db)).toEqual([]);
+    await db.vocabWords.update('anxieux', { definition: 'Corrigé par le parent.' });
+    await ensureVocabSeeded(db);
+    expect((await db.vocabWords.get('anxieux'))!.definition).toBe('Corrigé par le parent.');
+    expect(await db.vocabWords.count()).toBe(20);
   });
 
   it('réimport : fusion par identifiant, sources ajoutées, statut conservé, pas de doublon', async () => {
-    await setVocabStatus(['minuscule'], 'validated', db);
-    const file = { ...exemple, words: [{ ...exemple.words[1], definition: 'Tout petit.', sources: ['dictee'] }] };
-    const r = await importCorpus(file, db);
+    await setVocabStatus(['perplexe'], 'validated', db);
+    const src = exemple.words.find((w) => w.id === 'perplexe')!;
+    const r = await importCorpus({ ...exemple, words: [{ ...src, definition: 'Qui hésite.', sources: ['dictee'] }] }, db);
     expect(r).toEqual({ added: 0, updated: 1, errors: [] });
-    const w = (await db.vocabWords.get('minuscule'))!;
-    expect(w.definition).toBe('Tout petit.');
+    const w = (await db.vocabWords.get('perplexe'))!;
+    expect(w.definition).toBe('Qui hésite.');
     expect(w.sources.sort()).toEqual(['corpus', 'dictee']);
     expect(w.status).toBe('validated');
-    expect(await db.vocabWords.count()).toBe(5);
+    expect(await db.vocabWords.count()).toBe(20);
   });
 
   it('fichier invalide : erreurs, rien n’est importé', async () => {
     const r = await importCorpus({ format: 'academie-vocab', version: 1, words: [{ id: 'x' }] }, db);
     expect(r.errors.length).toBeGreaterThan(0);
-    expect(await db.vocabWords.count()).toBe(5);
+    expect(await db.vocabWords.count()).toBe(20);
   });
 });
 
@@ -46,6 +51,7 @@ describe('quête', () => {
   it('jour 1 : découverte + épreuve ; jour 2 : révision du mot découvert + nouveau mot', async () => {
     const q1 = await planVocabQuest(day1, db);
     expect(q1.map((s) => s.kind)).toEqual(['discover', 'question']);
+    expect(q1[0].word.id).toBe('anxieux'); // ordre de priorité du corpus
     const word = q1[0].word;
     await discoverWord(word.id, day1, db);
     const step = q1[1];
@@ -60,6 +66,16 @@ describe('quête', () => {
     expect(review?.word.id).toBe(word.id);
     expect(review?.kind === 'question' && review.question.id).not.toBe(step.question.id); // pas la même question
     expect(q2.some((s) => s.kind === 'discover' && s.word.id !== word.id)).toBe(true);
+  });
+
+  it('les anciens mots d’exemple jamais utilisés sont retirés', async () => {
+    const db2 = new AcademieDB(`voc-${n++}`);
+    await ensureSeeded(db2);
+    await importCorpus(exemple, db2);
+    await db2.settings.toCollection().modify((r) => void (r.value.vocab = { newPerWeek: 5, exampleSeeded: true }));
+    await ensureVocabSeeded(db2);
+    expect(await db2.vocabWords.get('minuscule')).toBeUndefined();
+    expect(await db2.vocabWords.get('perplexe')).toBeDefined();
   });
 
   it('progression et confusions', async () => {

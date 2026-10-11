@@ -5,11 +5,12 @@ import '@fontsource/andika/700.css';
 import './styles.css';
 import { App } from './App';
 import { ensureSeeded } from './db/repo';
+import { ensureVocabSeeded } from './db/vocabRepo';
 import { reloadIfOutdated } from './updateCheck';
 
 reloadIfOutdated()
   // Si une nouvelle version se charge, on n'affiche rien de l'ancienne.
-  .then((reloading) => (reloading ? new Promise<void>(() => {}) : ensureSeeded()))
+  .then((reloading) => (reloading ? new Promise<void>(() => {}) : ensureSeeded().then(() => ensureVocabSeeded())))
   .then(() => {
     createRoot(document.getElementById('root')!).render(
       <StrictMode>

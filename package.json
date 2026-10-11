@@ -8,7 +8,9 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "typecheck": "tsc -b --noEmit"
+    "typecheck": "tsc -b --noEmit",
+    "vocab:lexique": ".venv/bin/python -I scripts/vocab/build_lexicon.py",
+    "vocab:check": ".venv/bin/python -I scripts/vocab/check_lot.py"
   },
   "dependencies": {
     "@fontsource/andika": "^5.1.0",

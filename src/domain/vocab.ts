@@ -51,6 +51,8 @@ export interface VocabWord {
   level: 1 | 2 | 3;
   /** Semaine du corpus (1 à 12). */
   week: number;
+  /** Rang dans le corpus prioritaire (pipeline Manulex + Éduscol) : ordre d'introduction. */
+  priorityRank?: number;
   sources: VocabSource[];
   questions: VocabQuestion[];
   /** Contenu vérifié par le parent : rien n'est montré à l'enfant avant. */
@@ -212,7 +214,8 @@ export function planQuest(cands: VocabCandidate[], now: Date, opts: QuestOptions
   }
 
   const canIntroduce = opts.discoveredThisWeek < opts.newPerWeek && (opts.discoveredToday ?? 0) === 0 && due.length <= opts.maxDueForNew;
-  const fresh = validated.filter((c) => !c.card).sort((a, b) => a.word.week - b.word.week || a.word.createdAt - b.word.createdAt)[0];
+  const order = (w: VocabWord) => w.priorityRank ?? w.week * 1000;
+  const fresh = validated.filter((c) => !c.card).sort((a, b) => order(a.word) - order(b.word) || a.word.createdAt - b.word.createdAt)[0];
   if (canIntroduce && fresh) {
     const q = chooseQuestion(fresh.word, ['sens'], undefined, rng);
     steps.push({ kind: 'discover', word: fresh.word });

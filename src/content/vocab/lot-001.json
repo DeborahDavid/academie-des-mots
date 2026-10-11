@@ -1,0 +1,269 @@
+{
+  "format": "academie-vocab",
+  "version": 1,
+  "batch": 1,
+  "generatedBy": "Claude (assistant IA) — contenu à vérifier par le parent avant d’être montré à l’enfant",
+  "selection": "Rangs 1 à 20 du corpus prioritaire (scripts/vocab/build_lexicon.py)",
+  "words": [
+    {
+      "id": "anxieux", "priorityRank": 1, "lemma": "anxieux", "pos": "adjectif",
+      "definition": "Qui s’inquiète beaucoup, qui a peur que quelque chose se passe mal.",
+      "examples": ["La veille de la rentrée, Hugo est anxieux : il n’arrive pas à s’endormir.", "Ne sois pas anxieuse, Nina : tu connais très bien ta formule."],
+      "synonyms": ["inquiet", "angoissé"], "antonyms": ["serein", "tranquille"],
+      "level": 2, "week": 1, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui s’inquiète beaucoup, qui a peur que ça se passe mal.", "choices": ["anxieux", "joyeux", "bavard"], "explanation": "Être anxieux, c’est s’inquiéter beaucoup." },
+        { "id": "situation-1", "type": "situation", "prompt": "Avant l’examen de magie, Léonie se ronge les ongles et pense : « Et si je me trompais ? » Elle est…", "choices": ["anxieuse", "gourmande", "endormie"], "explanation": "Léonie a peur que ça se passe mal : elle est anxieuse." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « anxieux » ?", "choices": ["serein", "inquiet", "pressé"], "explanation": "Serein veut dire calme, sans inquiétude : c’est le contraire. « Inquiet » veut dire presque la même chose qu’anxieux." }
+      ]
+    },
+    {
+      "id": "distrait", "priorityRank": 2, "lemma": "distrait", "pos": "adjectif",
+      "definition": "Qui ne fait pas attention à ce qu’il fait, parce qu’il pense à autre chose.",
+      "examples": ["Distrait, Sami a mis du sel dans son chocolat chaud.", "Leyu regardait les étoiles par la fenêtre : elle était distraite pendant le cours."],
+      "synonyms": ["étourdi", "rêveur"], "antonyms": ["attentif", "concentré"],
+      "level": 2, "week": 1, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui ne fait pas attention, parce qu’il pense à autre chose.", "choices": ["distrait", "prudent", "courageux"], "explanation": "Être distrait, c’est penser à autre chose et ne pas faire attention." },
+        { "id": "situation-1", "type": "situation", "prompt": "Hugo cherche ses lunettes partout… alors qu’elles sont sur sa tête ! Il est…", "choices": ["distrait", "méchant", "rapide"], "explanation": "Hugo ne fait pas attention : il est distrait." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « distrait » ?", "choices": ["attentif", "étourdi", "fatigué"], "explanation": "Attentif, c’est faire bien attention : le contraire de distrait. « Étourdi » veut dire presque la même chose que distrait." }
+      ]
+    },
+    {
+      "id": "pretentieux", "priorityRank": 3, "lemma": "prétentieux", "pos": "adjectif",
+      "definition": "Qui se croit meilleur que les autres et qui le montre.",
+      "examples": ["Le jeune sorcier prétentieux répète à tout le monde qu’il est le plus fort de l’Académie.", "Elle a gagné, mais elle n’est pas prétentieuse : elle félicite les autres."],
+      "synonyms": ["vaniteux", "orgueilleux"], "antonyms": ["modeste"],
+      "level": 3, "week": 1, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui se croit meilleur que les autres et le montre.", "choices": ["prétentieux", "timide", "généreux"], "explanation": "Être prétentieux, c’est se croire meilleur que les autres." },
+        { "id": "situation-1", "type": "situation", "prompt": "Après avoir gagné la course, Max dit : « De toute façon, je suis le meilleur, vous êtes tous nuls. » Max est…", "choices": ["prétentieux", "modeste", "peureux"], "explanation": "Max se croit meilleur que tout le monde : il est prétentieux." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « prétentieux » ?", "choices": ["modeste", "vaniteux", "bavard"], "explanation": "Une personne modeste ne se vante pas : c’est le contraire de prétentieux. « Vaniteux » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "serein", "priorityRank": 4, "lemma": "serein", "pos": "adjectif",
+      "definition": "Calme et tranquille, sans inquiétude.",
+      "examples": ["Malgré l’orage, Ada dort, sereine, sur sa pile de livres.", "Nina a bien révisé : elle part sereine à son examen."],
+      "synonyms": ["calme", "paisible"], "antonyms": ["anxieux", "inquiet"],
+      "level": 2, "week": 1, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Calme et tranquille, sans inquiétude.", "choices": ["serein", "furieux", "pressé"], "explanation": "Être serein, c’est être calme, sans inquiétude." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le vent souffle fort, mais la vieille tortue avance tranquillement, sans aucune peur. Elle est…", "choices": ["sereine", "affolée", "jalouse"], "explanation": "La tortue reste calme et tranquille : elle est sereine." },
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « serein » est-il bien utilisé ?",
+          "choices": ["Après une bonne nuit de sommeil, Leyu se sent sereine.", "Leyu est sereine : elle tremble de peur.", "Leyu est sereine : elle crie de panique."],
+          "explanation": "On se sent serein quand on est calme et reposé, pas quand on a peur."
+        }
+      ]
+    },
+    {
+      "id": "intrepide", "priorityRank": 5, "lemma": "intrépide", "pos": "adjectif",
+      "definition": "Qui n’a pas peur du danger ; très courageux.",
+      "examples": ["L’intrépide exploratrice entre la première dans la grotte.", "Il faut être intrépide pour grimper au sommet de la plus haute tour."],
+      "synonyms": ["courageux", "audacieux"], "antonyms": ["peureux"],
+      "level": 2, "week": 1, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui n’a pas peur du danger.", "choices": ["intrépide", "maladroit", "poli"], "explanation": "Être intrépide, c’est ne pas avoir peur du danger." },
+        { "id": "situation-1", "type": "situation", "prompt": "Sans hésiter, Elsa traverse le pont de lianes au-dessus de la rivière pour aller chercher Ada. Elle est…", "choices": ["intrépide", "paresseuse", "distraite"], "explanation": "Elsa n’a pas peur du danger : elle est intrépide." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « intrépide » ?", "choices": ["peureux", "courageux", "rapide"], "explanation": "Le contraire d’intrépide, c’est peureux. « Courageux » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "probable", "priorityRank": 6, "lemma": "probable", "pos": "adjectif",
+      "definition": "Qui a de bonnes chances d’arriver ou d’être vrai.",
+      "examples": ["Le ciel est tout noir : il est probable qu’il va pleuvoir.", "Ada n’est pas dans son panier : il est probable qu’elle dort sur les livres."],
+      "synonyms": ["vraisemblable"], "antonyms": ["improbable"],
+      "level": 2, "week": 2, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui a de bonnes chances d’arriver.", "choices": ["probable", "impossible", "ancien"], "explanation": "Probable : qui a de bonnes chances d’arriver." },
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « probable » est-il bien utilisé ?",
+          "choices": ["Il y a de gros nuages noirs : la pluie est probable.", "Il y a un grand soleil et aucun nuage : la pluie est probable.", "Le chat est probable sur le toit."],
+          "explanation": "Avec de gros nuages noirs, il y a de bonnes chances qu’il pleuve : la pluie est probable."
+        },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « probable » ?", "choices": ["improbable", "vraisemblable", "rapide"], "explanation": "Improbable : qui a très peu de chances d’arriver. « Vraisemblable » veut dire presque la même chose que probable." }
+      ]
+    },
+    {
+      "id": "insolent", "priorityRank": 7, "lemma": "insolent", "pos": "adjectif",
+      "definition": "Qui parle ou agit sans respect, de façon impolie, souvent envers un adulte.",
+      "examples": ["Le lutin insolent a répondu « Je m’en fiche ! » au directeur de l’Académie.", "Donner son avis poliment, ce n’est pas être insolent."],
+      "synonyms": ["impoli", "effronté"], "antonyms": ["poli", "respectueux"],
+      "level": 2, "week": 2, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui parle sans respect, de façon impolie.", "choices": ["insolent", "aimable", "timide"], "explanation": "Être insolent, c’est manquer de respect." },
+        { "id": "situation-1", "type": "situation", "prompt": "Quand le professeur lui demande de ranger, Théo hausse les épaules : « T’as qu’à le faire toi-même ! » Théo est…", "choices": ["insolent", "serviable", "peureux"], "explanation": "Théo répond sans respect : il est insolent." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « insolent » ?", "choices": ["respectueux", "impoli", "distrait"], "explanation": "Respectueux est le contraire d’insolent. « Impoli » veut dire presque la même chose qu’insolent." }
+      ]
+    },
+    {
+      "id": "vegetal", "priorityRank": 8, "lemma": "végétal", "pos": "adjectif",
+      "definition": "Qui vient des plantes ou qui concerne les plantes.",
+      "examples": ["Le coton est une matière végétale : il pousse dans les champs.", "Dans la serre de l’Académie, on étudie le monde végétal."],
+      "synonyms": [], "antonyms": ["animal", "minéral"],
+      "otherSenses": ["Un végétal : une plante. Les arbres et les fleurs sont des végétaux."],
+      "level": 2, "week": 2, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui vient des plantes.", "choices": ["végétal", "métallique", "liquide"], "explanation": "Végétal : qui vient des plantes." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le bois, le coton et le papier viennent tous des plantes. Ce sont des matières…", "choices": ["végétales", "métalliques", "magnétiques"], "explanation": "Ces matières viennent des plantes : elles sont végétales." }
+      ]
+    },
+    {
+      "id": "exasperer", "priorityRank": 9, "lemma": "exaspérer", "pos": "verbe",
+      "definition": "Énerver très fort, faire perdre patience.",
+      "examples": ["Le robinet qui goutte toute la nuit exaspère Elsa.", "Arrête de répéter la même chose, tu m’exaspères !"],
+      "synonyms": ["agacer", "énerver"], "antonyms": ["calmer", "apaiser"],
+      "level": 2, "week": 2, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Énerver très fort, faire perdre patience.", "choices": ["exaspérer", "consoler", "admirer"], "explanation": "Exaspérer, c’est énerver très fort." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le perroquet répète « Bonjour ! » toutes les deux secondes depuis une heure. Le professeur n’en peut plus : le perroquet l’…", "choices": ["exaspère", "rassure", "endort"], "explanation": "Le professeur perd patience : le perroquet l’exaspère." },
+        { "id": "synonyme-1", "type": "synonyme", "prompt": "Quel mot veut dire presque la même chose que « exaspérer » ?", "choices": ["agacer", "amuser", "réveiller"], "explanation": "Agacer, c’est énerver ; exaspérer, c’est énerver encore plus fort." }
+      ]
+    },
+    {
+      "id": "balbutier", "priorityRank": 10, "lemma": "balbutier", "pos": "verbe",
+      "definition": "Parler avec difficulté, en hésitant et en butant sur les mots.",
+      "examples": ["Intimidé, le nouvel élève balbutie son prénom.", "Surprise, Nina balbutie : « Je… je ne l’ai pas fait exprès. »"],
+      "synonyms": ["bredouiller", "bafouiller"], "antonyms": [],
+      "level": 2, "week": 2, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Parler en hésitant, en butant sur les mots.", "choices": ["balbutier", "chanter", "crier"], "explanation": "Balbutier, c’est parler en hésitant." },
+        { "id": "situation-1", "type": "situation", "prompt": "Devant toute la classe, Sami est si gêné qu’il dit : « Je… euh… je… » Il…", "choices": ["balbutie", "hurle", "rit"], "explanation": "Sami parle en hésitant : il balbutie." },
+        { "id": "synonyme-1", "type": "synonyme", "prompt": "Quel mot veut dire presque la même chose que « balbutier » ?", "choices": ["bredouiller", "galoper", "sourire"], "explanation": "Bredouiller, c’est aussi parler en hésitant, de façon peu claire." }
+      ]
+    },
+    {
+      "id": "perplexe", "priorityRank": 11, "lemma": "perplexe", "pos": "adjectif",
+      "definition": "Qui ne sait pas quoi penser, parce que quelque chose est difficile à comprendre.",
+      "examples": ["Ces deux explications se contredisent : je suis perplexe.", "Devant la carte au trésor toute bizarre, les pirates restent perplexes."],
+      "synonyms": ["indécis", "hésitant"], "antonyms": [],
+      "level": 2, "week": 3, "sources": ["corpus"],
+      "questions": [
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « perplexe » est-il bien utilisé ?",
+          "choices": ["Je suis perplexe, car ces deux explications se contredisent.", "Je suis perplexe, car j’ai très faim.", "Je suis perplexe, car mes chaussures sont mouillées."],
+          "explanation": "On est perplexe quand on ne sait plus quoi penser, par exemple devant deux explications qui se contredisent."
+        },
+        { "id": "sens-1", "type": "sens", "prompt": "Qui ne sait pas quoi penser devant quelque chose de difficile à comprendre.", "choices": ["perplexe", "joyeux", "fatigué"], "explanation": "Perplexe : on hésite, on ne sait pas quoi penser." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le professeur dit que le chemin est à gauche, mais le panneau indique la droite. Lina ne sait plus quoi penser. Elle est…", "choices": ["perplexe", "furieuse", "endormie"], "explanation": "Lina reçoit deux informations qui se contredisent : elle est perplexe." }
+      ]
+    },
+    {
+      "id": "audacieux", "priorityRank": 12, "lemma": "audacieux", "pos": "adjectif",
+      "definition": "Qui ose faire des choses difficiles ou risquées.",
+      "examples": ["Le plan audacieux de Leyu : traverser la forêt de nuit pour voir passer la comète.", "Il faut être audacieux pour proposer une idée nouvelle devant toute l’Académie."],
+      "synonyms": ["courageux", "intrépide"], "antonyms": ["timide"],
+      "level": 2, "week": 3, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui ose faire des choses difficiles ou risquées.", "choices": ["audacieux", "paresseux", "maladroit"], "explanation": "Être audacieux, c’est oser." },
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « audacieux » est-il bien utilisé ?",
+          "choices": ["Audacieuse, Léonie propose d’escalader la falaise pour cueillir la fleur rare.", "Audacieuse, Léonie reste cachée sous sa couverture toute la journée.", "Léonie est audacieuse parce qu’elle porte des chaussettes rouges."],
+          "explanation": "Léonie ose faire quelque chose de difficile : elle est audacieuse."
+        }
+      ]
+    },
+    {
+      "id": "social", "priorityRank": 13, "lemma": "social", "pos": "adjectif",
+      "definition": "Qui concerne la vie en groupe et les relations entre les êtres vivants.",
+      "examples": ["Les abeilles sont des insectes sociaux : elles vivent et travaillent ensemble.", "Ada n’est pas très sociale : elle préfère dormir seule."],
+      "synonyms": [], "antonyms": ["solitaire"],
+      "level": 2, "week": 3, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui concerne la vie en groupe.", "choices": ["social", "solitaire", "secret"], "explanation": "Social : qui concerne la vie en groupe." },
+        { "id": "situation-1", "type": "situation", "prompt": "Les fourmis vivent ensemble dans la fourmilière et se partagent le travail. Ce sont des insectes…", "choices": ["sociaux", "solitaires", "invisibles"], "explanation": "Les fourmis vivent en groupe : ce sont des insectes sociaux." }
+      ]
+    },
+    {
+      "id": "docile", "priorityRank": 14, "lemma": "docile", "pos": "adjectif",
+      "definition": "Qui obéit facilement, qui se laisse guider sans résister.",
+      "examples": ["Le poney docile suit l’enfant sans tirer sur la corde.", "Ada n’est pas docile : elle ne vient jamais quand on l’appelle."],
+      "synonyms": ["obéissant", "sage"], "antonyms": ["désobéissant", "rebelle"],
+      "level": 2, "week": 3, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui obéit facilement.", "choices": ["docile", "furieux", "bavard"], "explanation": "Docile : qui obéit facilement." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le chiot s’assoit dès qu’on lui dit « assis » et vient dès qu’on l’appelle. Il est…", "choices": ["docile", "rebelle", "méfiant"], "explanation": "Le chiot obéit facilement : il est docile." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « docile » ?", "choices": ["désobéissant", "obéissant", "gentil"], "explanation": "Désobéissant est le contraire de docile. « Obéissant » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "germer", "priorityRank": 15, "lemma": "germer", "pos": "verbe",
+      "definition": "Pour une graine : commencer à pousser, faire sortir une petite tige.",
+      "examples": ["Les haricots ont germé dans le coton humide.", "Au printemps, les graines germent dans le jardin de l’Académie."],
+      "synonyms": ["pousser"], "antonyms": [],
+      "otherSenses": ["Une idée germe : elle commence à apparaître dans la tête."],
+      "level": 2, "week": 3, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Pour une graine : commencer à pousser.", "choices": ["germer", "fondre", "voler"], "explanation": "Germer : la graine commence à pousser." },
+        { "id": "situation-1", "type": "situation", "prompt": "Après quelques jours dans le coton mouillé, une petite pousse verte sort de la graine. La graine a…", "choices": ["germé", "fondu", "explosé"], "explanation": "La graine commence à pousser : elle a germé." }
+      ]
+    },
+    {
+      "id": "sincere", "priorityRank": 16, "lemma": "sincère", "pos": "adjectif",
+      "definition": "Qui dit vraiment ce qu’il pense ou ce qu’il ressent, sans faire semblant.",
+      "examples": ["Elsa est sincère : quand elle dit que ton dessin est beau, elle le pense vraiment.", "Je te présente des excuses sincères."],
+      "synonyms": ["franc", "honnête"], "antonyms": ["hypocrite", "menteur"],
+      "level": 3, "week": 4, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui dit vraiment ce qu’il pense, sans faire semblant.", "choices": ["sincère", "rusé", "méfiant"], "explanation": "Être sincère, c’est dire vraiment ce qu’on pense." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « sincère » ?", "choices": ["hypocrite", "franc", "poli"], "explanation": "Une personne hypocrite fait semblant : c’est le contraire de sincère. « Franc » veut dire presque la même chose que sincère." },
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « sincère » est-il bien utilisé ?",
+          "choices": ["Ses excuses étaient sincères : il regrettait vraiment.", "Ses excuses étaient sincères : il se moquait de nous en riant.", "Ses excuses étaient sincères et toutes bleues."],
+          "explanation": "Des excuses sincères, ce sont des excuses qu’on pense vraiment."
+        }
+      ]
+    },
+    {
+      "id": "evident", "priorityRank": 17, "lemma": "évident", "pos": "adjectif",
+      "definition": "Que l’on voit ou que l’on comprend tout de suite, sans aucun doute.",
+      "examples": ["Ada a de la crème sur les moustaches : c’est évident, c’est elle qui a goûté le gâteau !", "La réponse était évidente : deux et deux font quatre."],
+      "synonyms": ["clair", "certain"], "antonyms": ["douteux"],
+      "level": 2, "week": 4, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Que l’on comprend tout de suite, sans aucun doute.", "choices": ["évident", "mystérieux", "invisible"], "explanation": "Évident : qu’on comprend tout de suite." },
+        { "id": "situation-1", "type": "situation", "prompt": "Des traces de pattes pleines de farine vont jusqu’au panier d’Ada. C’est… : Ada a joué dans la farine !", "choices": ["évident", "impossible", "secret"], "explanation": "Les traces le montrent sans aucun doute : c’est évident." }
+      ]
+    },
+    {
+      "id": "neanmoins", "priorityRank": 18, "lemma": "néanmoins", "pos": "adverbe",
+      "definition": "Mot qui annonce une idée contraire, comme « pourtant » ou « cependant ».",
+      "examples": ["Ce sort est très difficile ; néanmoins, Leyu le réussit du premier coup.", "Il faisait froid ; néanmoins, les apprenties sont allées voir les étoiles."],
+      "synonyms": ["pourtant", "cependant", "toutefois"], "antonyms": [],
+      "level": 2, "week": 4, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Mot qui annonce une idée contraire, comme « pourtant ».", "choices": ["néanmoins", "ensuite", "donc"], "explanation": "Néanmoins annonce une idée contraire, comme pourtant." },
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « néanmoins » est-il bien utilisé ?",
+          "choices": ["Il pleuvait ; néanmoins, nous avons joué dehors.", "Il pleuvait ; néanmoins, nous étions mouillés.", "Il faisait beau ; néanmoins, il y avait du soleil."],
+          "explanation": "Il pleuvait, et pourtant nous avons joué dehors : les deux idées s’opposent."
+        },
+        { "id": "synonyme-1", "type": "synonyme", "prompt": "Quel mot peut remplacer « néanmoins » dans : « Il est tard ; néanmoins, je lis encore un peu. » ?", "choices": ["pourtant", "alors", "puis"], "explanation": "Pourtant annonce aussi une idée contraire : il est tard, et je lis quand même." }
+      ]
+    },
+    {
+      "id": "absolu", "priorityRank": 19, "lemma": "absolu", "pos": "adjectif",
+      "definition": "Complet, total, sans aucune limite.",
+      "examples": ["Dans la bibliothèque, le silence est absolu : on n’entend pas un bruit.", "J’ai une confiance absolue en Elsa."],
+      "synonyms": ["total", "complet"], "antonyms": ["partiel"],
+      "level": 2, "week": 4, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Complet, total, sans aucune limite.", "choices": ["absolu", "léger", "petit"], "explanation": "Absolu : complet, total." },
+        { "id": "situation-1", "type": "situation", "prompt": "Dans la grotte, on n’entend rien du tout : pas un bruit, pas un souffle. Le silence est…", "choices": ["absolu", "bruyant", "joyeux"], "explanation": "Aucun bruit du tout : le silence est total, absolu." }
+      ]
+    },
+    {
+      "id": "attendrir", "priorityRank": 20, "lemma": "attendrir", "pos": "verbe",
+      "definition": "Toucher le cœur de quelqu’un, lui donner envie d’être doux et gentil.",
+      "examples": ["Le petit chaton qui miaule attendrit toute la classe.", "Les larmes de son frère ont attendri Leyu : elle lui a prêté son ballon."],
+      "synonyms": ["émouvoir", "toucher"], "antonyms": [],
+      "otherSenses": ["Rendre plus tendre : attendrir la viande."],
+      "level": 2, "week": 4, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Toucher le cœur de quelqu’un, le rendre doux.", "choices": ["attendrir", "effrayer", "énerver"], "explanation": "Attendrir, c’est toucher le cœur." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le bébé lapin tout tremblant regarde Elsa avec de grands yeux. Elsa fond de tendresse : le lapin l’…", "choices": ["attendrit", "exaspère", "effraie"], "explanation": "Le lapin touche le cœur d’Elsa : il l’attendrit." }
+      ]
+    }
+  ]
+}
