@@ -29,13 +29,29 @@ export async function ensureSeeded(db: AcademieDB = defaultDb): Promise<void> {
       const now = Date.now();
       const existing = new Set(await db.sentences.toCollection().primaryKeys());
       // Identifiants stables (seed-v1-i) : une nouvelle version complète les phrases existantes sans les dupliquer.
-      const fresh: Sentence[] = SEED_SENTENCES.map((x, i) => ({ id: `seed-v1-${i}`, text: x.text, notionIds: x.notionIds, huntText: x.hunt, source: 'seed', status: 'pending', createdAt: now + i }));
+      const fresh: Sentence[] = SEED_SENTENCES.map((x, i) => ({
+        id: `seed-v1-${i}`,
+        text: x.text,
+        notionIds: x.notionIds,
+        huntText: x.hunt,
+        why: x.why,
+        transform: x.transform,
+        source: 'seed',
+        status: 'pending',
+        createdAt: now + i,
+      }));
       // Les phrases de départ ne sont jamais supprimées (seulement écartées) : un identifiant absent = jamais proposée.
       await db.sentences.bulkAdd(fresh.filter((x) => !existing.has(x.id)));
       // v2 : ajoute la version « chasse aux erreurs » aux phrases de départ que le parent n'a pas modifiées.
       for (const f of fresh) {
         const cur = await db.sentences.get(f.id);
-        if (cur && !cur.huntText && cur.text === f.text && f.huntText) await db.sentences.update(f.id, { huntText: f.huntText });
+        if (!cur || cur.text !== f.text) continue;
+        // v2 : chasse aux erreurs ; v4 : justification et transformation.
+        const patch: Partial<Sentence> = {};
+        if (!cur.huntText && f.huntText) patch.huntText = f.huntText;
+        if (!cur.why && f.why) patch.why = f.why;
+        if (!cur.transform && f.transform) patch.transform = f.transform;
+        if (Object.keys(patch).length) await db.sentences.update(f.id, patch);
       }
       await db.settings.put({ key: 'settings', value: { ...s, seedSentencesVersion: SEED_SENTENCES_VERSION } });
     }

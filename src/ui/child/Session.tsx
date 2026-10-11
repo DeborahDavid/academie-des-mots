@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { type SentenceTask, type SessionCompletion, type SessionKind, type WordTask, completeSession, planSession, recordPresentation, recordSentence, updateGuidance } from '../../db/sessionRepo';
+import { type SentenceTask, type SessionCompletion, type SessionKind, type WordTask, completeSession, planSession, recordJustification, recordPresentation, recordSentence, updateGuidance } from '../../db/sessionRepo';
 import { type SentenceRun, notionOutcome } from '../../domain/sentenceRun';
 import { SentenceExercise } from './SentenceExercise';
 import { HuntExercise } from './HuntExercise';
+import { JustifyExercise } from './JustifyExercise';
+import { TransformExercise } from './TransformExercise';
 import type { HuntResult } from '../../domain/hunt';
 import { AFTER_FAIL_LINES, END_LINES, randomLine, successLine } from '../../domain/lines';
 import { newId } from '../../domain/model';
@@ -36,7 +38,13 @@ interface SentenceItem {
   task: SentenceTask;
 }
 
-type Task = WordItem | SentenceItem;
+interface WhyItem {
+  kind: 'why';
+  key: string;
+  task: SentenceTask;
+}
+
+type Task = WordItem | SentenceItem | WhyItem;
 
 interface Transition {
   expression: ElsaExpression;
@@ -78,8 +86,12 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
     planSession().then((plan) => {
       setKind(plan.kind);
       const words: Task[] = plan.tasks.map((t) => ({ kind: 'word', key: `${t.item.id}#1`, word: t, presentation: 1, failures: 0 }));
-      const sentences: Task[] = plan.sentences.map((t) => ({ kind: 'sentence', key: `s:${t.sentence.id}`, task: t }));
-      setQueue(interleave(words, sentences));
+      // Chaque phrase forme un bloc : l'exercice, puis éventuellement sa justification.
+      const blocks: Task[][] = plan.sentences.map((t) => [
+        { kind: 'sentence', key: `s:${t.sentence.id}`, task: t },
+        ...(t.withWhy ? [{ kind: 'why' as const, key: `w:${t.sentence.id}`, task: t }] : []),
+      ]);
+      setQueue(interleave(words.map((w) => [w]), blocks).flat());
     });
   }, []);
 
@@ -126,17 +138,20 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
     const t = (task as SentenceItem).task;
     const nOutcome = result.notionOutcome;
     const run = result;
+    const notions = t.mode === 'transform' ? t.sentence.transform!.notionIds : t.sentence.notionIds;
     const { points } = await recordSentence({
       sessionId,
       sentence: t.sentence,
-      scheduledNotionIds: t.scheduledNotionIds,
+      // Une transformation travaille ses propres notions : elle ne replanifie que celles prévues pour la phrase.
+      scheduledNotionIds: t.scheduledNotionIds.filter((n) => notions.includes(n)),
       outcome: result.outcome,
       notionOutcome: nOutcome,
       errorTypes: result.errorTypes,
       hintUsed: result.hintUsed,
+      notionIds: notions,
     });
     // Une notion « réussie » dans la séance = aucune erreur d'accord au premier essai.
-    for (const n of t.sentence.notionIds) notionResults.current.set(n, (notionResults.current.get(n) ?? true) && nOutcome === 'success');
+    for (const n of notions) notionResults.current.set(n, (notionResults.current.get(n) ?? true) && nOutcome === 'success');
     const ok = run.outcome !== 'fail';
     setSummary((s) => ({ ...s, sentences: s.sentences + 1, sentencesOk: s.sentencesOk + (ok ? 1 : 0), points: s.points + points }));
     playSuccessChime(settings!.muted);
@@ -158,6 +173,13 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
           }
         : { expression: 'contente', line: 'Cette phrase t’a appris quelque chose.', star: false, ada: false, points: 0 },
     );
+  }
+
+  async function handleWhyDone(answer: string, correct: boolean) {
+    const t = (task as WhyItem).task;
+    const { points } = await recordJustification(sessionId, t.sentence, answer, correct);
+    setSummary((s) => ({ ...s, points: s.points + points }));
+    setTransition({ expression: correct ? 'fiere' : 'contente', line: correct ? 'Tu connais la règle !' : 'Maintenant, tu connais la raison.', star: false, ada: false, points });
   }
 
   async function handleDone(run: WordRun) {
@@ -317,8 +339,12 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
           {transition.ada && <p className="muted small-text">Ada s’est réveillée pour te voir !</p>}
         </button>
       ) : (
-        task.kind === 'sentence' ? (
-          task.task.mode === 'hunt' ? (
+        task.kind === 'why' ? (
+          <JustifyExercise key={task.key} sentence={task.task.sentence} settings={settings} onDone={handleWhyDone} />
+        ) : task.kind === 'sentence' ? (
+          task.task.mode === 'transform' ? (
+            <TransformExercise key={task.key} task={task.task} settings={settings} onDone={(run) => handleSentenceDone(fromRun(run))} />
+          ) : task.task.mode === 'hunt' ? (
             <HuntExercise key={task.key} task={task.task} settings={settings} onDone={handleSentenceDone} />
           ) : (
             <SentenceExercise key={task.key} task={task.task} settings={settings} onDone={(run) => handleSentenceDone(fromRun(run))} />

@@ -11,6 +11,7 @@ export const POINTS = {
   sentenceFirstTry: 15,
   sentenceLater: 8,
   vocabAnswer: 8,
+  justification: 5,
   vocabQuestBonus: 15,
   vocabProduction: 12,
   dailyBonus: 20,

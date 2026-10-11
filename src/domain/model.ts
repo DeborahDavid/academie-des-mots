@@ -107,6 +107,10 @@ export interface Sentence {
   notionIds: string[];
   /** Version « chasse aux erreurs » (1 à 3 erreurs d'accord), facultative. */
   huntText?: string;
+  /** Justification : pourquoi ce mot s'écrit ainsi (bonne raison en premier). */
+  why?: { word: string; choices: string[] };
+  /** Transformation : réécrire la phrase (pluriel, féminin, autre temps) ; notions nécessaires. */
+  transform?: { instruction: string; target: string; notionIds: string[] };
   source: 'seed' | 'parent' | 'llm';
   status: ValidationStatus;
   createdAt: number;

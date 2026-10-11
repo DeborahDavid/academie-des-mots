@@ -29,8 +29,10 @@ export interface SentenceTask {
   scheduledNotionIds: string[];
   /** Niveau de guidage : le plus bas (le plus aidé) parmi les notions de la phrase. */
   level: GuidanceLevel;
-  /** Dictée de phrase, ou chasse aux erreurs si la phrase en a une version valide. */
-  mode: 'dictation' | 'hunt';
+  /** Exercices mélangés : dictée de phrase, chasse aux erreurs, transformation. */
+  mode: 'dictation' | 'hunt' | 'transform';
+  /** Suivie d'une justification (« pourquoi ce mot s'écrit ainsi ? »). */
+  withWhy: boolean;
 }
 
 export interface SessionPlan {
@@ -73,12 +75,20 @@ async function planSentences(now: Date, max: number, db: AcademieDB): Promise<Se
   const dueCount = [...cards.values()].filter((c) => isNew(c) || +new Date(c.due) <= now.getTime() + 86_400_000).length;
   const count = max === 3 && dueCount < 3 ? 2 : max;
   const levelOf = new Map(seen.map((n) => [n.id, n.guidanceLevel]));
-  // Exercices mélangés : une phrase sur deux en chasse aux erreurs quand c'est possible.
-  return pickSentences(sentences, cards, lastShown, now, count).map((p, i) => ({
-    ...p,
-    level: Math.min(...p.sentence.notionIds.map((n) => levelOf.get(n) ?? 1)) as GuidanceLevel,
-    mode: i % 2 === 1 && p.sentence.huntText && buildHunt(p.sentence.text, p.sentence.huntText).puzzle ? 'hunt' : 'dictation',
-  }));
+  // Exercices mélangés : dictée, puis chasse aux erreurs, puis transformation (si possible), dans cet ordre de rotation.
+  const seenIds = new Set(seen.map((n) => n.id));
+  let whys = 0;
+  return pickSentences(sentences, cards, lastShown, now, count).map((p, i) => {
+    const s = p.sentence;
+    const canHunt = !!s.huntText && !!buildHunt(s.text, s.huntText).puzzle;
+    const canTransform = !!s.transform && s.transform.notionIds.every((n) => seenIds.has(n));
+    const wanted = (['dictation', 'hunt', 'transform'] as const)[i % 3];
+    const mode = wanted === 'hunt' && canHunt ? 'hunt' : wanted === 'transform' && canTransform ? 'transform' : 'dictation';
+    // Justification après une dictée ou une chasse, au plus deux par séance.
+    const withWhy = mode !== 'transform' && !!s.why && whys < 2;
+    if (withWhy) whys++;
+    return { ...p, level: Math.min(...s.notionIds.map((n) => levelOf.get(n) ?? 1)) as GuidanceLevel, mode, withWhy };
+  });
 }
 
 async function planWords(now: Date, db: AcademieDB): Promise<{ kind: SessionKind; tasks: WordTask[] }> {
@@ -236,6 +246,8 @@ export interface SentenceResult {
   notionOutcome: Outcome;
   errorTypes: ErrorType[];
   hintUsed: boolean;
+  /** Notions concernées, si différentes de celles de la phrase (transformation). */
+  notionIds?: string[];
 }
 
 /** Enregistre une phrase : un journal par notion, replanification des notions dues. */
@@ -243,7 +255,7 @@ export async function recordSentence(r: SentenceResult, now = new Date(), db: Ac
   return db.transaction('rw', [db.items, db.reviewLogs, db.days], async () => {
     const points = pointsForSentence(r.outcome);
     if (points) await addToDay(db, now, { points });
-    for (const notionId of r.sentence.notionIds) {
+    for (const notionId of r.notionIds ?? r.sentence.notionIds) {
       const id = itemId('notion', notionId);
       const scheduled = r.scheduledNotionIds.includes(notionId);
       if (scheduled) {
@@ -259,7 +271,7 @@ export async function recordSentence(r: SentenceResult, now = new Date(), db: Ac
         scheduled,
         outcome: r.notionOutcome,
         errorTypes: r.errorTypes,
-        notionIds: r.sentence.notionIds,
+        notionIds: r.notionIds ?? r.sentence.notionIds,
         sentenceId: r.sentence.id,
       });
     }
@@ -304,4 +316,31 @@ export async function updateGuidance(results: Map<string, boolean>, now = new Da
     }
   });
   return mastered;
+}
+
+/**
+ * Justification : compréhension de la règle, pas une révision. Journal à part (questionType « justification »),
+ * qui ne replanifie rien et ne compte pas comme une erreur d'accord dans le tableau de bord.
+ */
+export async function recordJustification(sessionId: string, sentence: Sentence, answer: string, correct: boolean, now = new Date(), db: AcademieDB = defaultDb): Promise<{ points: number }> {
+  return db.transaction('rw', [db.reviewLogs, db.days], async () => {
+    for (const notionId of sentence.notionIds) {
+      await db.reviewLogs.add({
+        itemId: itemId('notion', notionId),
+        kind: 'notion',
+        sessionId,
+        at: now.getTime(),
+        presentation: 1,
+        scheduled: false,
+        outcome: correct ? 'success' : 'fail',
+        errorTypes: [],
+        sentenceId: sentence.id,
+        questionType: 'justification',
+        answerGiven: answer,
+      });
+    }
+    const points = correct ? POINTS.justification : 0;
+    if (points) await addToDay(db, now, { points });
+    return { points };
+  });
 }

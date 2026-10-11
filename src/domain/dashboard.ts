@@ -29,6 +29,7 @@ export interface Dashboard {
   /** Erreurs des 30 derniers jours, séparées comme le demande la spec. */
   errors: { spelling: number; accent: number; agreementByNotion: { notionId: string; label: string; count: number }[] };
   success: { words: OutcomeSplit; sentences: OutcomeSplit };
+  justifications: { right: number; total: number };
   notions: { id: string; label: string; level: number; mastered: boolean; constellation?: string; lastOutcome?: string; nextReview?: Date; reviews: number }[];
   hardestWords: { text: string; fails: number; accent: number; spelling: number }[];
   overdueWords: { text: string; daysLate: number }[];
@@ -70,7 +71,9 @@ export function computeDashboard(i: DashboardInput): Dashboard {
   const wordLogs = i.logs.filter((l) => l.kind === 'word');
   const recentWordLogs = wordLogs.filter((l) => l.at >= since30);
   const notionLogs = i.logs.filter((l) => l.kind === 'notion');
-  const recentNotionLogs = notionLogs.filter((l) => l.at >= since30);
+  const justifications = i.logs.filter((l) => l.questionType === 'justification' && l.at >= since30);
+  // Les justifications sont comptées à part : ce ne sont ni des révisions ni des erreurs d'accord.
+  const recentNotionLogs = notionLogs.filter((l) => l.at >= since30 && l.questionType !== 'justification');
 
   // Erreurs par semaine de liste (orthographe / accent), toutes périodes.
   const weekOfWord = new Map(i.words.map((w) => [w.id, w.weekId]));
@@ -116,7 +119,7 @@ export function computeDashboard(i: DashboardInput): Dashboard {
   const notionItem = new Map(i.items.filter((x) => x.kind === 'notion').map((x) => [x.refId, x]));
   const lastOutcome = new Map<string, string>();
   const reviewsOf = new Map<string, number>();
-  for (const l of [...notionLogs].sort((a, b) => a.at - b.at)) {
+  for (const l of [...notionLogs].filter((x) => x.questionType !== 'justification').sort((a, b) => a.at - b.at)) {
     const id = l.itemId.slice('notion:'.length);
     lastOutcome.set(id, l.outcome);
     reviewsOf.set(id, (reviewsOf.get(id) ?? 0) + 1);
@@ -143,6 +146,12 @@ export function computeDashboard(i: DashboardInput): Dashboard {
       words: split(recentWordLogs.filter((l) => l.presentation === 1).map((l) => l.outcome)),
       sentences: split([...sentenceOutcomes.values()]),
     },
+    justifications: (() => {
+      const bySentence = new Map<string, string>();
+      for (const l of justifications) bySentence.set(`${l.sessionId}|${l.sentenceId}`, l.outcome);
+      const v = [...bySentence.values()];
+      return { right: v.filter((o) => o === 'success').length, total: v.length };
+    })(),
     notions: i.notions
       .filter((n) => n.status === 'seen')
       .sort((a, b) => a.order - b.order)

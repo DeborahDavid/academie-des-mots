@@ -95,6 +95,10 @@ export function DashboardPanel() {
             <SplitRow label="Phrases (dictée et chasse)" s={d.success.sentences} />
           </tbody>
         </table>
+        <p className="small-text">
+          Justifications (« pourquoi ce mot s’écrit ainsi ? ») : <strong>{d.justifications.right}</strong> bonne{d.justifications.right > 1 ? 's' : ''} raison
+          {d.justifications.right > 1 ? 's' : ''} sur {d.justifications.total}.
+        </p>
         <p className="muted small-text">
           « Avec aide » : indice demandé, ou erreurs retrouvées seule après « il reste X erreurs ». Un mot raté revient le lendemain : ce n’est pas un échec définitif.
         </p>

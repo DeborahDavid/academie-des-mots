@@ -157,7 +157,8 @@ describe('chasse aux erreurs dans la séance', () => {
     for (const n of ['gn-nombre', 'sv-eloigne', 'conj-present']) await setNotionStatus(n, true, db);
     for (const s of await db.sentences.toArray()) await setSentenceStatus(s.id, 'validated', db);
     const plan = await planSession(now, db);
-    expect(plan.sentences.map((s) => s.mode)).toEqual(['dictation', 'hunt', 'dictation']);
+    expect(plan.sentences.map((s) => s.mode)).toEqual(['dictation', 'hunt', 'transform']);
+    expect(plan.sentences.filter((s) => s.withWhy).length).toBeLessThanOrEqual(2);
   });
 
   it('migration v1 → v2 : la version chasse s’ajoute sans toucher aux phrases modifiées', async () => {
