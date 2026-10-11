@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { getProgress } from '../../db/sessionRepo';
 import { updateSettings } from '../../db/repo';
 import { getWardrobe, syncUnlocks } from '../../db/rewardsRepo';
+import { syncExplorerRank } from '../../db/vocabRepo';
 import { nextReward } from '../../domain/rewards';
 import { frTypo } from '../../domain/typo';
 import { navigate } from '../../router';
@@ -25,9 +26,11 @@ export function ChildHome() {
   const hasLeyuArt = !!usePortraitUrl('leyu-pied');
   const hasElsaArt = !!usePortraitUrl('elsa-buste');
 
+  const [rankName, setRankName] = useState('');
   useEffect(() => {
     syncUnlocks();
-  }, [session]);
+    syncExplorerRank().then((r) => setRankName(r.rank.name));
+  }, [session, screen]);
 
   if (session > 0) return <Session key={session} onExit={() => setSession(0)} onAgain={() => setSession((k) => k + 1)} />;
   if (screen === 'wardrobe') return <Wardrobe onBack={() => setScreen('home')} />;
@@ -101,7 +104,7 @@ export function ChildHome() {
         <button className="place" onClick={() => setScreen('quest')}>
           <span className="place-icon">🔭</span>
           <span className="place-name">L’Exploratrice des mots</span>
-          <span className="small-text muted">Quête de vocabulaire</span>
+          <span className="small-text muted">{rankName || 'Quête de vocabulaire'}</span>
         </button>
         <button className="place small-place" onClick={() => setScreen('grimoire')}>
           <span className="place-icon">📖</span>

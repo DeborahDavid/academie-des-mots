@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useState } from 'react';
-import { getProductions, getVocabProgress, type WordProgress } from '../../db/vocabRepo';
+import { useEffect, useState } from 'react';
+import { getProductions, getVocabProgress, syncExplorerRank, type WordProgress } from '../../db/vocabRepo';
 import { STAGES } from '../../domain/vocab';
 
 const stageOf = (p: WordProgress) => STAGES.find((s) => s.id === p.info.stage)!;
@@ -9,6 +9,10 @@ const stageOf = (p: WordProgress) => STAGES.find((s) => s.id === p.info.stage)!;
 export function Grimoire({ onBack }: { onBack: () => void }) {
   const progress = useLiveQuery(() => getVocabProgress(), []);
   const [open, setOpen] = useState<WordProgress | null>(null);
+  const [rank, setRank] = useState<Awaited<ReturnType<typeof syncExplorerRank>> | null>(null);
+  useEffect(() => {
+    syncExplorerRank().then(setRank);
+  }, [progress]);
   if (!progress) return null;
 
   const known = progress.filter((p) => p.evidence.discovered).sort((a, b) => a.word.lemma.localeCompare(b.word.lemma, 'fr'));
@@ -27,6 +31,23 @@ export function Grimoire({ onBack }: { onBack: () => void }) {
         </h1>
         <span style={{ width: 90 }} />
       </header>
+      {rank && (
+        <div className="rank-card">
+          <span className="rank-name">🏅 {rank.rank.name}</span>
+          {rank.next && rank.missing && (
+            <span className="small-text muted">
+              Pour devenir {rank.next.name} : encore{' '}
+              {[
+                rank.missing.understood && `${rank.missing.understood} mot${rank.missing.understood > 1 ? 's' : ''} compris`,
+                rank.missing.used && `${rank.missing.used} mot${rank.missing.used > 1 ? 's' : ''} utilisé${rank.missing.used > 1 ? 's' : ''}`,
+                rank.missing.mastered && `${rank.missing.mastered} mot${rank.missing.mastered > 1 ? 's' : ''} maîtrisé${rank.missing.mastered > 1 ? 's' : ''}`,
+              ]
+                .filter(Boolean)
+                .join(', ')}
+            </span>
+          )}
+        </div>
+      )}
       <div className="stage-legend">
         {STAGES.slice(1).map((s) => (
           <span key={s.id}>

@@ -290,3 +290,46 @@ export function checkProduction(text: string, word: VocabWord): ProductionCheck 
   if (word.examples.some((e) => norm(e) === norm(t))) return { ok: false, message: 'Invente ta propre phrase, différente des exemples !' };
   return { ok: true };
 }
+
+/* ------------------------------------------------------------------ */
+/* Rangs de l'exploratrice                                             */
+/* ------------------------------------------------------------------ */
+
+export interface VocabCounts {
+  understood: number; // au moins « compris »
+  used: number; // au moins « utilisé »
+  mastered: number;
+}
+
+export interface ExplorerRank {
+  id: string;
+  name: string;
+  /** Conditions : toutes doivent être remplies. Aucune ne dépend du nombre de clics ou de séances. */
+  needs: VocabCounts;
+}
+
+export const EXPLORER_RANKS: ExplorerRank[] = [
+  { id: 'apprentie', name: 'Apprentie des mots', needs: { understood: 0, used: 0, mastered: 0 } },
+  { id: 'chercheuse', name: 'Chercheuse de sortilèges', needs: { understood: 5, used: 0, mastered: 0 } },
+  { id: 'exploratrice', name: 'Exploratrice des mots', needs: { understood: 15, used: 3, mastered: 0 } },
+  { id: 'gardienne', name: 'Gardienne des grimoires', needs: { understood: 30, used: 10, mastered: 5 } },
+  { id: 'maitresse', name: 'Maîtresse des mots', needs: { understood: 60, used: 25, mastered: 20 } },
+];
+
+const meets = (c: VocabCounts, n: VocabCounts) => c.understood >= n.understood && c.used >= n.used && c.mastered >= n.mastered;
+
+/** Rang atteint (le plus haut dont toutes les conditions sont remplies) et ce qui manque pour le suivant. */
+export function explorerRank(c: VocabCounts): { rank: ExplorerRank; next?: ExplorerRank; missing?: Partial<VocabCounts> } {
+  const idx = EXPLORER_RANKS.reduce((best, r, i) => (meets(c, r.needs) ? i : best), 0);
+  const next = EXPLORER_RANKS[idx + 1];
+  if (!next) return { rank: EXPLORER_RANKS[idx] };
+  const missing: Partial<VocabCounts> = {};
+  for (const k of ['understood', 'used', 'mastered'] as const) if (c[k] < next.needs[k]) missing[k] = next.needs[k] - c[k];
+  return { rank: EXPLORER_RANKS[idx], next, missing };
+}
+
+export function countStages(progress: { info: StageInfo }[]): VocabCounts {
+  const order: VocabStage[] = ['mysterieux', 'decouvert', 'compris', 'utilise', 'maitrise'];
+  const at = (s: VocabStage) => progress.filter((p) => order.indexOf(p.info.stage) >= order.indexOf(s)).length;
+  return { understood: at('compris'), used: at('utilise'), mastered: at('maitrise') };
+}

@@ -176,7 +176,7 @@ export interface Settings {
   /** Portraits importés (id d'image), à la place des dessins par défaut. */
   portraits?: Partial<Record<ArtSlot, string>>;
   /** L'Exploratrice des mots. */
-  vocab?: { newPerWeek: number; exampleSeeded?: boolean; seededBatches?: number[] };
+  vocab?: { newPerWeek: number; exampleSeeded?: boolean; seededBatches?: number[]; /** Rang le plus haut atteint : ne redescend jamais. */ bestRank?: number };
   /** Version de la banque de phrases déjà proposée au parent. */
   seedSentencesVersion?: number;
 }

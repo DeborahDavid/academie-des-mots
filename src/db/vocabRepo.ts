@@ -6,6 +6,9 @@ import { POINTS, localDate } from '../domain/points';
 import { review } from '../domain/scheduler';
 import {
   DEFAULT_QUEST,
+  EXPLORER_RANKS,
+  countStages,
+  explorerRank,
   type QuestStep,
   type StageInfo,
   type VocabCandidate,
@@ -274,4 +277,23 @@ export async function reviewProduction(id: string, decision: 'validated' | 'reje
 
 export async function getProductions(db: AcademieDB = defaultDb): Promise<VocabProduction[]> {
   return (await db.productions.toArray()).sort((a, b) => b.createdAt - a.createdAt);
+}
+
+/** Rang d'exploratrice : calculé sur la progression réelle, mémorisé pour ne jamais redescendre. */
+export async function syncExplorerRank(db: AcademieDB = defaultDb) {
+  const counts = countStages(await getVocabProgress(db));
+  const current = explorerRank(counts);
+  const s = await getSettings(db);
+  const idx = EXPLORER_RANKS.indexOf(current.rank);
+  const best = Math.max(idx, s.vocab?.bestRank ?? 0);
+  if (best !== s.vocab?.bestRank) {
+    await db.settings.put({ key: 'settings', value: { ...s, vocab: { newPerWeek: s.vocab?.newPerWeek ?? DEFAULT_NEW_PER_WEEK, ...s.vocab, bestRank: best } } });
+  }
+  const rank = EXPLORER_RANKS[best];
+  // Ce qui manque pour le rang suivant celui déjà atteint.
+  const next = EXPLORER_RANKS[best + 1];
+  const missing = next
+    ? Object.fromEntries((['understood', 'used', 'mastered'] as const).filter((k) => counts[k] < next.needs[k]).map((k) => [k, next.needs[k] - counts[k]]))
+    : undefined;
+  return { rank, next, missing: missing as Partial<typeof counts> | undefined, counts };
 }

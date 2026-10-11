@@ -129,3 +129,16 @@ describe('containsWord', () => {
     expect(containsWord('Il fait beau.', 'rêveur')).toBe(false);
   });
 });
+
+describe('explorerRank', () => {
+  it('rangs gagnés par la compréhension, l’utilisation et la maîtrise réelles', async () => {
+    const { explorerRank } = await import('./vocab');
+    expect(explorerRank({ understood: 0, used: 0, mastered: 0 }).rank.name).toBe('Apprentie des mots');
+    expect(explorerRank({ understood: 5, used: 0, mastered: 0 }).rank.name).toBe('Chercheuse de sortilèges');
+    // beaucoup de mots compris mais aucun utilisé : pas d'« Exploratrice »
+    const r = explorerRank({ understood: 40, used: 0, mastered: 0 });
+    expect(r.rank.name).toBe('Chercheuse de sortilèges');
+    expect(r.missing).toEqual({ used: 3 });
+    expect(explorerRank({ understood: 60, used: 25, mastered: 20 }).next).toBeUndefined();
+  });
+});

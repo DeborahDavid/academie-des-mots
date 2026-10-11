@@ -330,3 +330,5 @@ button.big { min-height: 60px; font-size: 1.2rem; padding: 0.6em 1.6em; }
 .hint-text { color: #9a3b3b; margin: 0; text-align: center; }
 .my-spells { background: #f3ecff; border-radius: 12px; padding: 0.6rem 0.9rem; }
 .my-spells p { margin: 0.3rem 0; }
+.rank-card { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; background: var(--panel); border: 2px solid var(--gold); border-radius: 16px; padding: 0.7rem 1.2rem; }
+.rank-name { color: var(--gold); font-weight: 700; font-size: 1.2rem; }
