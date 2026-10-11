@@ -30,6 +30,7 @@ export class AcademieDB extends Dexie {
       audio: 'id',
     });
     this.version(2).stores({ days: 'date' });
+    this.version(3).stores({ reviewLogs: '++id, itemId, sessionId, at, kind' });
   }
 }
 

@@ -1,6 +1,7 @@
 import { type FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import type { Settings, Word } from '../../domain/model';
 import { autoHint } from '../../domain/hints';
+import { markMistakes } from '../../domain/charDiff';
 import { frTypo } from '../../domain/typo';
 import { OOPS_LINES, randomLine } from '../../domain/lines';
 import { type WordRun, acceptHint, declineHint, startTyping, startWordRun, submitWord } from '../../domain/wordRun';
@@ -23,6 +24,8 @@ export function WordExercise({ word, itemId, presentation, failures, settings, o
   const [run, setRun] = useState<WordRun>(() => startWordRun(itemId, word.text, presentation, failures));
   const [value, setValue] = useState('');
   const [oops, setOops] = useState<string | null>(null);
+  // Positions à marquer sur le mot correct ; la réponse fautive elle-même n'est jamais affichée.
+  const [marks, setMarks] = useState<boolean[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
   const hint = useMemo(() => word.hint || autoHint(word.text), [word]);
 
@@ -49,6 +52,7 @@ export function WordExercise({ word, itemId, presentation, failures, settings, o
     e?.preventDefault();
     if (!value.trim()) return;
     const next = submitWord(run, value);
+    if (next.phase === 'correction' && next.revealCorrect) setMarks(markMistakes(value, word.text));
     // On efface toujours la saisie : une forme fautive ne reste jamais à l'écran.
     setValue('');
     if (run.phase === 'answer' && next.phase !== 'done') setOops(randomLine(OOPS_LINES));
@@ -84,8 +88,20 @@ export function WordExercise({ word, itemId, presentation, failures, settings, o
 
         {run.phase === 'correction' && (
           <div className="model-word" aria-live="polite">
-            {run.revealCorrect ? word.text : <span className="model-hidden">✦ ✦ ✦</span>}
+            {run.revealCorrect ? (
+              [...word.text].map((ch, i) => (
+                <span key={i} className={marks[i] ? 'mistake' : undefined}>
+                  {ch}
+                </span>
+              ))
+            ) : (
+              <span className="model-hidden">✦ ✦ ✦</span>
+            )}
           </div>
+        )}
+
+        {run.phase === 'correction' && run.revealCorrect && marks.some(Boolean) && (
+          <p className="muted small-text">Les lettres en rouge sont celles à retenir.</p>
         )}
 
         {run.phase === 'answer' && run.hintUsed && (

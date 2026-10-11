@@ -5,7 +5,28 @@ const pick = <T,>(arr: readonly T[], rng: () => number) => arr[Math.floor(rng() 
 export const HELLO_LINES = ['Salut Leyu !', 'Coucou Leyu !', 'Te revoilà, Leyu !', 'Prête pour la magie, Leyu ?'] as const;
 
 // « Une nouvelle étoile ! » est réservée aux vraies étoiles (mot acquis).
-const SUCCESS_LINES = ['Sort réussi !', 'Trop forte !', 'Bien joué !', 'Parfait !', 'Magique !'] as const;
+const SUCCESS_LINES = [
+  'Sort réussi !',
+  'Trop forte !',
+  'Bien joué !',
+  'Parfait !',
+  'Magique !',
+  'Waouh !',
+  'Incroyable !',
+  'Tu es une championne !',
+  'Exactement !',
+  'Bravo, magicienne !',
+  'Ça, c’est de la magie !',
+  'Impeccable !',
+  'Tu assures !',
+  'Et hop, un sort de plus !',
+  'Pile poil !',
+  'Génial !',
+  'Ada serait fière de toi !',
+  'Super sort !',
+  'Tu deviens imbattable !',
+  'Quelle magicienne !',
+] as const;
 
 export const OOPS_LINES = ['Oups ! On réessaie ?', 'Presque ! Regarde bien.', 'Pas grave, on regarde ensemble.', 'Ça arrive ! Regarde.'] as const;
 
@@ -13,9 +34,13 @@ export const AFTER_FAIL_LINES = ['Ce mot reviendra, tu l’auras !', 'On le revo
 
 export const END_LINES = ['Quelle séance !', 'Le ciel brille grâce à toi !', 'Tu es une vraie magicienne des mots !'] as const;
 
-/** « Le POULET ! » environ une réussite sur deux. */
+/** « Le POULET ! » environ une réussite sur cinq ; jamais deux fois la même réplique d'affilée. */
+let lastSuccess = '';
 export function successLine(rng: () => number = Math.random): string {
-  return rng() < 0.5 ? 'Le POULET !' : pick(SUCCESS_LINES, rng);
+  let line = lastSuccess;
+  while (line === lastSuccess) line = rng() < 0.2 ? 'Le POULET !' : pick(SUCCESS_LINES, rng);
+  lastSuccess = line;
+  return line;
 }
 
 export function randomLine(lines: readonly string[], rng: () => number = Math.random): string {

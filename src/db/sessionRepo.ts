@@ -1,9 +1,11 @@
 import { type AcademieDB, db as defaultDb } from './db';
 import { getSettings } from './repo';
-import type { ErrorType, Item, ItemKind, Outcome, Word } from '../domain/model';
+import type { Card } from 'ts-fsrs';
+import type { ErrorType, GuidanceLevel, Item, ItemKind, Outcome, Sentence, Word } from '../domain/model';
+import { itemId } from '../domain/model';
 import { isAcquired, isNew, review } from '../domain/scheduler';
-import { localDate, POINTS, pointsFor } from '../domain/points';
-import { DEFAULT_PICK, type WordCandidate, pickBonusWords, pickWords } from '../domain/session';
+import { localDate, POINTS, pointsFor, pointsForSentence } from '../domain/points';
+import { DEFAULT_PICK, type WordCandidate, pickBonusWords, pickSentences, pickWords } from '../domain/session';
 
 function startOfDay(now: Date): number {
   const d = new Date(now);
@@ -20,9 +22,17 @@ export interface WordTask {
 
 export type SessionKind = 'daily' | 'bonus';
 
+export interface SentenceTask {
+  sentence: Sentence;
+  scheduledNotionIds: string[];
+  /** Niveau de guidage : le plus bas (le plus aidé) parmi les notions de la phrase. */
+  level: GuidanceLevel;
+}
+
 export interface SessionPlan {
   kind: SessionKind;
   tasks: WordTask[];
+  sentences: SentenceTask[];
 }
 
 /** Nouveaux mots ajoutés à chaque séance en plus. */
@@ -35,6 +45,37 @@ const RECENT_FAIL_DAYS = 14;
  * Séances en plus (ou séance du jour sans rien de dû) : arriéré + entraînement.
  */
 export async function planSession(now = new Date(), db: AcademieDB = defaultDb): Promise<SessionPlan> {
+  const { kind, tasks } = await planWords(now, db);
+  const sentences = await planSentences(now, kind === 'daily' ? 3 : 2, db);
+  return { kind, tasks, sentences };
+}
+
+async function planSentences(now: Date, max: number, db: AcademieDB): Promise<SentenceTask[]> {
+  const [notions, items, sentences, logs] = await Promise.all([
+    db.notions.toArray(),
+    db.items.where('kind').equals('notion').toArray(),
+    db.sentences.where('status').equals('validated').toArray(),
+    db.reviewLogs.where('kind').equals('notion').toArray(),
+  ]);
+  const seen = notions.filter((n) => n.status === 'seen');
+  const itemByNotion = new Map(items.map((i) => [i.refId, i.card]));
+  const cards = new Map<string, Card>();
+  for (const n of seen) {
+    const c = itemByNotion.get(n.id);
+    if (c) cards.set(n.id, c);
+  }
+  const lastShown = new Map<string, number>();
+  for (const l of logs) if (l.sentenceId) lastShown.set(l.sentenceId, Math.max(l.at, lastShown.get(l.sentenceId) ?? 0));
+  const dueCount = [...cards.values()].filter((c) => isNew(c) || +new Date(c.due) <= now.getTime() + 86_400_000).length;
+  const count = max === 3 && dueCount < 3 ? 2 : max;
+  const levelOf = new Map(seen.map((n) => [n.id, n.guidanceLevel]));
+  return pickSentences(sentences, cards, lastShown, now, count).map((p) => ({
+    ...p,
+    level: Math.min(...p.sentence.notionIds.map((n) => levelOf.get(n) ?? 1)) as GuidanceLevel,
+  }));
+}
+
+async function planWords(now: Date, db: AcademieDB): Promise<{ kind: SessionKind; tasks: WordTask[] }> {
   const [items, words, weeks, settings, today] = await Promise.all([
     db.items.where('kind').equals('word').toArray(),
     db.words.toArray(),
@@ -177,4 +218,45 @@ export async function getProgress(now = new Date(), db: AcademieDB = defaultDb):
     totalPoints: days.reduce((s, d) => s + d.points, 0),
     todayPoints: today?.points ?? 0,
   };
+}
+
+export interface SentenceResult {
+  sessionId: string;
+  sentence: Sentence;
+  scheduledNotionIds: string[];
+  /** Résultat global de la phrase (points, statistiques). */
+  outcome: Outcome;
+  /** Résultat pour les notions (seules les erreurs d'accord comptent). */
+  notionOutcome: Outcome;
+  errorTypes: ErrorType[];
+  hintUsed: boolean;
+}
+
+/** Enregistre une phrase : un journal par notion, replanification des notions dues. */
+export async function recordSentence(r: SentenceResult, now = new Date(), db: AcademieDB = defaultDb): Promise<{ points: number }> {
+  return db.transaction('rw', [db.items, db.reviewLogs, db.days], async () => {
+    const points = pointsForSentence(r.outcome);
+    if (points) await addToDay(db, now, { points });
+    for (const notionId of r.sentence.notionIds) {
+      const id = itemId('notion', notionId);
+      const scheduled = r.scheduledNotionIds.includes(notionId);
+      if (scheduled) {
+        const item = await db.items.get(id);
+        if (item) await db.items.put({ ...item, card: review(item.card, r.notionOutcome, now), introducedAt: item.introducedAt ?? now.getTime() });
+      }
+      await db.reviewLogs.add({
+        itemId: id,
+        kind: 'notion',
+        sessionId: r.sessionId,
+        at: now.getTime(),
+        presentation: 1,
+        scheduled,
+        outcome: r.notionOutcome,
+        errorTypes: r.errorTypes,
+        notionIds: r.sentence.notionIds,
+        sentenceId: r.sentence.id,
+      });
+    }
+    return { points };
+  });
 }

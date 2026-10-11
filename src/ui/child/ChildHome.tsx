@@ -1,6 +1,8 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useState } from 'react';
 import { getProgress } from '../../db/sessionRepo';
+import { updateSettings } from '../../db/repo';
+import { useSettings } from '../hooks';
 import { frTypo } from '../../domain/typo';
 import { navigate } from '../../router';
 import { Session } from './Session';
@@ -9,6 +11,7 @@ import { Session } from './Session';
 export function ChildHome() {
   const [session, setSession] = useState(0);
   const progress = useLiveQuery(() => getProgress(), [session]);
+  const settings = useSettings();
 
   if (session > 0)
     return <Session key={session} onExit={() => setSession(0)} onAgain={() => setSession((k) => k + 1)} />;
@@ -22,6 +25,14 @@ export function ChildHome() {
         <span className="gold" title="Points">
           ✦ {progress?.totalPoints ?? 0}
         </span>
+        <button
+          className="ghost small"
+          onClick={() => updateSettings({ muted: !settings?.muted })}
+          aria-label={settings?.muted ? 'Activer les sons' : 'Couper les sons'}
+          title={settings?.muted ? 'Activer les sons' : 'Couper les sons'}
+        >
+          {settings?.muted ? '🔕' : '🔔'}
+        </button>
       </div>
       <h1 className="title-gold">L’Académie des Mots</h1>
       <p className="muted">La Tour des meilleures amies et d’Ada</p>

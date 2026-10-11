@@ -13,12 +13,23 @@ import {
 import { nextMoonPhase } from '../domain/moon';
 import { seedNotions } from '../domain/notions';
 import { type ParsedEntry, wordKey } from '../domain/parseList';
+import { SEED_SENTENCES, SEED_SENTENCES_VERSION } from '../content/seedSentences';
+import type { Sentence, ValidationStatus } from '../domain/model';
 
 /** Crée les notions et réglages par défaut au premier lancement. */
 export async function ensureSeeded(db: AcademieDB = defaultDb): Promise<void> {
-  await db.transaction('rw', db.notions, db.settings, async () => {
+  await db.transaction('rw', db.notions, db.settings, db.sentences, async () => {
     if ((await db.notions.count()) === 0) await db.notions.bulkAdd(seedNotions());
     if (!(await db.settings.get('settings'))) await db.settings.add({ key: 'settings', value: DEFAULT_SETTINGS });
+    const s = await getSettings(db);
+    if ((s.seedSentencesVersion ?? 0) < SEED_SENTENCES_VERSION) {
+      // Proposées au parent (« à valider ») ; une phrase déjà modifiée ou supprimée n'est pas recréée.
+      const now = Date.now();
+      const existing = new Set(await db.sentences.toCollection().primaryKeys());
+      const fresh: Sentence[] = SEED_SENTENCES.map((x, i) => ({ id: `seed-v${SEED_SENTENCES_VERSION}-${i}`, text: x.text, notionIds: x.notionIds, source: 'seed', status: 'pending', createdAt: now + i }));
+      await db.sentences.bulkAdd(fresh.filter((x) => !existing.has(x.id)));
+      await db.settings.put({ key: 'settings', value: { ...s, seedSentencesVersion: SEED_SENTENCES_VERSION } });
+    }
   });
 }
 
@@ -167,4 +178,21 @@ export function suggestNextStartDate(weeks: Week[], today = new Date()): string 
   const monday = new Date(today);
   monday.setDate(today.getDate() - ((today.getDay() + 6) % 7));
   return toIso(monday);
+}
+
+/** Phrase écrite par le parent : validée d'office. */
+export async function addSentence(text: string, notionIds: string[], db: AcademieDB = defaultDb): Promise<void> {
+  await db.sentences.add({ id: newId(), text: text.trim().replace(/'/g, '’'), notionIds, source: 'parent', status: 'validated', createdAt: Date.now() });
+}
+
+export async function updateSentence(id: string, patch: Partial<Pick<Sentence, 'text' | 'notionIds'>>, db: AcademieDB = defaultDb) {
+  await db.sentences.update(id, patch.text ? { ...patch, text: patch.text.trim().replace(/'/g, '’') } : patch);
+}
+
+export async function setSentenceStatus(id: string, status: ValidationStatus, db: AcademieDB = defaultDb) {
+  await db.sentences.update(id, { status });
+}
+
+export async function deleteSentence(id: string, db: AcademieDB = defaultDb) {
+  await db.sentences.delete(id);
 }

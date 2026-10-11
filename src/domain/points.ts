@@ -8,6 +8,8 @@ export const POINTS = {
   firstTry: 10,
   later: 5,
   withHint: 3,
+  sentenceFirstTry: 15,
+  sentenceLater: 8,
   dailyBonus: 20,
   extraSessionBonus: 10,
 } as const;
@@ -16,6 +18,10 @@ export function pointsFor(outcome: Outcome, presentation: number): number {
   if (outcome === 'fail') return 0;
   if (outcome === 'success_hint') return POINTS.withHint;
   return presentation === 1 ? POINTS.firstTry : POINTS.later;
+}
+
+export function pointsForSentence(outcome: Outcome): number {
+  return outcome === 'success' ? POINTS.sentenceFirstTry : outcome === 'success_hint' ? POINTS.sentenceLater : 0;
 }
 
 export function localDate(d = new Date()): string {

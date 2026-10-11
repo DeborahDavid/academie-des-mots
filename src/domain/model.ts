@@ -60,6 +60,8 @@ export interface ReviewLog {
   errorTypes: ErrorType[];
   /** Notions concernées par une erreur d'accord. */
   notionIds?: string[];
+  /** Phrase dictée (items de type notion). */
+  sentenceId?: string;
 }
 
 export type NotionStatus = 'seen' | 'not_yet';
@@ -142,6 +144,8 @@ export interface Settings {
   thresholds: Thresholds;
   /** Formes des constellations, dans l'ordre d'attribution. */
   constellations: string[];
+  /** Version de la banque de phrases déjà proposée au parent. */
+  seedSentencesVersion?: number;
 }
 
 export const DEFAULT_SETTINGS: Settings = {

@@ -60,9 +60,9 @@ function AddWeekForm({ weeks }: { weeks: Week[] }) {
             className="ghost"
             onClick={() =>
               setTexts({
-                jaune: 'la forêt | Le loup se cache dans la forêt.\nun château | Le roi habite dans un grand château.\ngrand | Mon frère est très grand. | Pense à « grande » pour la lettre muette.',
-                vert: 'soudain | Soudain, le chat a sauté sur la table.\naujourd’hui | Aujourd’hui, il fait beau.',
-                violet: 'la lumière | La lumière de la bougie éclaire la pièce.',
+                jaune: 'la forêt\nun château\ngrand',
+                vert: 'soudain\naujourd’hui',
+                violet: 'la lumière',
               })
             }
           >
@@ -105,9 +105,8 @@ function AddWeekForm({ weeks }: { weeks: Week[] }) {
         ))}
       </div>
       <p className="muted small-text">
-        Format optionnel par ligne : <code>mot | phrase de contexte | indice</code> — ex.{' '}
-        <code>grand | Le chêne est très grand. | Pense à « grande » pour la lettre muette.</code> Vous pourrez compléter phrases,
-        indices et enregistrements après.
+        Un mot par ligne suffit : le mot est dit deux fois. Facultatif : <code>mot | phrase de contexte | indice</code>, ex.{' '}
+        <code>vert | Le pré est vert.</code> pour distinguer un homophone (vert, verre, ver).
       </p>
       <div className="row">
         <button className="primary" disabled={busy || parsed.length === 0} onClick={submit}>
@@ -130,7 +129,6 @@ function AddWeekForm({ weeks }: { weeks: Week[] }) {
 function WeekCard({ week, words, defaultOpen }: { week: Week; words: Word[]; defaultOpen: boolean }) {
   const [newWord, setNewWord] = useState('');
   const [newLevel, setNewLevel] = useState<Level>('jaune');
-  const missingContext = words.filter((w) => !w.context && !w.audioId).length;
 
   async function add() {
     const [entry] = parseWordList(newWord);
@@ -150,7 +148,6 @@ function WeekCard({ week, words, defaultOpen }: { week: Week; words: Word[]; def
         <span>
           <strong>{week.label}</strong> <span className="muted small-text">· semaine du {formatDate(week.startDate)} · {words.length} mots</span>
         </span>
-        {missingContext > 0 && <span className="muted small-text">{missingContext} sans phrase de contexte</span>}
       </summary>
       <div className="stack" style={{ marginTop: '1rem' }}>
         <div className="row">
@@ -168,7 +165,7 @@ function WeekCard({ week, words, defaultOpen }: { week: Week; words: Word[]; def
               </h3>
               <div className="muted small-text word-row" style={{ borderBottom: 'none', paddingBottom: 0 }}>
                 <span>Mot</span>
-                <span>Phrase de contexte (lue avant le mot)</span>
+                <span>Phrase de contexte (facultatif, utile pour les homophones)</span>
                 <span>Indice personnalisé</span>
                 <span />
               </div>

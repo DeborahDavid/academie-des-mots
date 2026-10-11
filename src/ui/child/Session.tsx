@@ -8,6 +8,7 @@ import { db } from '../../db/db';
 import { type WordRun, shouldRequeue } from '../../domain/wordRun';
 import { Elsa, type ElsaExpression } from '../components/Elsa';
 import { useSettings } from '../hooks';
+import { playStarChime, playSuccessChime } from '../../speech/sfx';
 import { WordExercise } from './WordExercise';
 
 interface Task {
@@ -98,6 +99,7 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
       stars: s.stars + (effect.newlyAcquired ? 1 : 0),
       points: s.points + effect.points,
     }));
+    if (outcome !== 'fail') (effect.newlyAcquired ? playStarChime : playSuccessChime)(settings!.muted);
     setTransition(
       outcome === 'fail'
         ? { expression: 'contente', line: randomLine(AFTER_FAIL_LINES), star: false, ada: false, points: 0 }

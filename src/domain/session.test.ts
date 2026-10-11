@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { createEmptyCard } from 'ts-fsrs';
 import type { Item } from './model';
 import { review } from './scheduler';
-import { type WordCandidate, pickWords, requeue } from './session';
+import { type WordCandidate, interleave, pickSentences, pickWords, requeue } from './session';
 import { acceptHint, declineHint, shouldRequeue, startTyping, startWordRun, submitWord } from './wordRun';
 
 const now = new Date(2026, 9, 12, 17, 0);
@@ -95,5 +95,36 @@ describe('wordRun', () => {
   it('échec malgré l’indice → correction', () => {
     const r = submitWord(acceptHint(submitWord(startWordRun('i', 'forêt', 2, 1), 'forai')), 'foré');
     expect(r).toMatchObject({ phase: 'correction', outcome: 'fail' });
+  });
+});
+
+describe('pickSentences', () => {
+  const s = (id: string, notionIds: string[], status: 'validated' | 'pending' = 'validated') =>
+    ({ id, text: id, notionIds, source: 'seed' as const, status, createdAt: 0 });
+  const fresh = () => createEmptyCard(past);
+
+  it('uniquement des phrases validées dont toutes les notions sont vues', () => {
+    const cards = new Map([['gn-nombre', fresh()]]);
+    const picks = pickSentences([s('a', ['gn-nombre']), s('b', ['gn-nombre', 'conj-futur']), s('c', ['gn-nombre'], 'pending')], cards, new Map(), now, 3);
+    expect(picks.map((p) => p.sentence.id)).toEqual(['a']);
+  });
+
+  it('une notion n’est replanifiée qu’une fois par séance ; le reste est de l’entraînement', () => {
+    const cards = new Map([['gn-nombre', fresh()]]);
+    const picks = pickSentences([s('a', ['gn-nombre']), s('b', ['gn-nombre'])], cards, new Map(), now, 2);
+    expect(picks.map((p) => p.scheduledNotionIds)).toEqual([['gn-nombre'], []]);
+  });
+
+  it('préfère les phrases les moins récemment vues', () => {
+    const cards = new Map([['gn-genre', review(createEmptyCard(now), 'success', now)]]); // pas due
+    const picks = pickSentences([s('a', ['gn-genre']), s('b', ['gn-genre'])], cards, new Map([['a', 5]]), now, 1);
+    expect(picks[0].sentence.id).toBe('b');
+  });
+});
+
+describe('interleave', () => {
+  it('répartit les phrases parmi les mots', () => {
+    expect(interleave([1, 2, 3, 4, 5, 6], ['a', 'b'])).toEqual([1, 2, 'a', 3, 4, 'b', 5, 6]);
+    expect(interleave([], ['a', 'b'])).toEqual(['a', 'b']);
   });
 });

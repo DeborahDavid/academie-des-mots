@@ -38,7 +38,7 @@ export function WordRow({ word }: { word: Word }) {
           else e.target.value = word.text;
         }}
       />
-      <input defaultValue={word.context ?? ''} placeholder="Ex. Le loup traverse la forêt." aria-label="Phrase de contexte" onBlur={save('context')} />
+      <input defaultValue={word.context ?? ''} placeholder="(facultatif)" aria-label="Phrase de contexte" onBlur={save('context')} />
       <input defaultValue={word.hint ?? ''} placeholder="(optionnel)" aria-label="Indice" onBlur={save('hint')} />
       <div className="row" style={{ gap: '0.35rem', flexWrap: 'nowrap' }}>
         <button className="small" onClick={listen} disabled={playing} title={word.audioId ? 'Écouter (votre voix)' : 'Écouter (synthèse)'}>

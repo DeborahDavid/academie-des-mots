@@ -1,4 +1,5 @@
-import type { Item } from './model';
+import type { Card } from 'ts-fsrs';
+import type { Item, Sentence } from './model';
 import { isDue, isNew } from './scheduler';
 
 export interface WordCandidate {
@@ -101,4 +102,71 @@ export function shuffle<T>(arr: T[], rng: () => number = Math.random): T[] {
 export function requeue<T>(queue: T[], currentIndex: number, task: T, gap = 3): T[] {
   const at = Math.min(queue.length, currentIndex + 1 + gap);
   return [...queue.slice(0, at), task, ...queue.slice(at)];
+}
+
+export interface SentencePick {
+  sentence: Sentence;
+  /** Notions replanifiées par cette phrase (dues, pas encore vues dans la séance). */
+  scheduledNotionIds: string[];
+}
+
+/**
+ * Phrases de la séance (2 à 3) : uniquement des phrases validées dont TOUTES les notions sont « vues en classe ».
+ * D'abord une phrase par notion due (ou nouvelle), puis les phrases les moins récemment vues (entraînement).
+ */
+export function pickSentences(
+  sentences: Sentence[],
+  notionCards: Map<string, Card>,
+  lastShown: Map<string, number>,
+  now: Date,
+  count: number,
+  rng: () => number = Math.random,
+): SentencePick[] {
+  const seen = new Set(notionCards.keys());
+  const eligible = shuffle(
+    sentences.filter((s) => s.status === 'validated' && s.notionIds.length > 0 && s.notionIds.every((n) => seen.has(n))),
+    rng,
+  ).sort((a, b) => (lastShown.get(a.id) ?? 0) - (lastShown.get(b.id) ?? 0));
+  const isDueOrNew = (id: string) => {
+    const c = notionCards.get(id);
+    return !!c && (isNew(c) || isDue(c, now));
+  };
+  const dueNotions = [...seen]
+    .filter(isDueOrNew)
+    .sort((a, b) => +new Date(notionCards.get(a)!.due) - +new Date(notionCards.get(b)!.due));
+
+  const picked: SentencePick[] = [];
+  const scheduled = new Set<string>();
+  const used = new Set<string>();
+  for (const notion of dueNotions) {
+    if (picked.length >= count) break;
+    if (scheduled.has(notion)) continue;
+    const s = eligible.find((x) => !used.has(x.id) && x.notionIds.includes(notion));
+    if (!s) continue;
+    const ids = s.notionIds.filter((n) => isDueOrNew(n) && !scheduled.has(n));
+    ids.forEach((n) => scheduled.add(n));
+    used.add(s.id);
+    picked.push({ sentence: s, scheduledNotionIds: ids });
+  }
+  for (const s of eligible) {
+    if (picked.length >= count) break;
+    if (used.has(s.id)) continue;
+    used.add(s.id);
+    picked.push({ sentence: s, scheduledNotionIds: [] });
+  }
+  return picked;
+}
+
+/** Répartit les phrases régulièrement parmi les mots (jamais deux phrases d'affilée si possible). */
+export function interleave<A, B>(words: A[], sentences: B[]): (A | B)[] {
+  if (!sentences.length) return [...words];
+  const out: (A | B)[] = [];
+  const step = (words.length + 1) / (sentences.length + 1);
+  let si = 0;
+  words.forEach((w, i) => {
+    out.push(w);
+    while (si < sentences.length && i + 1 >= Math.floor(step * (si + 1))) out.push(sentences[si++]);
+  });
+  while (si < sentences.length) out.push(sentences[si++]);
+  return out;
 }

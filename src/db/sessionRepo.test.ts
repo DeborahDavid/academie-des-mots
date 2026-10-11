@@ -101,3 +101,30 @@ describe('recordPresentation', () => {
     expect(e.veryHard).toBe(true);
   });
 });
+
+describe('phrases', () => {
+  it('rien tant que les phrases ne sont pas validées ni les notions activées', async () => {
+    expect((await planSession(now, db)).sentences).toHaveLength(0);
+    const { setNotionStatus } = await import('./repo');
+    await setNotionStatus('gn-nombre', true, db);
+    expect((await planSession(now, db)).sentences).toHaveLength(0); // banque encore « à valider »
+  });
+
+  it('phrases validées sur notions vues : 2 par séance, notions replanifiées une fois', async () => {
+    const { setNotionStatus, setSentenceStatus } = await import('./repo');
+    for (const n of ['gn-nombre', 'sv-eloigne', 'conj-present']) await setNotionStatus(n, true, db);
+    for (const s of await db.sentences.toArray()) await setSentenceStatus(s.id, 'validated', db);
+    const plan = await planSession(now, db);
+    expect(plan.sentences.length).toBe(3);
+    expect(plan.sentences.every((t) => t.sentence.notionIds.every((n) => ['gn-nombre', 'sv-eloigne', 'conj-present'].includes(n)))).toBe(true);
+    const scheduled = plan.sentences.flatMap((t) => t.scheduledNotionIds);
+    expect(new Set(scheduled).size).toBe(scheduled.length);
+
+    const { recordSentence } = await import('./sessionRepo');
+    const t = plan.sentences[0];
+    const res = await recordSentence({ sessionId: 's', sentence: t.sentence, scheduledNotionIds: t.scheduledNotionIds, outcome: 'success', notionOutcome: 'success', errorTypes: [], hintUsed: false }, now, db);
+    expect(res.points).toBe(15);
+    const notionItem = await db.items.get(`notion:${t.scheduledNotionIds[0]}`);
+    expect(notionItem!.card.reps).toBe(1);
+  });
+});
