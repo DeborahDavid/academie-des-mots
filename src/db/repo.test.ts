@@ -85,3 +85,11 @@ describe('suggestNextStartDate', () => {
     expect(suggestNextStartDate([], new Date(2026, 9, 11))).toBe('2026-10-05');
   });
 });
+
+describe('nettoyage', () => {
+  it('efface les anciennes phrases de contexte', async () => {
+    await db.words.add({ id: 'w', weekId: 'k', text: 'forêt', level: 'jaune', context: 'Le loup…', createdAt: 0 });
+    await ensureSeeded(db);
+    expect((await db.words.get('w'))!.context).toBeUndefined();
+  });
+});

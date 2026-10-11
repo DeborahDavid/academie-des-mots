@@ -18,7 +18,9 @@ import type { CharacterId, Sentence, ValidationStatus } from '../domain/model';
 
 /** Crée les notions et réglages par défaut au premier lancement. */
 export async function ensureSeeded(db: AcademieDB = defaultDb): Promise<void> {
-  await db.transaction('rw', db.notions, db.settings, db.sentences, async () => {
+  await db.transaction('rw', [db.notions, db.settings, db.sentences, db.words], async () => {
+    // Les phrases de contexte ne sont plus utilisées : on les efface des mots déjà saisis.
+    await db.words.filter((w) => !!w.context).modify((w) => void delete w.context);
     if ((await db.notions.count()) === 0) await db.notions.bulkAdd(seedNotions());
     if (!(await db.settings.get('settings'))) await db.settings.add({ key: 'settings', value: DEFAULT_SETTINGS });
     const s = await getSettings(db);
