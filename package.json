@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@fontsource/andika": "^5.1.0",
+    "@fontsource/fredoka": "^5.1.0",
     "dexie": "^4.0.11",
     "dexie-react-hooks": "^1.1.7",
     "react": "^18.3.1",

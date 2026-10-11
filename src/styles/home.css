@@ -1,0 +1,267 @@
+/* =========================================================================
+   Accueil — « un refuge magique, cosy, joyeux et scintillant »
+   Système visuel de la refonte (périmètre : écran principal uniquement).
+   ========================================================================= */
+
+.home2 {
+  /* Palette : bleu du soir + lumière chaude + cocon + étincelles */
+  --evening: #2e3477;
+  --dusk: #5560a8;
+  --lavender: #b7a6e8;
+  --rose: #f4b9c8;
+  --gold: #f7c65b;
+  --honey: #e9a54b;
+  --cream: #fff1dc;
+  --ivory: #fffaf1;
+  --turquoise: #6ccfcb;
+  --sage: #b9d7b1;
+  --plum: #3e2d4f;
+  --plum-soft: #6b5a82;
+  --wood: #c98a4c;
+  --wood-dark: #a46a37;
+  --wood-light: #e3ad6f;
+  --title: 'Fredoka', 'Andika', system-ui, sans-serif;
+
+  position: relative;
+  min-height: 100%;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 16px 20px;
+  color: var(--plum);
+  /* Mur de la chambre-tour, éclairé par les lampes : chaud, jamais sombre */
+  background:
+    radial-gradient(60% 40% at 50% 34%, rgba(255, 236, 205, 0.9), rgba(255, 236, 205, 0) 70%),
+    linear-gradient(180deg, #e7c3d8 0%, #f3d3c6 38%, #f6d6bd 62%, #efc39b 100%);
+}
+
+/* --- lumière des lampes --- */
+.h2-wall { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.lamp-glow { position: absolute; top: 46%; width: 46vw; max-width: 420px; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, rgba(255, 205, 120, 0.55), rgba(255, 205, 120, 0) 65%); }
+.lamp-glow.left { left: -18vw; }
+.lamp-glow.right { right: -18vw; }
+.home2 > *:not(.h2-wall) { position: relative; z-index: 1; }
+
+/* --- barre du haut : discrète, au service du lieu --- */
+.h2-bar { width: min(1040px, 100%); display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px 0 2px; }
+.h2-pills { display: flex; gap: 8px; }
+.h2-pill { background: rgba(255, 250, 241, 0.78); border: 2px solid rgba(233, 165, 75, 0.45); border-radius: 999px; padding: 4px 12px; font-family: var(--title); font-weight: 600; font-size: 1rem; color: var(--plum); box-shadow: 0 3px 10px rgba(164, 106, 55, 0.15); }
+.h2-pill:first-child:not(.lit) { filter: saturate(0.4); opacity: 0.85; }
+.h2-icons { display: flex; gap: 8px; }
+.h2-icon { width: 42px; height: 42px; min-height: 0; padding: 0; border-radius: 50%; background: rgba(255, 250, 241, 0.78); border: 2px solid rgba(233, 165, 75, 0.45); font-size: 1.1rem; display: grid; place-items: center; box-shadow: 0 3px 10px rgba(164, 106, 55, 0.15); }
+.h2-icon:hover:not(:disabled) { border-color: var(--honey); }
+.h2-icon.off { opacity: 0.5; }
+
+/* --- titre --- */
+.h2-title { text-align: center; margin: 2px 0 10px; }
+.h2-title h1 {
+  font-family: var(--title);
+  font-weight: 600;
+  font-size: clamp(1.7rem, 7vw, 2.8rem);
+  margin: 0;
+  color: var(--plum);
+  letter-spacing: 0.01em;
+  text-shadow: 0 2px 0 rgba(255, 250, 241, 0.9), 0 0 18px rgba(255, 220, 160, 0.9);
+}
+
+/* --- la pièce : fenêtre ronde, rebord, Ada, les amies --- */
+.h2-room {
+  --win-w: min(100%, 720px, calc(54vh * 600 / 520));
+  width: var(--win-w);
+  margin-top: 18px;
+  margin-bottom: 30px;
+}
+.h2-window {
+  position: relative;
+  aspect-ratio: 600 / 520;
+  /* rayons en % : des rayons en px trop grands seraient réduits et aplatiraient l'arche */
+  border-radius: 50% 50% 26px 26px / 34% 34% 26px 26px;
+  padding: 12px;
+  background: linear-gradient(160deg, var(--wood-light), var(--wood) 45%, var(--wood-dark));
+  box-shadow: 0 18px 40px rgba(110, 66, 40, 0.28), inset 0 2px 0 rgba(255, 240, 210, 0.6);
+}
+.h2-glass {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 50% 50% 16px 16px / 33% 33% 16px 16px;
+  box-shadow: inset 0 0 0 3px rgba(255, 236, 200, 0.55), inset 0 8px 30px rgba(20, 20, 60, 0.35);
+}
+.window-sky { display: block; width: 100%; height: 100%; }
+/* rideaux rose poudré, noués d'un ruban doré */
+.h2-window::before,
+.h2-window::after {
+  content: '';
+  position: absolute;
+  top: 16%;
+  width: 13%;
+  height: 62%;
+  z-index: 2;
+  background: repeating-linear-gradient(90deg, #f7c6d2 0 7px, #f0afc1 7px 13px, #f9d3dc 13px 18px);
+  box-shadow: 0 6px 14px rgba(150, 70, 100, 0.2);
+}
+.h2-window::before { left: 6px; border-radius: 30px 6px 60% 40% / 18px 6px 30% 40%; }
+.h2-window::after { right: 6px; border-radius: 6px 30px 40% 60% / 6px 18px 40% 30%; }
+.h2-sill {
+  position: absolute;
+  left: -18px;
+  right: -18px;
+  bottom: -16px;
+  height: 30px;
+  z-index: 3;
+  border-radius: 12px;
+  background: linear-gradient(180deg, var(--wood-light), var(--wood) 55%, var(--wood-dark));
+  box-shadow: 0 10px 18px rgba(110, 66, 40, 0.3), inset 0 2px 0 rgba(255, 240, 210, 0.7);
+}
+
+/* plaque dorée « La Tour des meilleures amies et d'Ada » */
+.h2-plaque {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  white-space: nowrap;
+  font-family: var(--title);
+  font-weight: 600;
+  font-size: clamp(0.78rem, 3.2vw, 1.05rem);
+  color: #5a3a1c;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ffeaa8, #f7c65b 55%, #e9a54b);
+  border: 2px solid #c98a2b;
+  box-shadow: 0 6px 14px rgba(164, 106, 55, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+.h2-plaque::before,
+.h2-plaque::after { content: '✦'; color: #fff6d8; margin: 0 0.4em; text-shadow: 0 0 6px rgba(255, 220, 120, 0.9); }
+
+/* Ada endort la pièce, sur le rebord à droite */
+.h2-ada { position: absolute; z-index: 5; right: 1%; bottom: 12px; width: 28%; } /* posée sur le rebord */
+.ada-sleeping { display: block; width: 100%; height: auto; filter: drop-shadow(0 4px 6px rgba(80, 40, 60, 0.3)); }
+
+/* Leyu et Elsa, bras dessus bras dessous, devant la fenêtre */
+.h2-friends { position: absolute; z-index: 6; left: 2%; bottom: -6px; width: 72%; }
+.h2-friends > img { display: block; width: 100%; height: auto; filter: drop-shadow(0 10px 16px rgba(90, 50, 60, 0.28)); }
+.h2-faces { display: flex; align-items: flex-end; gap: 10px; padding-left: 8%; }
+.h2-faces img { width: 44%; aspect-ratio: 1; object-fit: cover; border-radius: 50%; border: 5px solid var(--ivory); box-shadow: 0 8px 18px rgba(90, 50, 60, 0.25); }
+.h2-faces img.elsa { width: 38%; }
+.h2-bubble {
+  position: absolute;
+  left: -2%;
+  top: -16%;
+  max-width: 62%;
+  background: var(--ivory);
+  color: var(--plum);
+  font-family: var(--title);
+  font-weight: 600;
+  font-size: clamp(0.95rem, 3.8vw, 1.25rem);
+  padding: 8px 14px;
+  border-radius: 18px;
+  border: 2px solid rgba(233, 165, 75, 0.5);
+  box-shadow: 0 8px 18px rgba(90, 50, 60, 0.18);
+  transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.2, 1.4, 0.4, 1);
+  transform-origin: 30% 120%;
+}
+.h2-bubble::after { content: ''; position: absolute; left: 34%; bottom: -10px; border: 10px solid transparent; border-top-color: var(--ivory); border-bottom: 0; }
+.h2-bubble.hidden { opacity: 0; transform: scale(0.7); }
+.h2-title-chip {
+  position: absolute;
+  right: 14%;
+  bottom: -4px;
+  z-index: 7;
+  font-family: var(--title);
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #5a3a1c;
+  background: linear-gradient(180deg, #ffeaa8, #f7c65b);
+  border: 2px solid #c98a2b;
+  border-radius: 999px;
+  padding: 2px 10px;
+  box-shadow: 0 4px 10px rgba(164, 106, 55, 0.3);
+}
+
+/* --- les deux parcours : objets du monde, larges et joyeux --- */
+.h2-quests { width: min(720px, 100%); display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 6px; }
+.h2-quest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 6px;
+  padding: 14px 10px 12px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, var(--ivory), var(--cream));
+  border: 3px solid var(--accent);
+  box-shadow: 0 8px 0 var(--accent-shadow), 0 14px 24px rgba(110, 66, 40, 0.2);
+  color: var(--plum);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.h2-quest:hover:not(:disabled) { border-color: var(--accent); transform: translateY(-2px); }
+.h2-quest:active { transform: translateY(5px); box-shadow: 0 3px 0 var(--accent-shadow), 0 6px 12px rgba(110, 66, 40, 0.2); }
+.h2-quest.spells { --accent: #6ccfcb; --accent-shadow: #3fa8a4; --medal: #dff6f4; }
+.h2-quest.words { --accent: #b7a6e8; --accent-shadow: #8b78cc; --medal: #efe9fd; }
+.h2-medal { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; font-size: 1.9rem; background: radial-gradient(circle at 35% 30%, #fff, var(--medal)); box-shadow: inset 0 0 0 3px var(--accent), 0 0 18px rgba(247, 198, 91, 0.55); }
+.h2-quest-text { display: flex; flex-direction: column; gap: 2px; }
+.h2-quest-text strong { font-family: var(--title); font-weight: 600; font-size: clamp(1rem, 4.2vw, 1.3rem); line-height: 1.15; }
+.h2-quest-text span { font-size: 0.9rem; color: var(--plum-soft); }
+
+/* --- autres lieux : petits macarons --- */
+.h2-more { display: flex; gap: 22px; justify-content: center; margin-top: 16px; }
+.h2-more button { display: flex; flex-direction: column; align-items: center; gap: 4px; background: transparent; border: none; padding: 0; min-height: 0; color: var(--plum); font-family: var(--title); font-weight: 500; font-size: 0.95rem; }
+.h2-badge { position: relative; width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; font-size: 1.6rem; background: radial-gradient(circle at 35% 30%, #fff, var(--cream)); border: 3px solid var(--honey); box-shadow: 0 5px 0 var(--wood-dark), 0 10px 18px rgba(110, 66, 40, 0.2); }
+.h2-more button:active .h2-badge { transform: translateY(3px); box-shadow: 0 2px 0 var(--wood-dark); }
+.h2-ring { position: absolute; inset: -7px; border-radius: 50%; background: conic-gradient(var(--gold) var(--p), rgba(255, 255, 255, 0.35) 0); -webkit-mask: radial-gradient(circle, transparent 58%, #000 59%); mask: radial-gradient(circle, transparent 58%, #000 59%); }
+.h2-note { margin: 10px 0 0; font-size: 0.85rem; color: var(--plum-soft); }
+
+/* --- magie : étincelles et étoiles qui scintillent lentement --- */
+.sparkles { position: absolute; inset: 0; pointer-events: none; }
+.sparkle { position: absolute; opacity: 0; animation: h2-twinkle 6s ease-in-out infinite; filter: drop-shadow(0 0 4px rgba(255, 224, 138, 0.9)); }
+@keyframes h2-twinkle { 0%, 100% { opacity: 0; transform: scale(0.5) rotate(0deg); } 45%, 55% { opacity: 1; transform: scale(1) rotate(20deg); } }
+.sky-earned { animation: h2-glow 7s ease-in-out infinite; }
+@keyframes h2-glow { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+.ada-z text { animation: h2-zz 3.5s ease-in-out infinite; }
+.ada-z text:nth-child(2) { animation-delay: 1.2s; }
+@keyframes h2-zz { 0%, 100% { opacity: 0.2; } 50% { opacity: 0.85; } }
+
+/* arrivée : le ciel s'illumine doucement */
+.arrive-sky .h2-glass { animation: h2-sky-in 1.4s ease-out both; }
+@keyframes h2-sky-in { from { filter: brightness(0.55) saturate(0.7); } to { filter: none; } }
+
+.no-motion .sparkle, .no-motion .sky-earned, .no-motion .ada-z text, .no-motion.arrive-sky .h2-glass { animation: none; }
+.no-motion .sparkle { opacity: 0.8; }
+@media (prefers-reduced-motion: reduce) {
+  .home2 .sparkle, .home2 .sky-earned, .home2 .ada-z text, .home2 .h2-glass { animation: none !important; }
+  .home2 .sparkle { opacity: 0.8; }
+}
+
+/* --- grand écran : la scène s'élargit, les parcours restent au premier plan --- */
+@media (min-width: 900px) {
+  /* fenêtre panoramique : le ciel s'étire, la pièce ne paraît plus vide */
+  .h2-room { --win-w: min(980px, calc(50vh * 960 / 520)); margin-bottom: 30px; }
+  .h2-window { aspect-ratio: 960 / 520; border-radius: 50% 50% 26px 26px / 40% 40% 26px 26px; }
+  .h2-glass { border-radius: 50% 50% 16px 16px / 39% 39% 16px 16px; }
+  .h2-window::before, .h2-window::after { width: 9%; }
+  .h2-friends { left: 12%; width: 46%; }
+  .h2-ada { right: 6%; width: 19%; }
+  .h2-quests { width: min(760px, 100%); gap: 18px; }
+  .h2-quest { flex-direction: row; text-align: left; padding: 16px 20px; gap: 16px; }
+  .h2-medal { width: 64px; height: 64px; flex-shrink: 0; }
+}
+
+/* --- guirlande lumineuse : petites ampoules chaudes en haut de la pièce --- */
+.h2-garland { position: absolute; top: 0; left: 0; right: 0; height: 50px; pointer-events: none; z-index: 0; border-top: 0; }
+.h2-garland::before { content: ''; position: absolute; left: 0; right: 0; top: 8px; height: 30px; border-bottom: 1.5px solid rgba(138, 106, 85, 0.45); border-radius: 0 0 50% 50% / 0 0 100% 100%; }
+.h2-garland .bulb { position: absolute; width: 9px; height: 13px; border-radius: 50% 50% 46% 46%; box-shadow: 0 0 10px 3px currentColor; opacity: 0.95; animation: h2-bulb 4s ease-in-out infinite; }
+@keyframes h2-bulb { 0%, 100% { opacity: 0.95; } 50% { opacity: 0.55; } }
+.no-motion .h2-garland .bulb { animation: none; }
+@media (prefers-reduced-motion: reduce) { .home2 .h2-garland .bulb { animation: none; } }
+
+/* --- grand téléphone / écran haut : le bloc se centre verticalement --- */
+.h2-title { margin-top: auto; }
+.h2-more { margin-bottom: auto; }
+
+/* sans l'illustration du duo : visages en médaillon, bulle au-dessus d'Elsa */
+.h2-friends.faces .h2-bubble { left: 40%; top: -62%; }
+.h2-friends.faces .h2-bubble::after { left: 30%; }

@@ -16,7 +16,8 @@ interface SlotDef {
 }
 
 const SLOTS: SlotDef[] = [
-  { slot: 'leyu-pied', label: 'Leyu en pied', help: 'Grande case de l’écran d’accueil.', face: false },
+  { slot: 'duo', label: 'Leyu et Elsa ensemble', help: 'Cœur de l’écran d’accueil. Image détourée (PNG transparent) : private/duo-amies.png', face: false },
+  { slot: 'leyu-pied', label: 'Leyu en pied', help: 'Garde-robe. Détourée de préférence : private/leyu-cutout.png', face: false },
   { slot: 'leyu', label: 'Leyu — visage', help: 'Avatar, garde-robe.', face: true },
   { slot: 'leyu-grimace', label: 'Leyu — grimace rigolote', help: 'Apparaît sur les réussites « Le POULET ! ».', face: true },
   { slot: 'elsa-buste', label: 'Elsa en buste', help: 'Sa case sur l’écran d’accueil.', face: false },

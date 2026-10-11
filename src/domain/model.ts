@@ -136,7 +136,7 @@ export interface ImageAsset {
 export type CharacterId = 'leyu' | 'elsa';
 
 /** Emplacements d'illustration : visages (ronds) et grandes cases (format libre). */
-export type ArtSlot = 'leyu' | 'leyu-grimace' | 'leyu-pied' | 'elsa' | 'elsa-buste';
+export type ArtSlot = 'duo' | 'leyu' | 'leyu-grimace' | 'leyu-pied' | 'elsa' | 'elsa-buste';
 
 export interface AudioClip {
   id: string;
