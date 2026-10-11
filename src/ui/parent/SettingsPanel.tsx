@@ -5,6 +5,7 @@ import { MOON_PHASES } from '../../domain/moon';
 import { hashPin, isValidPin, newSalt } from '../../domain/pin';
 import { useSettings } from '../hooks';
 import { SHAPES, normalizeShapeIds } from '../../domain/constellations';
+import { isThemePlaying, playConstellationJingle, playFanfare, startTheme, stopTheme } from '../../speech/music';
 
 export function SettingsPanel() {
   const settings = useSettings();
@@ -68,6 +69,23 @@ export function SettingsPanel() {
         <div className="row">
           <input type="password" inputMode="numeric" maxLength={6} placeholder="Nouveau code" value={pin} onChange={(e) => setPin(e.target.value.replace(/\D/g, ''))} />
           <button onClick={changePin}>Changer</button>
+        </div>
+      </section>
+
+      <section className="card stack">
+        <h2>Musique</h2>
+        <p className="muted small-text">
+          Musique originale de style synthwave, jouée sur l’écran principal seulement : jamais pendant la dictée ni la quête. Le bouton 🎵 de l’accueil la
+          coupe, le bouton 🔔 coupe tous les sons.
+        </p>
+        <label className="row" style={{ color: 'var(--text)', gap: '0.5rem' }}>
+          <input type="checkbox" checked={settings.musicOn !== false} onChange={(e) => updateSettings({ musicOn: e.target.checked })} style={{ minHeight: 0, width: 20, height: 20 }} />
+          Thème musical sur l’écran principal
+        </label>
+        <div className="row">
+          <button onClick={() => (isThemePlaying() ? stopTheme() : startTheme())}>▶︎ / ■ Thème de la tour</button>
+          <button onClick={() => playConstellationJingle(false)}>Nouvelle constellation</button>
+          <button onClick={() => playFanfare(false)}>Fin de séance</button>
         </div>
       </section>
 

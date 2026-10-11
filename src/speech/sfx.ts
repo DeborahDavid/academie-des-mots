@@ -2,7 +2,7 @@
 
 let ctx: AudioContext | null = null;
 
-function audio(): AudioContext | null {
+export function audio(): AudioContext | null {
   if (typeof window === 'undefined' || !('AudioContext' in window)) return null;
   ctx ??= new AudioContext();
   if (ctx.state === 'suspended') ctx.resume();

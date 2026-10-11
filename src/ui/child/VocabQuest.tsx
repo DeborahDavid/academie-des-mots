@@ -9,6 +9,7 @@ import { frTypo } from '../../domain/typo';
 import { QUESTION_TITLES, type QuestStep, type VocabWord, checkProduction } from '../../domain/vocab';
 import { AccentBar } from '../components/AccentBar';
 import { playOopsSound, playSuccessChime } from '../../speech/sfx';
+import { playFanfare } from '../../speech/music';
 import { speak } from '../../speech/tts';
 import { RewardIcon } from '../components/Avatar';
 import { Elsa } from '../components/Elsa';
@@ -33,6 +34,7 @@ export function VocabQuest({ onExit, onGrimoire }: { onExit: () => void; onGrimo
   const done = !!steps && steps.length > 0 && index >= steps.length;
   useEffect(() => {
     if (!done || completion) return;
+    playFanfare(settings?.muted ?? false);
     completeSession('vocab').then(async (c) => {
       setRewards(await syncUnlocks());
       setCompletion(c);

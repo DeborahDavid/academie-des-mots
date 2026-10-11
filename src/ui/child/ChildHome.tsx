@@ -4,6 +4,8 @@ import { getProgress } from '../../db/sessionRepo';
 import { updateSettings } from '../../db/repo';
 import { getSky, getWardrobe, syncUnlocks } from '../../db/rewardsRepo';
 import { Sky } from '../components/Sky';
+import { startTheme, stopTheme } from '../../speech/music';
+import { audio } from '../../speech/sfx';
 import { syncExplorerRank } from '../../db/vocabRepo';
 import { nextReward } from '../../domain/rewards';
 import { frTypo } from '../../domain/typo';
@@ -28,6 +30,28 @@ export function ChildHome() {
   const settings = useSettings();
   const hasLeyuArt = !!usePortraitUrl('leyu-pied');
   const hasElsaArt = !!usePortraitUrl('elsa-buste');
+
+  // Thème musical : écran principal et lieux calmes ; silence pendant la dictée et la quête.
+  const working = session > 0 || screen === 'quest';
+  const musicWanted = !!settings && !settings.muted && settings.musicOn !== false && !working;
+  useEffect(() => {
+    if (!musicWanted) {
+      stopTheme();
+      return;
+    }
+    // Le navigateur n'autorise le son qu'après un geste : on démarre au premier toucher si besoin.
+    const ac = audio();
+    if (ac?.state === 'running') {
+      startTheme();
+      return stopTheme;
+    }
+    const start = () => startTheme();
+    window.addEventListener('pointerdown', start, { once: true });
+    return () => {
+      window.removeEventListener('pointerdown', start);
+      stopTheme();
+    };
+  }, [musicWanted]);
 
   const [rankName, setRankName] = useState('');
   useEffect(() => {
@@ -56,6 +80,15 @@ export function ChildHome() {
         <span className="gold" title="Points">
           ✦ {progress?.totalPoints ?? 0}
         </span>
+        <button
+          className="ghost small"
+          onClick={() => updateSettings({ musicOn: settings?.musicOn === false })}
+          aria-label={settings?.musicOn === false ? 'Activer la musique' : 'Couper la musique'}
+          title={settings?.musicOn === false ? 'Activer la musique' : 'Couper la musique'}
+          style={settings?.musicOn === false ? { opacity: 0.5 } : undefined}
+        >
+          🎵
+        </button>
         <button
           className="ghost small"
           onClick={() => updateSettings({ muted: !settings?.muted })}

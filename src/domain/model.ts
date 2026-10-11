@@ -166,6 +166,8 @@ export interface Settings {
   voiceURI?: string;
   speechRate: number;
   muted: boolean;
+  /** Thème musical de l'écran principal (jamais pendant les exercices). */
+  musicOn?: boolean;
   /** Animations de l'écran principal (scintillement) : désactivables. */
   animations?: boolean;
   jersey: Jersey;

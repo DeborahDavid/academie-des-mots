@@ -17,6 +17,7 @@ import { usePortraitUrl } from '../components/Portrait';
 import { ConstellationArt } from '../components/Sky';
 import { shapeById } from '../../domain/constellations';
 import { playStarChime, playSuccessChime } from '../../speech/sfx';
+import { playConstellationJingle, playFanfare } from '../../speech/music';
 import { WordExercise } from './WordExercise';
 
 interface WordItem {
@@ -89,6 +90,11 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
         .then(async (mastered) => {
           const notions = await db.notions.bulkGet(mastered);
           setNewConstellations(notions.filter(Boolean).map((n) => ({ shapeId: n!.constellation!, notion: n!.label })));
+          // Nouvelle constellation : son jingle d'abord, puis la fanfare de fin de séance.
+          if (mastered.length) {
+            playConstellationJingle(settings!.muted);
+            setTimeout(() => playFanfare(settings!.muted), 3200);
+          } else playFanfare(settings!.muted);
           return completeSession(kind);
         })
         .then(async (c) => {
