@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Maquettes DA</title>
+<style>
+  body { margin: 0; background: #0b1230; color: #f5f1e6; font-family: 'Andika', system-ui, sans-serif; }
+  header { padding: 24px 16px 8px; text-align: center; }
+  h1 { color: #f2c14e; margin: 0 0 6px; font-size: 1.8rem; }
+  p.lead { color: #b9c3e6; margin: 0 auto; max-width: 760px; }
+  .variant { max-width: 1240px; margin: 28px auto; padding: 0 16px; }
+  .variant h2 { color: #f2c14e; margin: 0 0 4px; }
+  .variant p { color: #b9c3e6; margin: 0 0 12px; }
+  svg { width: 100%; height: auto; display: block; border-radius: 18px; box-shadow: 0 10px 40px rgba(0,0,0,.45); }
+</style>
+</head>
+<body>
+<header>
+  <h1>L’Académie des Mots — deux directions artistiques</h1>
+  <p class="lead">Écran principal : la salle d’observatoire en haut de la tour. Même scène, deux styles. Personnages originaux.</p>
+</header>
+<section class="variant">
+  <h2>A · Cocon nocturne</h2>
+  <p>Doux et poétique : dégradés aquarelle, contours fins et colorés, lumière de bougie chaude, pastels sous la nuit.</p>
+  <div id="a"></div>
+</section>
+<section class="variant">
+  <h2>B · Pétillant anime</h2>
+  <p>Énergique et drôle : contours marqués, aplats francs avec ombres nettes, couleurs saturées, étincelles.</p>
+  <div id="b"></div>
+</section>
+
+<script>
+// Générateur pseudo-aléatoire déterministe (mêmes étoiles à chaque rendu).
+function rng(seed) { return () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646; }
+
+const STYLES = {
+  a: {
+    ink: '#3a2f5c', lw: 2, soft: true,
+    wallTop: '#1b2557', wallBot: '#0f1738', stone: 'rgba(255,255,255,0.035)',
+    skyTop: '#0d1640', skyBot: '#33407e', frame: '#8a6a4a', frameHi: '#c9a46c',
+    wood: '#6b4a35', woodHi: '#8a6247', woodLo: '#4d3426',
+    gold: '#f2c879', goldDeep: '#d9a441', cream: '#fbf3e0',
+    skin: '#fde3d0', blush: '#f7a8a8',
+    leyuHair: '#7a4b2e', leyuHairHi: '#9c6440', eyeGreen: '#4fae7a',
+    jersey: '#4fd0dc', jerseyLo: '#33aebb', shorts: '#24346e', cape: '#1d2a66', capeIn: '#2c3c86',
+    elsaHair: '#f4d98a', elsaHairHi: '#fbe9b4', eyeBlue: '#5b9be0', sweater: '#f6c9d4', sweaterLo: '#e8adbd', legs: '#8fa3d9',
+    cat: '#22223a', catHi: '#3a3a5a',
+    books: ['#b5838d', '#6d6875', '#e5989b', '#7f9cbf', '#a3b18a', '#cdb4db'],
+  },
+  b: {
+    ink: '#160f2e', lw: 4, soft: false,
+    wallTop: '#22307a', wallBot: '#121a4a', stone: 'rgba(255,255,255,0.06)',
+    skyTop: '#0a1240', skyBot: '#3b3fa8', frame: '#7a4a24', frameHi: '#ffb84d',
+    wood: '#8b4f2a', woodHi: '#b8693a', woodLo: '#5c331c',
+    gold: '#ffd23f', goldDeep: '#f5a300', cream: '#fff6dc',
+    skin: '#ffd9c2', blush: '#ff8fa3',
+    leyuHair: '#8a4b22', leyuHairHi: '#b8682f', eyeGreen: '#1fc46e',
+    jersey: '#1fd6e6', jerseyLo: '#0aa9bd', shorts: '#1b2a7a', cape: '#1a2470', capeIn: '#3442b8',
+    elsaHair: '#ffd94a', elsaHairHi: '#fff0a0', eyeBlue: '#2f8cff', sweater: '#ffb3c8', sweaterLo: '#ff8fae', legs: '#5b74e0',
+    cat: '#141428', catHi: '#34345e',
+    books: ['#ff5d73', '#7b61ff', '#ffb000', '#00c2a8', '#ff8a3d', '#3db2ff'],
+  },
+};
+
+function scene(id) {
+  const S = STYLES[id];
+  const r = rng(42);
+  const st = `stroke="${S.ink}" stroke-width="${S.lw}" stroke-linejoin="round" stroke-linecap="round"`;
+  const thin = `stroke="${S.ink}" stroke-width="${Math.max(1.5, S.lw * 0.6)}" stroke-linejoin="round" stroke-linecap="round"`;
+  const W = 1200, H = 800, cx = 600, cy = 318, R = 222;
+
+  // ---------- défs ----------
+  let defs = `
+  <linearGradient id="${id}wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${S.wallTop}"/><stop offset="1" stop-color="${S.wallBot}"/></linearGradient>
+  <radialGradient id="${id}sky" cx="0.5" cy="0.25" r="0.9"><stop offset="0" stop-color="${S.skyBot}"/><stop offset="1" stop-color="${S.skyTop}"/></radialGradient>
+  <radialGradient id="${id}glow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="${S.gold}" stop-opacity="0.55"/><stop offset="1" stop-color="${S.gold}" stop-opacity="0"/></radialGradient>
+  <radialGradient id="${id}moonglow" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#fff6d0" stop-opacity="0.35"/><stop offset="1" stop-color="#fff6d0" stop-opacity="0"/></radialGradient>
+  <linearGradient id="${id}desk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${S.woodHi}"/><stop offset="0.12" stop-color="${S.wood}"/><stop offset="1" stop-color="${S.woodLo}"/></linearGradient>
+  <linearGradient id="${id}banner" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2e3d8f"/><stop offset="1" stop-color="#1c2766"/></linearGradient>
+  <clipPath id="${id}win"><circle cx="${cx}" cy="${cy}" r="${R}"/></clipPath>
+  <radialGradient id="${id}vignette" cx="0.5" cy="0.45" r="0.75"><stop offset="0.6" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity="0.45"/></radialGradient>`;
+  if (S.soft) {
+    defs += `
+  <filter id="${id}paper" x="0" y="0" width="100%" height="100%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="3" result="n"/>
+    <feColorMatrix in="n" type="matrix" values="0 0 0 0 1  0 0 0 0 0.95  0 0 0 0 0.85  0 0 0 0.06 0"/>
+    <feComposite in2="SourceGraphic" operator="in"/>
+  </filter>
+  <filter id="${id}wc"><feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="2" seed="8"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter>
+  <filter id="${id}blur"><feGaussianBlur stdDeviation="2.2"/></filter>`;
+  } else {
+    defs += `<filter id="${id}blur"><feGaussianBlur stdDeviation="1.2"/></filter>`;
+  }
+
+  // ---------- mur ----------
+  let g = `<rect width="${W}" height="${H}" fill="url(#${id}wall)"/>`;
+  for (let y = 40; y < 620; y += 46) {
+    const off = (y / 46) % 2 ? 0 : 60;
+    for (let x = -off; x < W; x += 120) g += `<rect x="${x + 4}" y="${y}" width="112" height="40" rx="6" fill="${S.stone}"/>`;
+  }
+
+  // ---------- fenêtre ronde : ciel ----------
+  let sky = `<rect x="${cx - R}" y="${cy - R}" width="${2 * R}" height="${2 * R}" fill="url(#${id}sky)"/>`;
+  // voie lactée
+  sky += `<ellipse cx="${cx + 20}" cy="${cy + 10}" rx="${R * 1.1}" ry="60" transform="rotate(-24 ${cx} ${cy})" fill="#c9d4ff" opacity="${S.soft ? 0.09 : 0.12}" ${S.soft ? `filter="url(#${id}blur)"` : ''}/>`;
+  for (let i = 0; i < 140; i++) {
+    const a = r() * Math.PI * 2, d = Math.sqrt(r()) * R;
+    const x = cx + Math.cos(a) * d, y = cy + Math.sin(a) * d, s = r() * 1.6 + 0.4;
+    sky += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${s.toFixed(2)}" fill="#fff" opacity="${(0.35 + r() * 0.55).toFixed(2)}"/>`;
+  }
+  // étoiles gagnées (dorées)
+  const earned = [[470, 190], [520, 250], [700, 170], [760, 260], [640, 420], [480, 380], [730, 400], [560, 150], [800, 330], [440, 300]];
+  earned.forEach(([x, y]) => (sky += star(x, y, 7, S.gold, S.soft ? 0 : S.lw * 0.5, S.ink)));
+  // constellation du poulet (silhouette originale stylisée)
+  const hen = [[548, 300], [568, 278], [592, 276], [606, 290], [626, 286], [646, 300], [652, 326], [636, 346], [604, 352], [576, 344], [560, 326], [548, 300]];
+  sky += `<polyline points="${hen.map((p) => p.join(',')).join(' ')}" fill="none" stroke="${S.gold}" stroke-width="${S.soft ? 1.6 : 2.4}" stroke-dasharray="${S.soft ? '3 5' : '0'}" opacity="0.85"/>`;
+  sky += `<polyline points="568,278 566,262 576,270 582,258 588,276" fill="none" stroke="${S.gold}" stroke-width="${S.soft ? 1.6 : 2.4}" opacity="0.85"/>`; // crête
+  sky += `<polyline points="548,300 534,306 548,310" fill="none" stroke="${S.gold}" stroke-width="${S.soft ? 1.6 : 2.4}" opacity="0.85"/>`; // bec
+  sky += `<polyline points="590,352 588,370 600,370 M616,350 614,370 626,370" fill="none" stroke="${S.gold}" stroke-width="${S.soft ? 1.6 : 2.4}" opacity="0.85"/>`;
+  hen.slice(0, -1).forEach(([x, y]) => (sky += star(x, y, 5, S.gold, 0)));
+  // lune (premier croissant)
+  sky += `<circle cx="752" cy="200" r="70" fill="url(#${id}moonglow)"/>`;
+  sky += `<path d="M752 160 A40 40 0 1 0 752 240 A28 40 0 1 1 752 160 Z" fill="#fff4cc" ${S.soft ? '' : st}/>`;
+  g += `<g clip-path="url(#${id}win)">${sky}</g>`;
+  // cadre de fenêtre
+  g += `<circle cx="${cx}" cy="${cy}" r="${R + 12}" fill="none" stroke="${S.frame}" stroke-width="26"/>`;
+  g += `<circle cx="${cx}" cy="${cy}" r="${R + 12}" fill="none" stroke="${S.frameHi}" stroke-width="3" opacity="0.8"/>`;
+  g += `<circle cx="${cx}" cy="${cy}" r="${R + 26}" fill="none" stroke="${S.ink}" stroke-width="${S.lw}" opacity="${S.soft ? 0.5 : 1}"/>`;
+  g += `<circle cx="${cx}" cy="${cy}" r="${R - 1}" fill="none" stroke="${S.ink}" stroke-width="${S.lw}" opacity="${S.soft ? 0.5 : 1}"/>`;
+  g += `<g stroke="${S.frame}" stroke-width="9" opacity="0.95"><line x1="${cx}" y1="${cy - R}" x2="${cx}" y2="${cy + R}"/><line x1="${cx - R}" y1="${cy}" x2="${cx + R}" y2="${cy}"/></g>`;
+  g += `<circle cx="${cx}" cy="${cy}" r="${R * 0.42}" fill="none" stroke="${S.frame}" stroke-width="7" opacity="0.9"/>`;
+  // petites étoiles dorées sur le cadre
+  for (let i = 0; i < 12; i++) {
+    const a = (i / 12) * Math.PI * 2;
+    g += star(cx + Math.cos(a) * (R + 12), cy + Math.sin(a) * (R + 12), 5, S.gold, 0);
+  }
+
+  // ---------- bannière ----------
+  g += `<path d="M330 28 L870 28 L850 62 L870 96 L330 96 L350 62 Z" fill="url(#${id}banner)" ${st}/>`;
+  g += `<path d="M300 40 L340 40 L330 62 L340 84 L300 84 L312 62 Z" fill="#17205a" ${thin}/>`;
+  g += `<path d="M900 40 L860 40 L870 62 L860 84 L900 84 L888 62 Z" fill="#17205a" ${thin}/>`;
+  g += `<text x="600" y="72" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-weight="700" font-size="27" fill="${S.gold}" ${S.soft ? '' : `stroke="${S.ink}" stroke-width="1"`}>La Tour des meilleures amies et d’Ada</text>`;
+
+  // ---------- étagère (gauche) ----------
+  g += shelf(40, 150, S, st, r);
+  // ---------- étagère (droite) ----------
+  g += shelf(960, 100, S, st, r);
+
+  // ---------- bureau ----------
+  g += `<rect x="0" y="600" width="${W}" height="200" fill="url(#${id}desk)"/>`;
+  g += `<line x1="0" y1="600" x2="${W}" y2="600" stroke="${S.ink}" stroke-width="${S.lw}"/>`;
+  for (let i = 0; i < 6; i++) g += `<path d="M0 ${640 + i * 26} C 300 ${634 + i * 26} 900 ${648 + i * 26} 1200 ${640 + i * 26}" stroke="${S.woodLo}" stroke-width="2" fill="none" opacity="0.5"/>`;
+
+  // bougies
+  g += candle(445, 600, S, st, id);
+  g += candle(760, 600, S, st, id, 0.8);
+  // grimoire ouvert
+  g += grimoire(600, 610, S, st, id);
+  // pile de livres + Ada
+  g += bookPile(880, 600, S, st);
+  g += ada(915, 520, S, st);
+
+  // ---------- personnages ----------
+  const big = (svg, x) => `<g transform="translate(${x} 600) scale(1.32) translate(${-x} -600)">${svg}</g>`;
+  g += big(leyu(230, 600, S, st, thin), 230);
+  g += big(elsa(1065, 600, S, st, thin), 1065);
+
+  // titre sous l'avatar
+  g += `<rect x="148" y="664" width="164" height="38" rx="19" fill="#1c2766" ${thin}/>`;
+  g += `<text x="230" y="690" text-anchor="middle" font-size="19" font-weight="700" fill="${S.gold}">Titre 1</text>`;
+  // bulle d'Elsa
+  g += `<path d="M872 290 h120 a18 18 0 0 1 18 18 v10 l16 8 l-16 6 v6 a18 18 0 0 1 -18 18 h-120 a18 18 0 0 1 -18 -18 v-30 a18 18 0 0 1 18 -18 z" fill="${S.cream}" ${thin}/>`;
+  g += `<text x="932" y="331" text-anchor="middle" font-size="21" font-weight="700" fill="#2a2140">Salut Leyu !</text>`;
+
+  // ---------- HUD ----------
+  g += `<g transform="translate(1040 40)"><rect x="-30" y="-24" width="168" height="44" rx="22" fill="#141c4c" opacity="0.85" ${thin}/>`;
+  g += flame(0, -2, S, st) + `<text x="20" y="9" font-size="22" font-weight="700" fill="#ffb347">12</text>`;
+  g += star(78, -2, 10, S.gold, S.soft ? 0 : S.lw * 0.5, S.ink) + `<text x="94" y="9" font-size="22" font-weight="700" fill="${S.gold}">340</text></g>`;
+
+  // ---------- bouton ----------
+  g += `<rect x="470" y="718" width="260" height="58" rx="29" fill="${S.gold}" ${st}/>`;
+  if (!S.soft) g += `<rect x="470" y="745" width="260" height="31" rx="15" fill="${S.goldDeep}" opacity="0.5"/>`;
+  g += `<text x="600" y="755" text-anchor="middle" font-size="23" font-weight="700" fill="#2a1d00">Commencer la séance</text>`;
+
+  // finitions
+  g += `<rect width="${W}" height="${H}" fill="url(#${id}vignette)"/>`;
+  if (S.soft) g += `<rect width="${W}" height="${H}" filter="url(#${id}paper)" fill="#fff"/>`;
+
+  return `<svg viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Maquette ${id.toUpperCase()}"><defs>${defs}</defs>${g}</svg>`;
+}
+
+// ---------- éléments ----------
+function star(x, y, s, fill, sw = 0, ink = '#000') {
+  const p = [];
+  for (let i = 0; i < 10; i++) {
+    const a = -Math.PI / 2 + (i * Math.PI) / 5, rr = i % 2 ? s * 0.45 : s;
+    p.push(`${(x + Math.cos(a) * rr).toFixed(1)},${(y + Math.sin(a) * rr).toFixed(1)}`);
+  }
+  return `<polygon points="${p.join(' ')}" fill="${fill}" ${sw ? `stroke="${ink}" stroke-width="${sw}" stroke-linejoin="round"` : ''}/>`;
+}
+
+function shelf(x, y, S, st, r) {
+  let g = `<rect x="${x}" y="${y + 108}" width="200" height="14" rx="3" fill="${S.wood}" ${st}/>`;
+  let bx = x + 8;
+  while (bx < x + 186) {
+    const w = 14 + Math.floor(r() * 12), h = 70 + Math.floor(r() * 34), c = S.books[Math.floor(r() * S.books.length)];
+    if (r() < 0.12 && bx < x + 150) {
+      g += `<rect x="${bx}" y="${y + 108 - w - 4}" width="${h}" height="${w}" rx="3" fill="${c}" ${st}/>`;
+      bx += h + 4;
+      continue;
+    }
+    g += `<rect x="${bx}" y="${y + 108 - h}" width="${w}" height="${h}" rx="3" fill="${c}" ${st}/>`;
+    g += `<line x1="${bx + 3}" y1="${y + 108 - h + 12}" x2="${bx + w - 3}" y2="${y + 108 - h + 12}" stroke="${S.gold}" stroke-width="2" opacity="0.8"/>`;
+    bx += w + 2;
+  }
+  return g;
+}
+
+function candle(x, base, S, st, id, scale = 1) {
+  const h = 70 * scale;
+  return `<g>
+    <circle cx="${x}" cy="${base - h - 20}" r="${60 * scale}" fill="url(#${id}glow)"/>
+    <ellipse cx="${x}" cy="${base - 2}" rx="${26 * scale}" ry="7" fill="${S.goldDeep}" ${st}/>
+    <rect x="${x - 12 * scale}" y="${base - h}" width="${24 * scale}" height="${h - 4}" rx="4" fill="${S.cream}" ${st}/>
+    <path d="M${x - 12 * scale} ${base - h + 10} q 6 8 0 18" stroke="#e8dcc0" stroke-width="3" fill="none"/>
+    <line x1="${x}" y1="${base - h}" x2="${x}" y2="${base - h - 8}" stroke="${S.ink}" stroke-width="2"/>
+    <path d="M${x} ${base - h - 38 * scale} C ${x + 12 * scale} ${base - h - 20} ${x + 9} ${base - h - 6} ${x} ${base - h - 6} C ${x - 9} ${base - h - 6} ${x - 12 * scale} ${base - h - 20} ${x} ${base - h - 38 * scale} Z" fill="#ffb84d" ${st}/>
+    <path d="M${x} ${base - h - 26 * scale} C ${x + 5} ${base - h - 16} ${x + 4} ${base - h - 9} ${x} ${base - h - 9} C ${x - 4} ${base - h - 9} ${x - 5} ${base - h - 16} ${x} ${base - h - 26 * scale} Z" fill="#fff3b0"/>
+  </g>`;
+}
+
+function grimoire(x, y, S, st, id) {
+  let g = `<ellipse cx="${x}" cy="${y + 52}" rx="150" ry="12" fill="#000" opacity="0.25"/>`;
+  g += `<path d="M${x - 150} ${y + 40} L${x - 140} ${y - 14} L${x} ${y - 6} L${x + 140} ${y - 14} L${x + 150} ${y + 40} L${x} ${y + 50} Z" fill="#5a2d4a" ${st}/>`;
+  g += `<path d="M${x - 136} ${y + 32} Q${x - 70} ${y - 26} ${x} ${y - 4} L${x} ${y + 42} Q${x - 70} ${y + 18} ${x - 136} ${y + 32} Z" fill="${S.cream}" ${st}/>`;
+  g += `<path d="M${x + 136} ${y + 32} Q${x + 70} ${y - 26} ${x} ${y - 4} L${x} ${y + 42} Q${x + 70} ${y + 18} ${x + 136} ${y + 32} Z" fill="${S.cream}" ${st}/>`;
+  // sorts en lettres dorées
+  const spells = [['forêt', 'château'], ['soudain', 'grand']];
+  spells[0].forEach((w, i) => (g += `<text x="${x - 68}" y="${y + 6 + i * 20}" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="15" font-weight="700" fill="${S.goldDeep}" transform="rotate(-6 ${x - 68} ${y + 6 + i * 20})">${w}</text>`));
+  spells[1].forEach((w, i) => (g += `<text x="${x + 68}" y="${y + 6 + i * 20}" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="15" font-weight="700" fill="${S.goldDeep}" transform="rotate(6 ${x + 68} ${y + 6 + i * 20})">${w}</text>`));
+  g += star(x - 112, y + 4, 6, S.gold) + star(x + 112, y + 4, 6, S.gold);
+  // marque-page
+  g += `<path d="M${x + 6} ${y + 42} l0 26 l8 -7 l8 7 l0 -27" fill="#e05a6d" ${st}/>`;
+  return g;
+}
+
+function bookPile(x, base, S, st) {
+  const books = [
+    [x - 70, base - 26, 150, 26, S.books[3]],
+    [x - 60, base - 50, 136, 24, S.books[0]],
+    [x - 66, base - 72, 128, 22, S.books[4]],
+  ];
+  return books
+    .map(([bx, by, w, h, c]) => `<rect x="${bx}" y="${by}" width="${w}" height="${h}" rx="4" fill="${c}" ${st}/><rect x="${bx + w - 18}" y="${by + 4}" width="12" height="${h - 8}" rx="2" fill="${S.cream}" opacity="0.9"/>`)
+    .join('');
+}
+
+/** Ada : chatte noire roulée en boule, endormie. */
+function ada(x, y, S, st) {
+  return `<g>
+    <path d="M${x - 64} ${y + 6} C ${x - 70} ${y - 40} ${x + 50} ${y - 48} ${x + 62} ${y} C ${x + 66} ${y + 12} ${x - 60} ${y + 16} ${x - 64} ${y + 6} Z" fill="${S.cat}" ${st}/>
+    <path d="M${x + 58} ${y + 2} C ${x + 70} ${y + 18} ${x + 10} ${y + 22} ${x - 36} ${y + 12}" stroke="${S.cat}" stroke-width="16" fill="none" stroke-linecap="round"/>
+    <path d="M${x + 58} ${y + 2} C ${x + 70} ${y + 18} ${x + 10} ${y + 22} ${x - 36} ${y + 12}" stroke="${S.catHi}" stroke-width="3" fill="none" opacity="0.6"/>
+    <path d="M${x - 50} ${y - 18} C ${x - 62} ${y - 34} ${x - 30} ${y - 56} ${x - 10} ${y - 40} C ${x} ${y - 30} ${x - 6} ${y - 8} ${x - 28} ${y - 4} C ${x - 42} ${y - 2} ${x - 48} ${y - 10} ${x - 50} ${y - 18} Z" fill="${S.cat}" ${st}/>
+    <path d="M${x - 46} ${y - 32} L ${x - 52} ${y - 54} L ${x - 34} ${y - 42} Z" fill="${S.cat}" ${st}/>
+    <path d="M${x - 22} ${y - 44} L ${x - 14} ${y - 64} L ${x - 6} ${y - 40} Z" fill="${S.cat}" ${st}/>
+    <path d="M${x - 46} ${y - 40} L ${x - 49} ${y - 49} L ${x - 40} ${y - 43} Z" fill="#f2a7b8"/>
+    <path d="M${x - 15} ${y - 46} L ${x - 13} ${y - 56} L ${x - 10} ${y - 45} Z" fill="#f2a7b8"/>
+    <path d="M${x - 42} ${y - 24} q 6 5 12 0" stroke="#7fd6a0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M${x - 24} ${y - 26} q 6 5 12 0" stroke="#7fd6a0" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M${x - 30} ${y - 16} l 3 2 l 3 -2" stroke="#f2a7b8" stroke-width="2" fill="none"/>
+    <text x="${x + 6}" y="${y - 54}" font-size="18" font-weight="700" fill="${S.cream}" opacity="0.75" font-family="Georgia, serif" font-style="italic">z</text>
+    <text x="${x + 22}" y="${y - 70}" font-size="13" font-weight="700" fill="${S.cream}" opacity="0.55" font-family="Georgia, serif" font-style="italic">z</text>
+  </g>`;
+}
+
+function eye(x, y, color, S, scale = 1) {
+  const w = 13 * scale, h = 17 * scale;
+  return `<ellipse cx="${x}" cy="${y}" rx="${w}" ry="${h}" fill="#fff" stroke="${S.ink}" stroke-width="${S.lw * 0.7}"/>
+    <ellipse cx="${x}" cy="${y + 2}" rx="${w * 0.78}" ry="${h * 0.82}" fill="${color}"/>
+    <ellipse cx="${x}" cy="${y + 4}" rx="${w * 0.42}" ry="${h * 0.5}" fill="${S.ink}"/>
+    <circle cx="${x - w * 0.35}" cy="${y - h * 0.35}" r="${4.2 * scale}" fill="#fff"/>
+    <circle cx="${x + w * 0.35}" cy="${y + h * 0.35}" r="${2 * scale}" fill="#fff" opacity="0.9"/>
+    <path d="M${x - w - 2} ${y - h + 4} Q ${x} ${y - h - 6} ${x + w + 2} ${y - h + 4}" stroke="${S.ink}" stroke-width="${S.lw + 1}" fill="none" stroke-linecap="round"/>`;
+}
+
+/** Leyu : demi-queue de cheval châtain, yeux verts, maillot turquoise n°11, cape étoilée. */
+function leyu(x, base, S, st, thin) {
+  const hy = base - 205; // centre de la tête
+  let g = '';
+  // cape (derrière)
+  g += `<path d="M${x - 40} ${base - 140} C ${x - 90} ${base - 80} ${x - 96} ${base - 30} ${x - 88} ${base - 6} L ${x + 88} ${base - 6} C ${x + 96} ${base - 30} ${x + 90} ${base - 80} ${x + 40} ${base - 140} Z" fill="${S.cape}" ${st}/>`;
+  g += `<path d="M${x - 30} ${base - 128} C ${x - 64} ${base - 80} ${x - 70} ${base - 40} ${x - 66} ${base - 12} L ${x + 66} ${base - 12} C ${x + 70} ${base - 40} ${x + 64} ${base - 80} ${x + 30} ${base - 128} Z" fill="${S.capeIn}" opacity="0.5"/>`;
+  [[x - 62, base - 50], [x - 44, base - 96], [x + 58, base - 70], [x + 70, base - 24], [x - 72, base - 18], [x + 40, base - 110]].forEach(([sx, sy]) => (g += star(sx, sy, 7, S.gold)));
+  // cheveux arrière (longs)
+  g += `<path d="M${x - 62} ${hy - 6} C ${x - 78} ${hy + 60} ${x - 70} ${hy + 120} ${x - 50} ${hy + 132} L ${x + 50} ${hy + 132} C ${x + 70} ${hy + 120} ${x + 78} ${hy + 60} ${x + 62} ${hy - 6} Z" fill="${S.leyuHair}" ${st}/>`;
+  // jambes + chaussures
+  g += `<rect x="${x - 24}" y="${base - 62}" width="16" height="48" rx="7" fill="${S.skin}" ${thin}/><rect x="${x + 8}" y="${base - 62}" width="16" height="48" rx="7" fill="${S.skin}" ${thin}/>`;
+  g += `<rect x="${x - 25}" y="${base - 34}" width="18" height="18" rx="4" fill="#fff" ${thin}/><rect x="${x + 7}" y="${base - 34}" width="18" height="18" rx="4" fill="#fff" ${thin}/>`;
+  g += `<path d="M${x - 30} ${base - 4} q 0 -14 14 -14 h 6 q 6 0 6 8 v 6 z" fill="${S.shorts}" ${thin}/><path d="M${x + 4} ${base - 4} v -6 q 0 -8 6 -8 h 6 q 14 0 14 14 z" fill="${S.shorts}" ${thin}/>`;
+  // short
+  g += `<path d="M${x - 34} ${base - 92} L ${x + 34} ${base - 92} L ${x + 36} ${base - 56} L ${x + 4} ${base - 56} L ${x} ${base - 64} L ${x - 4} ${base - 56} L ${x - 36} ${base - 56} Z" fill="${S.shorts}" ${st}/>`;
+  // maillot
+  g += `<path d="M${x - 36} ${base - 150} Q ${x} ${base - 160} ${x + 36} ${base - 150} L ${x + 40} ${base - 88} Q ${x} ${base - 82} ${x - 40} ${base - 88} Z" fill="${S.jersey}" ${st}/>`;
+  g += `<path d="M${x + 20} ${base - 148} L ${x + 38} ${base - 92} Q ${x + 28} ${base - 88} ${x + 22} ${base - 88} Z" fill="${S.jerseyLo}" opacity="0.7"/>`;
+  g += `<path d="M${x - 14} ${base - 154} L ${x} ${base - 138} L ${x + 14} ${base - 154}" fill="none" stroke="${S.shorts}" stroke-width="5" stroke-linejoin="round"/>`;
+  g += `<text x="${x}" y="${base - 102}" text-anchor="middle" font-size="22" font-weight="800" fill="#fff" ${S.soft ? '' : `stroke="${S.shorts}" stroke-width="1.5"`}>11</text>`;
+  // bras + mains (étincelles)
+  g += `<path d="M${x - 36} ${base - 146} C ${x - 58} ${base - 130} ${x - 64} ${base - 112} ${x - 60} ${base - 98}" stroke="${S.jersey}" stroke-width="18" stroke-linecap="round" fill="none"/>`;
+  g += `<path d="M${x - 36} ${base - 146} C ${x - 58} ${base - 130} ${x - 64} ${base - 112} ${x - 60} ${base - 98}" stroke="${S.ink}" stroke-width="${S.lw}" fill="none" opacity="0"/>`;
+  g += `<circle cx="${x - 60}" cy="${base - 94}" r="9" fill="${S.skin}" ${thin}/>`;
+  g += `<path d="M${x + 36} ${base - 146} C ${x + 58} ${base - 160} ${x + 70} ${base - 176} ${x + 74} ${base - 192}" stroke="${S.jersey}" stroke-width="18" stroke-linecap="round" fill="none"/>`;
+  g += `<circle cx="${x + 76}" cy="${base - 198}" r="9" fill="${S.skin}" ${thin}/>`;
+  [[x + 92, base - 218, 6], [x + 104, base - 238, 4], [x + 84, base - 236, 3.5], [x + 112, base - 214, 3]].forEach(([sx, sy, s]) => (g += star(sx, sy, s * 1.5, S.gold)));
+  // cou + tête
+  g += `<rect x="${x - 9}" y="${hy + 52}" width="18" height="16" fill="${S.skin}"/>`;
+  g += `<ellipse cx="${x}" cy="${hy}" rx="62" ry="58" fill="${S.skin}" ${st}/>`;
+  // demi-queue : attache + petite queue à l'arrière (visible en haut)
+  g += `<path d="M${x + 30} ${hy - 58} C ${x + 70} ${hy - 76} ${x + 92} ${hy - 50} ${x + 84} ${hy - 16} C ${x + 78} ${hy - 30} ${x + 64} ${hy - 46} ${x + 40} ${hy - 48} Z" fill="${S.leyuHair}" ${st}/>`;
+  g += `<circle cx="${x + 34}" cy="${hy - 56}" r="7" fill="#ff7aa2" ${thin}/>`;
+  // frange
+  g += `<path d="M${x - 64} ${hy + 4} C ${x - 70} ${hy - 50} ${x - 30} ${hy - 72} ${x + 6} ${hy - 66} C ${x + 44} ${hy - 62} ${x + 70} ${hy - 40} ${x + 64} ${hy + 6} C ${x + 52} ${hy - 18} ${x + 38} ${hy - 26} ${x + 24} ${hy - 30} C ${x + 18} ${hy - 16} ${x + 4} ${hy - 12} ${x - 6} ${hy - 18} C ${x - 14} ${hy - 8} ${x - 30} ${hy - 6} ${x - 40} ${hy - 20} C ${x - 48} ${hy - 10} ${x - 56} ${hy - 4} ${x - 64} ${hy + 4} Z" fill="${S.leyuHair}" ${st}/>`;
+  g += `<path d="M${x - 30} ${hy - 50} C ${x - 10} ${hy - 60} ${x + 20} ${hy - 58} ${x + 36} ${hy - 46}" stroke="${S.leyuHairHi}" stroke-width="5" fill="none" stroke-linecap="round" opacity="0.8"/>`;
+  // mèches latérales longues devant
+  g += `<path d="M${x - 62} ${hy - 4} C ${x - 70} ${hy + 30} ${x - 66} ${hy + 70} ${x - 52} ${hy + 92} C ${x - 50} ${hy + 60} ${x - 48} ${hy + 30} ${x - 50} ${hy + 6} Z" fill="${S.leyuHair}" ${st}/>`;
+  g += `<path d="M${x + 62} ${hy - 4} C ${x + 70} ${hy + 30} ${x + 66} ${hy + 70} ${x + 52} ${hy + 92} C ${x + 50} ${hy + 60} ${x + 48} ${hy + 30} ${x + 50} ${hy + 6} Z" fill="${S.leyuHair}" ${st}/>`;
+  // visage : expression douce et déterminée
+  g += eye(x - 22, hy + 12, S.eyeGreen, S) + eye(x + 22, hy + 12, S.eyeGreen, S);
+  g += `<path d="M${x - 34} ${hy - 13} q 9 -5 19 0 M${x + 34} ${hy - 13} q -9 -5 -19 0" stroke="${S.leyuHair}" stroke-width="4" stroke-linecap="round" fill="none"/>`;
+  g += `<ellipse cx="${x - 40}" cy="${hy + 34}" rx="10" ry="6" fill="${S.blush}" opacity="0.55"/><ellipse cx="${x + 40}" cy="${hy + 34}" rx="10" ry="6" fill="${S.blush}" opacity="0.55"/>`;
+  g += `<path d="M${x - 9} ${hy + 38} Q ${x} ${hy + 45} ${x + 9} ${hy + 37}" stroke="${S.ink}" stroke-width="${Math.max(2.2, S.lw * 0.7)}" fill="none" stroke-linecap="round"/>`;
+  return `<g>${g}</g>`;
+}
+
+/** Elsa : longs cheveux blonds lâchés, yeux bleus, pull rose pâle tout doux. */
+function elsa(x, base, S, st, thin) {
+  const hy = base - 200;
+  let g = '';
+  // cheveux arrière, longs et lâchés
+  g += `<path d="M${x - 64} ${hy - 4} C ${x - 86} ${hy + 70} ${x - 80} ${hy + 140} ${x - 58} ${hy + 160} C ${x - 30} ${hy + 150} ${x + 30} ${hy + 150} ${x + 58} ${hy + 160} C ${x + 80} ${hy + 140} ${x + 86} ${hy + 70} ${x + 64} ${hy - 4} Z" fill="${S.elsaHair}" ${st}/>`;
+  // jambes
+  g += `<rect x="${x - 22}" y="${base - 66}" width="17" height="54" rx="7" fill="${S.legs}" ${thin}/><rect x="${x + 5}" y="${base - 66}" width="17" height="54" rx="7" fill="${S.legs}" ${thin}/>`;
+  g += `<path d="M${x - 28} ${base - 4} q 0 -14 14 -14 h 6 q 6 0 6 8 v 6 z" fill="#f2e6f0" ${thin}/><path d="M${x + 2} ${base - 4} v -6 q 0 -8 6 -8 h 6 q 14 0 14 14 z" fill="#f2e6f0" ${thin}/>`;
+  // pull tout doux (bords arrondis, côtes)
+  g += `<path d="M${x - 40} ${base - 148} Q ${x} ${base - 160} ${x + 40} ${base - 148} Q ${x + 50} ${base - 110} ${x + 44} ${base - 62} Q ${x} ${base - 54} ${x - 44} ${base - 62} Q ${x - 50} ${base - 110} ${x - 40} ${base - 148} Z" fill="${S.sweater}" ${st}/>`;
+  g += `<path d="M${x - 44} ${base - 70} Q ${x} ${base - 62} ${x + 44} ${base - 70}" stroke="${S.sweaterLo}" stroke-width="7" fill="none"/>`;
+  for (let i = -3; i <= 3; i++) g += `<path d="M${x + i * 10} ${base - 140} q 3 30 0 60" stroke="${S.sweaterLo}" stroke-width="2" fill="none" opacity="0.6"/>`;
+  g += `<path d="M${x - 16} ${base - 154} Q ${x} ${base - 144} ${x + 16} ${base - 154}" stroke="${S.sweaterLo}" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+  // bras (mains jointes devant)
+  g += `<path d="M${x - 40} ${base - 144} C ${x - 58} ${base - 120} ${x - 44} ${base - 96} ${x - 12} ${base - 92}" stroke="${S.sweater}" stroke-width="20" stroke-linecap="round" fill="none"/>`;
+  g += `<path d="M${x + 40} ${base - 144} C ${x + 58} ${base - 120} ${x + 44} ${base - 96} ${x + 12} ${base - 92}" stroke="${S.sweater}" stroke-width="20" stroke-linecap="round" fill="none"/>`;
+  g += `<circle cx="${x - 6}" cy="${base - 92}" r="9" fill="${S.skin}" ${thin}/><circle cx="${x + 6}" cy="${base - 92}" r="9" fill="${S.skin}" ${thin}/>`;
+  // tête
+  g += `<rect x="${x - 9}" y="${hy + 52}" width="18" height="14" fill="${S.skin}"/>`;
+  g += `<ellipse cx="${x}" cy="${hy}" rx="62" ry="58" fill="${S.skin}" ${st}/>`;
+  // frange légère, raie sur le côté
+  g += `<path d="M${x - 64} ${hy + 8} C ${x - 72} ${hy - 50} ${x - 24} ${hy - 76} ${x + 12} ${hy - 68} C ${x + 52} ${hy - 60} ${x + 72} ${hy - 30} ${x + 64} ${hy + 10} C ${x + 54} ${hy - 12} ${x + 36} ${hy - 30} ${x + 14} ${hy - 36} C ${x - 6} ${hy - 22} ${x - 34} ${hy - 14} ${x - 50} ${hy - 14} C ${x - 56} ${hy - 6} ${x - 60} ${hy} ${x - 64} ${hy + 8} Z" fill="${S.elsaHair}" ${st}/>`;
+  g += `<path d="M${x - 24} ${hy - 54} C ${x} ${hy - 64} ${x + 26} ${hy - 58} ${x + 40} ${hy - 44}" stroke="${S.elsaHairHi}" stroke-width="5" fill="none" stroke-linecap="round"/>`;
+  g += `<path d="M${x - 62} ${hy} C ${x - 72} ${hy + 50} ${x - 66} ${hy + 96} ${x - 50} ${hy + 120} C ${x - 48} ${hy + 80} ${x - 46} ${hy + 40} ${x - 48} ${hy + 10} Z" fill="${S.elsaHair}" ${st}/>`;
+  g += `<path d="M${x + 62} ${hy} C ${x + 72} ${hy + 50} ${x + 66} ${hy + 96} ${x + 50} ${hy + 120} C ${x + 48} ${hy + 80} ${x + 46} ${hy + 40} ${x + 48} ${hy + 10} Z" fill="${S.elsaHair}" ${st}/>`;
+  // visage : contente
+  g += eye(x - 22, hy + 14, S.eyeBlue, S) + eye(x + 22, hy + 14, S.eyeBlue, S);
+  g += `<ellipse cx="${x - 40}" cy="${hy + 36}" rx="10" ry="6" fill="${S.blush}" opacity="0.6"/><ellipse cx="${x + 40}" cy="${hy + 36}" rx="10" ry="6" fill="${S.blush}" opacity="0.6"/>`;
+  g += `<path d="M${x - 11} ${hy + 38} Q ${x} ${hy + 52} ${x + 11} ${hy + 38} Z" fill="#c9485b" ${thin}/>`;
+  return `<g>${g}</g>`;
+}
+
+function flame(x, y, S, st) {
+  return `<path d="M${x} ${y - 16} C ${x + 12} ${y - 4} ${x + 12} ${y + 12} ${x} ${y + 14} C ${x - 12} ${y + 12} ${x - 12} ${y} ${x - 4} ${y - 8} C ${x - 2} ${y - 2} ${x + 2} ${y - 4} ${x} ${y - 16} Z" fill="#ff8a3d" ${S.soft ? '' : st}/><path d="M${x} ${y - 4} C ${x + 6} ${y + 2} ${x + 5} ${y + 10} ${x} ${y + 11} C ${x - 5} ${y + 10} ${x - 5} ${y + 4} ${x} ${y - 4} Z" fill="#ffd23f"/>`;
+}
+
+document.getElementById('a').innerHTML = scene('a');
+document.getElementById('b').innerHTML = scene('b');
+</script>
+</body>
+</html>
