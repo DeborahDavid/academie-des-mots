@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { type FormEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { completeSession, type SessionCompletion } from '../../db/sessionRepo';
 import { syncUnlocks } from '../../db/rewardsRepo';
-import { discoverWord, newSessionId, planVocabQuest, recordVocabAnswer } from '../../db/vocabRepo';
+import { discoverWord, newSessionId, planVocabQuest, recordVocabAnswer, submitProduction } from '../../db/vocabRepo';
 import { randomLine, successLine } from '../../domain/lines';
 import type { Reward } from '../../domain/rewards';
 import { shuffle } from '../../domain/session';
 import { frTypo } from '../../domain/typo';
-import { QUESTION_TITLES, type QuestStep, type VocabWord } from '../../domain/vocab';
+import { QUESTION_TITLES, type QuestStep, type VocabWord, checkProduction } from '../../domain/vocab';
+import { AccentBar } from '../components/AccentBar';
 import { playOopsSound, playSuccessChime } from '../../speech/sfx';
 import { speak } from '../../speech/tts';
 import { RewardIcon } from '../components/Avatar';
@@ -21,7 +22,7 @@ export function VocabQuest({ onExit, onGrimoire }: { onExit: () => void; onGrimo
   const sessionId = useRef(newSessionId()).current;
   const [steps, setSteps] = useState<QuestStep[] | null>(null);
   const [index, setIndex] = useState(0);
-  const [stats, setStats] = useState({ correct: 0, points: 0, discovered: [] as string[] });
+  const [stats, setStats] = useState({ correct: 0, points: 0, discovered: [] as string[], written: [] as string[] });
   const [completion, setCompletion] = useState<SessionCompletion | null>(null);
   const [rewards, setRewards] = useState<Reward[]>([]);
 
@@ -80,6 +81,7 @@ export function VocabQuest({ onExit, onGrimoire }: { onExit: () => void; onGrimo
         ))}
         <div className="card summary">
           {stats.discovered.length > 0 && <p className="gold">✨ Découverte magique : {stats.discovered.join(', ')}</p>}
+          {stats.written.length > 0 && <p>✍️ Sortilège personnel écrit : {stats.written.join(', ')} (un parent va le lire)</p>}
           <p>
             ✦ {stats.correct} bonne{stats.correct > 1 ? 's' : ''} réponse{stats.correct > 1 ? 's' : ''}
           </p>
@@ -117,6 +119,17 @@ export function VocabQuest({ onExit, onGrimoire }: { onExit: () => void; onGrimo
             setStats((s) => ({ ...s, discovered: [...s.discovered, step.word.lemma] }));
             next();
           }}
+        />
+      ) : step.kind === 'produce' ? (
+        <ProduceCard
+          key={`p-${step.word.id}`}
+          word={step.word}
+          muted={settings.muted}
+          onSubmit={async (text) => {
+            const { points } = await submitProduction(step.word.id, text);
+            setStats((s) => ({ ...s, points: s.points + points, written: [...s.written, step.word.lemma] }));
+          }}
+          onNext={next}
         />
       ) : (
         <QuestionCard
@@ -228,6 +241,64 @@ function QuestionCard({
             Continuer
           </button>
         </div>
+      )}
+    </section>
+  );
+}
+
+/** Le sortilège personnel : production libre, lue ensuite par le parent (pas de correction automatique du sens). */
+function ProduceCard({ word, muted, onSubmit, onNext }: { word: VocabWord; muted: boolean; onSubmit: (text: string) => Promise<void>; onNext: () => void }) {
+  const [text, setText] = useState('');
+  const [hint, setHint] = useState('');
+  const [sent, setSent] = useState(false);
+  const ref = useRef<HTMLTextAreaElement>(null);
+
+  async function submit(e: FormEvent) {
+    e.preventDefault();
+    const c = checkProduction(text, word);
+    if (!c.ok) return setHint(c.message);
+    playSuccessChime(muted);
+    await onSubmit(text);
+    setSent(true);
+  }
+
+  return (
+    <section className="grimoire-page">
+      <p className="page-kicker">✍️ Le sortilège personnel</p>
+      <h2 className="spell-word">{word.lemma}</h2>
+      <p className="muted">{word.definition}</p>
+      {sent ? (
+        <div className="explanation">
+          <Elsa expression="fiere" line="Ton sortilège est écrit dans le grimoire !" />
+          <p>Un parent va le lire. S’il est juste, ton mot deviendra un « mot utilisé ».</p>
+          <button className="primary big" onClick={onNext} autoFocus>
+            Continuer
+          </button>
+        </div>
+      ) : (
+        <form className="stack" onSubmit={submit}>
+          <p className="question-prompt">Invente une phrase à toi avec le mot « {word.lemma} ».</p>
+          <textarea
+            ref={ref}
+            className="production-input"
+            rows={3}
+            value={text}
+            onChange={(e) => (setText(e.target.value), setHint(''))}
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="sentences"
+            spellCheck={false}
+            aria-label="Ta phrase"
+            autoFocus
+          />
+          <AccentBar inputRef={ref} value={text} onChange={(v) => (setText(v), setHint(''))} />
+          {hint && <p className="hint-text">{hint}</p>}
+          <div className="row center">
+            <button type="submit" className="primary big" disabled={!text.trim()}>
+              Lancer mon sortilège
+            </button>
+          </div>
+        </form>
       )}
     </section>
   );

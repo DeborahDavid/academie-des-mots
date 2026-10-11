@@ -326,3 +326,7 @@ button.big { min-height: 60px; font-size: 1.2rem; padding: 0.6em 1.6em; }
 .vocab-row summary { cursor: pointer; display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; list-style: none; }
 .vocab-row label { color: var(--muted); }
 .vocab-row textarea { margin-top: 0.25rem; font-size: 1rem; }
+.production-input { font-size: 1.3rem; border: 2px solid #d9cfee; background: #fff; }
+.hint-text { color: #9a3b3b; margin: 0; text-align: center; }
+.my-spells { background: #f3ecff; border-radius: 12px; padding: 0.6rem 0.9rem; }
+.my-spells p { margin: 0.3rem 0; }

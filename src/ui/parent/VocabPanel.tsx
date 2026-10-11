@@ -1,6 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useRef, useState } from 'react';
-import { exportCorpus, getConfusions, getVocabProgress, importCorpus, setNewPerWeek, setVocabStatus, updateVocabWord, type WordProgress } from '../../db/vocabRepo';
+import { exportCorpus, getConfusions, getProductions, getVocabProgress, importCorpus, reviewProduction, setNewPerWeek, setVocabStatus, updateVocabWord, type WordProgress } from '../../db/vocabRepo';
+import type { VocabProduction } from '../../domain/model';
 import { QUESTION_TITLES, STAGES, type VocabStage } from '../../domain/vocab';
 import { useSettings } from '../hooks';
 
@@ -10,6 +11,7 @@ const atLeast = (p: WordProgress, s: VocabStage) => ORDER.indexOf(p.info.stage) 
 export function VocabPanel() {
   const progress = useLiveQuery(() => getVocabProgress(), []);
   const confusions = useLiveQuery(() => getConfusions(), []);
+  const productions = useLiveQuery(() => getProductions(), []);
   const settings = useSettings();
   const fileRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState('');
@@ -56,9 +58,39 @@ export function VocabPanel() {
           <Metric n={progress.filter((p) => p.info.toConsolidate).length} label="à consolider" help="oubliés lors d’une révision différée" />
         </div>
         <p className="muted small-text">
-          Une réussite à un QCM ne compte jamais comme « utilisé » : il faut une phrase écrite par Leyu et validée par vous (épreuve « sortilège personnel », à venir).
+          Une réussite à un QCM ne compte jamais comme « utilisé » : il faut une phrase écrite par Leyu (« sortilège personnel ») et validée par vous.
         </p>
       </section>
+
+      {productions && (
+        <section className="card stack">
+          <h2>Sortilèges personnels à lire ({productions.filter((x) => x.status === 'pending').length})</h2>
+          <p className="muted small-text">
+            Phrases écrites par Leyu. Validez si le mot est bien utilisé (vous pouvez corriger l’orthographe au passage) ; sinon « à retravailler » : le mot lui
+            sera reproposé plus tard, sans pénalité.
+          </p>
+          {productions.filter((x) => x.status === 'pending').length === 0 && <p className="muted">Rien à lire pour l’instant.</p>}
+          {productions
+            .filter((x) => x.status === 'pending')
+            .map((x) => (
+              <ProductionReview key={x.id} prod={x} lemma={progress.find((p) => p.word.id === x.wordId)?.word.lemma ?? x.wordId} />
+            ))}
+          {productions.some((x) => x.status !== 'pending') && (
+            <details>
+              <summary className="muted small-text">Historique ({productions.filter((x) => x.status !== 'pending').length})</summary>
+              <ul className="small-text">
+                {productions
+                  .filter((x) => x.status !== 'pending')
+                  .map((x) => (
+                    <li key={x.id}>
+                      {x.status === 'validated' ? '✓' : '↺'} <strong>{progress.find((p) => p.word.id === x.wordId)?.word.lemma}</strong> — {x.text}
+                    </li>
+                  ))}
+              </ul>
+            </details>
+          )}
+        </section>
+      )}
 
       <section className="card stack">
         <h2>Rythme</h2>
@@ -187,5 +219,25 @@ function WordEditor({ p }: { p: WordProgress }) {
         </div>
       </div>
     </details>
+  );
+}
+
+function ProductionReview({ prod, lemma }: { prod: VocabProduction; lemma: string }) {
+  const [text, setText] = useState(prod.text);
+  return (
+    <div className="notice stack" style={{ gap: '0.5rem' }}>
+      <span>
+        <strong>{lemma}</strong> <span className="muted small-text">· {new Date(prod.createdAt).toLocaleDateString('fr-FR')}</span>
+      </span>
+      <textarea rows={2} value={text} onChange={(e) => setText(e.target.value)} aria-label="Phrase de Leyu (modifiable)" />
+      <div className="row">
+        <button className="primary small" onClick={() => reviewProduction(prod.id, 'validated', text !== prod.text ? text : undefined)}>
+          {text !== prod.text ? 'Valider la version corrigée' : 'Valider'}
+        </button>
+        <button className="ghost small" onClick={() => reviewProduction(prod.id, 'rejected')}>
+          À retravailler
+        </button>
+      </div>
+    </div>
   );
 }

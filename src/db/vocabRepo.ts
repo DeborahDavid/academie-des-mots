@@ -1,7 +1,7 @@
 import { createEmptyCard } from 'ts-fsrs';
 import { type AcademieDB, db as defaultDb } from './db';
 import { getSettings } from './repo';
-import { type Outcome, itemId, newId } from '../domain/model';
+import { type Outcome, type VocabProduction, itemId, newId } from '../domain/model';
 import { POINTS, localDate } from '../domain/points';
 import { review } from '../domain/scheduler';
 import {
@@ -102,16 +102,21 @@ export async function updateVocabWord(id: string, patch: Partial<Omit<VocabWord,
 /* ------------------------------ quête ------------------------------ */
 
 export async function planVocabQuest(now = new Date(), db: AcademieDB = defaultDb): Promise<QuestStep[]> {
-  const [words, items, logs, settings] = await Promise.all([
+  const [words, items, logs, settings, progress, productions] = await Promise.all([
     db.vocabWords.toArray(),
     db.items.where('kind').equals('vocab').toArray(),
     db.reviewLogs.where('kind').equals('vocab').toArray(),
     getSettings(db),
+    getVocabProgress(db),
+    db.productions.toArray(),
   ]);
+  // Prêt pour le sortilège personnel : compris, sans phrase validée, sans phrase en attente de lecture.
+  const busy = new Set(productions.filter((p) => p.status !== 'rejected').map((p) => p.wordId));
+  const ready = new Set(progress.filter((p) => p.info.stage === 'compris' && !busy.has(p.word.id)).map((p) => p.word.id));
   const cardOf = new Map(items.map((i) => [i.refId, i]));
   const lastQ = new Map<string, string>();
   for (const l of logs.sort((a, b) => a.at - b.at)) if (l.questionId) lastQ.set(l.itemId, l.questionId);
-  const cands: VocabCandidate[] = words.map((w) => ({ word: w, card: cardOf.get(w.id)?.card, lastQuestionId: lastQ.get(itemId('vocab', w.id)) }));
+  const cands: VocabCandidate[] = words.map((w) => ({ word: w, card: cardOf.get(w.id)?.card, lastQuestionId: lastQ.get(itemId('vocab', w.id)), canProduce: ready.has(w.id) }));
   const sow = startOfWeek(now);
   const discoveredThisWeek = items.filter((i) => (i.introducedAt ?? 0) >= sow).length;
   const sod = new Date(now).setHours(0, 0, 0, 0);
@@ -242,4 +247,31 @@ export async function setNewPerWeek(n: number, db: AcademieDB = defaultDb) {
 
 export function newSessionId() {
   return newId();
+}
+
+/* --------------------------- sortilège personnel --------------------------- */
+
+/** L'enfant envoie sa phrase : elle attend la lecture du parent (aucune correction automatique). */
+export async function submitProduction(wordId: string, text: string, now = new Date(), db: AcademieDB = defaultDb): Promise<{ points: number }> {
+  return db.transaction('rw', [db.productions, db.days], async () => {
+    await db.productions.add({ id: newId(), wordId, text: text.trim().replace(/'/g, '’'), status: 'pending', createdAt: now.getTime() });
+    const date = localDate(now);
+    const day = (await db.days.get(date)) ?? { date, sessions: 0, points: 0 };
+    await db.days.put({ ...day, points: day.points + POINTS.vocabProduction });
+    return { points: POINTS.vocabProduction };
+  });
+}
+
+/**
+ * Le parent lit la phrase : validée (éventuellement corrigée) → le mot devient « utilisé » ;
+ * « à retravailler » → le mot pourra être reproposé plus tard, sans pénalité.
+ */
+export async function reviewProduction(id: string, decision: 'validated' | 'rejected', correctedText?: string, now = new Date(), db: AcademieDB = defaultDb) {
+  const patch: Partial<VocabProduction> = { status: decision, reviewedAt: now.getTime() };
+  if (correctedText?.trim()) patch.text = correctedText.trim().replace(/'/g, '’');
+  await db.productions.update(id, patch);
+}
+
+export async function getProductions(db: AcademieDB = defaultDb): Promise<VocabProduction[]> {
+  return (await db.productions.toArray()).sort((a, b) => b.createdAt - a.createdAt);
 }

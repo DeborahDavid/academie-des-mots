@@ -105,3 +105,15 @@ describe('planQuest', () => {
     for (let i = 0; i < 20; i++) expect(chooseQuestion(w, ['sens', 'situation', 'phrase'], 'sens-1')?.id).not.toBe('sens-1');
   });
 });
+
+describe('checkProduction', () => {
+  const w = words.find((x) => x.id === 'perplexe')!;
+  it('refuse une phrase trop courte, sans le mot, ou copiée d’un exemple', async () => {
+    const { checkProduction } = await import('./vocab');
+    expect(checkProduction('Perplexe.', w).ok).toBe(false);
+    expect(checkProduction('Je ne sais pas quoi penser du tout.', w).ok).toBe(false);
+    expect(checkProduction(w.examples[0], w).ok).toBe(false);
+    expect(checkProduction('Mon frère est resté perplexe devant la devinette.', w).ok).toBe(true);
+    expect(checkProduction('Les élèves sont perplexes devant ce problème.', w).ok).toBe(true);
+  });
+});

@@ -89,3 +89,45 @@ describe('quête', () => {
     expect(await getConfusions(db)).toEqual([{ wordId: step0.word.id, answer: step1.question.choices[2], count: 1 }]);
   });
 });
+
+describe('sortilège personnel', () => {
+  beforeEach(async () => setVocabStatus((await db.vocabWords.toArray()).map((w) => w.id), 'validated', db));
+
+  /** Amène « anxieux » à l'étape « compris » : découverte + deux types d'épreuves réussis. */
+  async function understand(at: Date) {
+    const { getVocabProgress: gp } = await import('./vocabRepo');
+    const w = (await db.vocabWords.get('anxieux'))!;
+    await discoverWord(w.id, at, db);
+    for (const q of w.questions.slice(0, 2)) {
+      await recordVocabAnswer({ sessionId: 's', word: w, question: q, role: 'review', answerGiven: q.choices[0], correct: true }, at, db);
+    }
+    return (await gp(db)).find((p) => p.word.id === 'anxieux')!;
+  }
+
+  it('mot compris → sortilège personnel proposé ; phrase validée → « utilisé »', async () => {
+    const { submitProduction, reviewProduction, getProductions } = await import('./vocabRepo');
+    expect((await understand(day1)).info.stage).toBe('compris');
+    const quest = await planVocabQuest(day2, db);
+    expect(quest.some((s) => s.kind === 'produce' && s.word.id === 'anxieux')).toBe(true);
+
+    await submitProduction('anxieux', "Ma petite sœur est anxieuse avant d'aller chez le dentiste.", day2, db);
+    // en attente : plus proposé
+    expect((await planVocabQuest(day2, db)).some((s) => s.kind === 'produce')).toBe(false);
+
+    const [p] = await getProductions(db);
+    expect(p.text).toContain('d’aller'); // apostrophe typographique
+    await reviewProduction(p.id, 'validated', undefined, day2, db);
+    const prog = (await getVocabProgress(db)).find((x) => x.word.id === 'anxieux')!;
+    expect(prog.info.stage).toBe('utilise');
+  });
+
+  it('phrase « à retravailler » : le mot redevient disponible, sans pénalité', async () => {
+    const { submitProduction, reviewProduction, getProductions } = await import('./vocabRepo');
+    await understand(day1);
+    await submitProduction('anxieux', 'Le chat anxieux mange.', day2, db);
+    const [p] = await getProductions(db);
+    await reviewProduction(p.id, 'rejected', undefined, day2, db);
+    expect((await getVocabProgress(db)).find((x) => x.word.id === 'anxieux')!.info.stage).toBe('compris');
+    expect((await planVocabQuest(day2, db)).some((s) => s.kind === 'produce')).toBe(true);
+  });
+});

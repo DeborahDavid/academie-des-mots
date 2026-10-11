@@ -1,6 +1,6 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { useState } from 'react';
-import { getVocabProgress, type WordProgress } from '../../db/vocabRepo';
+import { getProductions, getVocabProgress, type WordProgress } from '../../db/vocabRepo';
 import { STAGES } from '../../domain/vocab';
 
 const stageOf = (p: WordProgress) => STAGES.find((s) => s.id === p.info.stage)!;
@@ -60,6 +60,7 @@ export function Grimoire({ onBack }: { onBack: () => void }) {
 
 function WordPage({ p, onBack }: { p: WordProgress; onBack: () => void }) {
   const w = p.word;
+  const mine = useLiveQuery(async () => (await getProductions()).filter((x) => x.wordId === w.id), [w.id]);
   const st = stageOf(p);
   return (
     <main className="wardrobe">
@@ -97,6 +98,17 @@ function WordPage({ p, onBack }: { p: WordProgress; onBack: () => void }) {
             Autre sens : {o}
           </p>
         ))}
+        {mine && mine.length > 0 && (
+          <div className="my-spells">
+            <strong>Mes sortilèges personnels</strong>
+            {mine.map((x) => (
+              <p key={x.id}>
+                {x.status === 'validated' ? '✍️' : x.status === 'pending' ? '⏳' : '↺'} « {x.text} »{' '}
+                <span className="small-text muted">{x.status === 'validated' ? '· validé' : x.status === 'pending' ? '· en lecture' : '· à retravailler'}</span>
+              </p>
+            ))}
+          </div>
+        )}
         <p className="small-text muted">
           Révisé {p.reviews} fois
           {p.nextReview ? ` · prochaine révision le ${p.nextReview.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}` : ''}

@@ -164,11 +164,15 @@ export interface VocabCandidate {
   card?: Card;
   /** Dernière question posée pour ce mot (pour ne pas reposer la même). */
   lastQuestionId?: string;
+  /** Mot compris, sans phrase personnelle validée ni en attente : prêt pour le « sortilège personnel ». */
+  canProduce?: boolean;
 }
 
 export type QuestStep =
   | { kind: 'discover'; word: VocabWord }
-  | { kind: 'question'; word: VocabWord; question: VocabQuestion; role: 'learn' | 'review' | 'challenge' };
+  | { kind: 'question'; word: VocabWord; question: VocabQuestion; role: 'learn' | 'review' | 'challenge' }
+  /** Le sortilège personnel : l'enfant écrit sa propre phrase avec le mot (validée ensuite par le parent). */
+  | { kind: 'produce'; word: VocabWord };
 
 export interface QuestOptions {
   newPerWeek: number;
@@ -222,6 +226,10 @@ export function planQuest(cands: VocabCandidate[], now: Date, opts: QuestOptions
     if (q) steps.push({ kind: 'question', word: fresh.word, question: q, role: 'learn' });
   }
 
+  // Sortilège personnel : un mot compris, au plus un par quête (production active, pas de la reconnaissance).
+  const producer = validated.find((c) => c.canProduce && !steps.some((s) => s.word.id === c.word.id));
+  if (producer) steps.push({ kind: 'produce', word: producer.word });
+
   // Défi final : un mot déjà découvert, pas encore vu dans cette quête, avec une épreuve en contexte.
   const used = new Set(steps.map((s) => s.word.id));
   const known = validated.filter((c) => c.card && !isNew(c.card) && !used.has(c.word.id));
@@ -239,4 +247,35 @@ export function startOfWeek(now: Date): number {
   d.setHours(0, 0, 0, 0);
   d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
   return d.getTime();
+}
+
+/* ------------------------------------------------------------------ */
+/* Sortilège personnel                                                 */
+/* ------------------------------------------------------------------ */
+
+function plainText(s: string): string {
+  return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/œ/g, 'oe').toLowerCase();
+}
+
+/** Radical tolérant aux accords et conjugaisons (« anxieux » → « anxieu », « exaspérer » → « exasper »). */
+export function wordStem(lemma: string): string {
+  const p = plainText(lemma);
+  for (const end of ['er', 'ir', 're', 'eux', 'if', 'al', 'e', 's', 'x']) if (p.endsWith(end) && p.length - end.length >= 4) return p.slice(0, -end.length);
+  return p;
+}
+
+export type ProductionCheck = { ok: true } | { ok: false; message: string };
+
+/**
+ * Vérifications simples AVANT l'envoi au parent (aucune correction automatique du sens :
+ * c'est le parent qui juge si le mot est bien utilisé).
+ */
+export function checkProduction(text: string, word: VocabWord): ProductionCheck {
+  const t = text.trim();
+  const words = t.split(/\s+/).filter(Boolean);
+  if (words.length < 4) return { ok: false, message: 'Écris une vraie phrase, avec au moins quatre mots.' };
+  if (!plainText(t).includes(wordStem(word.lemma))) return { ok: false, message: `N’oublie pas d’utiliser le mot « ${word.lemma} » dans ta phrase.` };
+  const norm = (s: string) => plainText(s).replace(/[^a-z0-9]+/g, ' ').trim();
+  if (word.examples.some((e) => norm(e) === norm(t))) return { ok: false, message: 'Invente ta propre phrase, différente des exemples !' };
+  return { ok: true };
 }
