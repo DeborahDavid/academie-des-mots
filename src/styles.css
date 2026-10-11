@@ -210,3 +210,9 @@ button.big { min-height: 60px; font-size: 1.2rem; padding: 0.6em 1.6em; }
 .transition-star { font-size: 4rem; color: var(--gold); }
 .summary { text-align: left; min-width: min(420px, 100%); }
 .summary p { margin: 0.4rem 0; }
+
+.hud { position: fixed; top: 1rem; right: 1rem; display: flex; gap: 1.2rem; font-size: 1.3rem; font-weight: 700; }
+.flame { filter: grayscale(1); opacity: 0.55; }
+.flame.on { filter: none; opacity: 1; }
+.flame-lit { display: flex; flex-direction: column; align-items: center; gap: 0.3rem; }
+.flame-big { font-size: 4.5rem; line-height: 1; }

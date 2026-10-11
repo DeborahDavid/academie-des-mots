@@ -2,7 +2,8 @@ import { type AcademieDB, db as defaultDb } from './db';
 import { getSettings } from './repo';
 import type { ErrorType, Item, ItemKind, Outcome, Word } from '../domain/model';
 import { isAcquired, isNew, review } from '../domain/scheduler';
-import { DEFAULT_PICK, type WordCandidate, pickWords } from '../domain/session';
+import { localDate, POINTS, pointsFor } from '../domain/points';
+import { DEFAULT_PICK, type WordCandidate, pickBonusWords, pickWords } from '../domain/session';
 
 function startOfDay(now: Date): number {
   const d = new Date(now);
@@ -13,15 +14,33 @@ function startOfDay(now: Date): number {
 export interface WordTask {
   item: Item;
   word: Word;
+  /** Entraînement : l'item n'était pas dû, il n'est pas replanifié. */
+  practice: boolean;
 }
 
-/** Prépare les mots de la séance du jour. */
-export async function planWordTasks(now = new Date(), db: AcademieDB = defaultDb): Promise<WordTask[]> {
-  const [items, words, weeks, settings] = await Promise.all([
+export type SessionKind = 'daily' | 'bonus';
+
+export interface SessionPlan {
+  kind: SessionKind;
+  tasks: WordTask[];
+}
+
+/** Nouveaux mots ajoutés à chaque séance en plus. */
+export const NEW_PER_BONUS = 4;
+/** Fenêtre des « mots ratés récemment » pour l'entraînement. */
+const RECENT_FAIL_DAYS = 14;
+
+/**
+ * Séance du jour : révisions dues + nouveaux mots (limite quotidienne).
+ * Séances en plus (ou séance du jour sans rien de dû) : arriéré + entraînement.
+ */
+export async function planSession(now = new Date(), db: AcademieDB = defaultDb): Promise<SessionPlan> {
+  const [items, words, weeks, settings, today] = await Promise.all([
     db.items.where('kind').equals('word').toArray(),
     db.words.toArray(),
     db.weeks.toArray(),
     getSettings(db),
+    db.days.get(localDate(now)),
   ]);
   const wordById = new Map(words.map((w) => [w.id, w]));
   const weekStart = new Map(weeks.map((w) => [w.id, w.startDate]));
@@ -31,9 +50,24 @@ export async function planWordTasks(now = new Date(), db: AcademieDB = defaultDb
     if (word) cands.push({ item, weekStart: weekStart.get(word.weekId) ?? '', createdAt: word.createdAt });
   }
   const sod = startOfDay(now);
-  const introducedToday = items.filter((i) => (i.introducedAt ?? 0) >= sod).length;
-  const picked = pickWords(cands, now, { ...DEFAULT_PICK, newPerDay: settings.thresholds.newWordsPerDay, introducedToday });
-  return picked.map((item) => ({ item, word: wordById.get(item.refId)! }));
+  const kind: SessionKind = today?.dailyDoneAt ? 'bonus' : 'daily';
+  const toTasks = (picked: { item: Item; practice: boolean }[]) => picked.map((p) => ({ ...p, word: wordById.get(p.item.refId)! }));
+
+  if (kind === 'daily') {
+    const introducedToday = items.filter((i) => (i.introducedAt ?? 0) >= sod).length;
+    const picked = pickWords(cands, now, { ...DEFAULT_PICK, newPerDay: settings.thresholds.newWordsPerDay, introducedToday });
+    if (picked.length) return { kind, tasks: toTasks(picked.map((item) => ({ item, practice: false }))) };
+  }
+
+  const since = now.getTime() - RECENT_FAIL_DAYS * 86_400_000;
+  const logs = await db.reviewLogs.where('at').aboveOrEqual(Math.min(since, sod)).toArray();
+  const lastFailAt = new Map<string, number>();
+  const seenToday = new Set<string>();
+  for (const l of logs) {
+    if (l.outcome === 'fail' && l.at >= since) lastFailAt.set(l.itemId, Math.max(l.at, lastFailAt.get(l.itemId) ?? 0));
+    if (l.at >= sod) seenToday.add(l.itemId);
+  }
+  return { kind, tasks: toTasks(pickBonusWords(cands, now, { lastFailAt, seenToday, newPerBonus: NEW_PER_BONUS })) };
 }
 
 export interface PresentationResult {
@@ -44,9 +78,11 @@ export interface PresentationResult {
   outcome: Outcome;
   errorTypes: ErrorType[];
   notionIds?: string[];
+  practice?: boolean;
 }
 
 export interface RecordEffect {
+  points: number;
   /** L'item vient de passer « acquis » (→ une étoile s'allume). */
   newlyAcquired: boolean;
   /** Réussite sans indice sur un item déjà raté au moins 2 fois (→ Ada). */
@@ -57,11 +93,12 @@ export interface RecordEffect {
  * Enregistre une présentation. Seule la 1re présentation de la séance replanifie l'item.
  */
 export async function recordPresentation(r: PresentationResult, now = new Date(), db: AcademieDB = defaultDb): Promise<RecordEffect> {
-  return db.transaction('rw', db.items, db.reviewLogs, db.settings, async () => {
+  return db.transaction('rw', [db.items, db.reviewLogs, db.settings, db.days], async () => {
     const settings = await getSettings(db);
     const item = await db.items.get(r.itemId);
-    const scheduled = r.presentation === 1 && !!item;
-    const effect: RecordEffect = { newlyAcquired: false, veryHard: false };
+    const scheduled = r.presentation === 1 && !r.practice && !!item;
+    const effect: RecordEffect = { points: pointsFor(r.outcome, r.presentation), newlyAcquired: false, veryHard: false };
+    if (effect.points) await addToDay(db, now, { points: effect.points });
     if (r.outcome === 'success') {
       const pastFails = await db.reviewLogs.where('itemId').equals(r.itemId).filter((l) => l.outcome === 'fail').count();
       effect.veryHard = pastFails >= 2;
@@ -92,4 +129,52 @@ export async function recordPresentation(r: PresentationResult, now = new Date()
 export async function countAcquiredWords(db: AcademieDB = defaultDb): Promise<number> {
   const threshold = (await getSettings(db)).thresholds.acquiredStabilityDays;
   return (await db.items.where('kind').equals('word').toArray()).filter((i) => isAcquired(i.card, threshold)).length;
+}
+
+async function addToDay(db: AcademieDB, now: Date, add: { points?: number; sessions?: number; dailyDone?: boolean }) {
+  const date = localDate(now);
+  const day = (await db.days.get(date)) ?? { date, sessions: 0, points: 0 };
+  await db.days.put({
+    ...day,
+    points: day.points + (add.points ?? 0),
+    sessions: day.sessions + (add.sessions ?? 0),
+    dailyDoneAt: day.dailyDoneAt ?? (add.dailyDone ? now.getTime() : undefined),
+  });
+}
+
+export interface SessionCompletion {
+  bonusPoints: number;
+  /** La flamme du jour vient de s'allumer. */
+  flameLit: boolean;
+  flameDays: number;
+}
+
+/** Fin de séance : bonus de séance, flamme du jour. */
+export async function completeSession(kind: SessionKind, now = new Date(), db: AcademieDB = defaultDb): Promise<SessionCompletion> {
+  return db.transaction('rw', db.days, async () => {
+    const wasLit = !!(await db.days.get(localDate(now)))?.dailyDoneAt;
+    const bonusPoints = kind === 'daily' ? POINTS.dailyBonus : POINTS.extraSessionBonus;
+    await addToDay(db, now, { points: bonusPoints, sessions: 1, dailyDone: true });
+    const flameDays = await db.days.filter((d) => !!d.dailyDoneAt).count();
+    return { bonusPoints, flameLit: !wasLit, flameDays };
+  });
+}
+
+export interface Progress {
+  /** Jours où la flamme a été allumée (ne se remet jamais à zéro). */
+  flameDays: number;
+  litToday: boolean;
+  totalPoints: number;
+  todayPoints: number;
+}
+
+export async function getProgress(now = new Date(), db: AcademieDB = defaultDb): Promise<Progress> {
+  const days = await db.days.toArray();
+  const today = days.find((d) => d.date === localDate(now));
+  return {
+    flameDays: days.filter((d) => d.dailyDoneAt).length,
+    litToday: !!today?.dailyDoneAt,
+    totalPoints: days.reduce((s, d) => s + d.points, 0),
+    todayPoints: today?.points ?? 0,
+  };
 }

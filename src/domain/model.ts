@@ -93,6 +93,16 @@ export interface Sentence {
   createdAt: number;
 }
 
+/** Une journée de jeu : flamme et points. */
+export interface DayRecord {
+  /** AAAA-MM-JJ (date locale). */
+  date: string;
+  /** Séance du jour terminée → la flamme du jour est allumée. */
+  dailyDoneAt?: number;
+  sessions: number;
+  points: number;
+}
+
 export interface AudioClip {
   id: string;
   blob: Blob;

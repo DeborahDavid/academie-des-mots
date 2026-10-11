@@ -37,6 +37,57 @@ export function pickWords(cands: WordCandidate[], now: Date, opts: PickOptions, 
   return shuffle([...due.slice(0, dueSlots), ...fresh.slice(0, newSlots)].map((c) => c.item), rng);
 }
 
+export interface PickedWord {
+  item: Item;
+  /** Entraînement : ne replanifie pas l'item (il n'était pas dû). */
+  practice: boolean;
+}
+
+export interface BonusContext {
+  /** Dernier échec par item (ms). */
+  lastFailAt: Map<string, number>;
+  /** Items déjà vus aujourd'hui. */
+  seenToday: Set<string>;
+  newPerBonus: number;
+}
+
+/**
+ * Séance en plus : toujours du contenu utile, jamais vide s'il existe des mots.
+ * 1. révisions dues restantes ; 2. nouveaux mots (arriéré) ;
+ * 3. entraînement : mots ratés récemment, puis mots les plus fragiles (stabilité faible),
+ *    en évitant ceux déjà vus aujourd'hui tant que possible.
+ */
+export function pickBonusWords(cands: WordCandidate[], now: Date, ctx: BonusContext, maxWords = DEFAULT_PICK.maxWords, rng: () => number = Math.random): PickedWord[] {
+  const due = cands.filter((c) => isDue(c.item.card, now)).sort((a, b) => +new Date(a.item.card.due) - +new Date(b.item.card.due));
+  const fresh = cands
+    .filter((c) => isNew(c.item.card))
+    .sort((a, b) => b.weekStart.localeCompare(a.weekStart) || a.createdAt - b.createdAt);
+
+  const picked: PickedWord[] = [];
+  const taken = new Set<string>();
+  const take = (c: WordCandidate, practice: boolean) => {
+    if (picked.length >= maxWords || taken.has(c.item.id)) return;
+    taken.add(c.item.id);
+    picked.push({ item: c.item, practice });
+  };
+
+  const newSlots = Math.min(ctx.newPerBonus, fresh.length);
+  due.slice(0, maxWords - newSlots).forEach((c) => take(c, false));
+  fresh.slice(0, newSlots).forEach((c) => take(c, false));
+
+  const reviewed = cands.filter((c) => !isNew(c.item.card) && !isDue(c.item.card, now));
+  const recentFails = reviewed
+    .filter((c) => ctx.lastFailAt.has(c.item.id) && !ctx.seenToday.has(c.item.id))
+    .sort((a, b) => ctx.lastFailAt.get(b.item.id)! - ctx.lastFailAt.get(a.item.id)!);
+  recentFails.forEach((c) => take(c, true));
+
+  const fragile = [...reviewed].sort((a, b) => a.item.card.stability - b.item.card.stability);
+  fragile.filter((c) => !ctx.seenToday.has(c.item.id)).forEach((c) => take(c, true));
+  fragile.forEach((c) => take(c, true));
+
+  return shuffle(picked, rng);
+}
+
 export function shuffle<T>(arr: T[], rng: () => number = Math.random): T[] {
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {

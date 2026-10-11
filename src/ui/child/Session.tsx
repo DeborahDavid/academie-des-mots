@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { type WordTask, planWordTasks, recordPresentation } from '../../db/sessionRepo';
+import { type SessionCompletion, type SessionKind, type WordTask, completeSession, planSession, recordPresentation } from '../../db/sessionRepo';
 import { AFTER_FAIL_LINES, END_LINES, randomLine, successLine } from '../../domain/lines';
 import { newId } from '../../domain/model';
 import { requeue } from '../../domain/session';
@@ -22,6 +22,7 @@ interface Transition {
   line: string;
   star: boolean;
   ada: boolean;
+  points: number;
 }
 
 interface Summary {
@@ -29,24 +30,36 @@ interface Summary {
   withHint: number;
   toReview: number;
   stars: number;
+  points: number;
 }
 
 /** Durée d'une transition entre deux exercices (passable d'un tap). */
 const TRANSITION_MS = 1600;
 
-export function Session({ onExit }: { onExit: () => void }) {
+export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () => void }) {
   const settings = useSettings();
   const sessionId = useRef(newId()).current;
   const [queue, setQueue] = useState<Task[] | null>(null);
+  const [kind, setKind] = useState<SessionKind>('daily');
+  const [completion, setCompletion] = useState<SessionCompletion | null>(null);
   const [hasWords, setHasWords] = useState(true);
   const [index, setIndex] = useState(0);
   const [transition, setTransition] = useState<Transition | null>(null);
-  const [summary, setSummary] = useState<Summary>({ firstTry: 0, withHint: 0, toReview: 0, stars: 0 });
+  const [summary, setSummary] = useState<Summary>({ firstTry: 0, withHint: 0, toReview: 0, stars: 0, points: 0 });
 
   useEffect(() => {
     db.words.count().then((n) => setHasWords(n > 0));
-    planWordTasks().then((tasks) => setQueue(tasks.map((t) => ({ key: `${t.item.id}#1`, word: t, presentation: 1, failures: 0 }))));
+    planSession().then((plan) => {
+      setKind(plan.kind);
+      setQueue(plan.tasks.map((t) => ({ key: `${t.item.id}#1`, word: t, presentation: 1, failures: 0 })));
+    });
   }, []);
+
+  const done = !!queue && queue.length > 0 && index >= queue.length && !transition;
+  useEffect(() => {
+    if (done && !completion) completeSession(kind).then(setCompletion);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [done]);
 
   useEffect(() => {
     if (!transition) return;
@@ -69,6 +82,7 @@ export function Session({ onExit }: { onExit: () => void }) {
       presentation: task.presentation,
       outcome,
       errorTypes: run.errorTypes,
+      practice: task.word.practice,
     });
     let nextQueue = queue!;
     if (shouldRequeue(run)) {
@@ -82,11 +96,18 @@ export function Session({ onExit }: { onExit: () => void }) {
       withHint: s.withHint + (outcome === 'success_hint' ? 1 : 0),
       toReview: s.toReview + (isLastPresentation && outcome === 'fail' ? 1 : 0),
       stars: s.stars + (effect.newlyAcquired ? 1 : 0),
+      points: s.points + effect.points,
     }));
     setTransition(
       outcome === 'fail'
-        ? { expression: 'contente', line: randomLine(AFTER_FAIL_LINES), star: false, ada: false }
-        : { expression: 'fiere', line: effect.newlyAcquired ? 'Une nouvelle étoile !' : successLine(), star: effect.newlyAcquired, ada: effect.veryHard },
+        ? { expression: 'contente', line: randomLine(AFTER_FAIL_LINES), star: false, ada: false, points: 0 }
+        : {
+            expression: 'fiere',
+            line: effect.newlyAcquired ? 'Une nouvelle étoile !' : successLine(),
+            star: effect.newlyAcquired,
+            ada: effect.veryHard,
+            points: effect.points,
+          },
     );
   }
 
@@ -100,7 +121,7 @@ export function Session({ onExit }: { onExit: () => void }) {
       <main className="session-screen center-col">
         <Elsa
           expression="contente"
-          line={hasWords ? 'Tout est fait pour aujourd’hui ! Reviens demain.' : 'Il n’y a pas encore de mots. Demande à un parent d’ajouter la liste de la semaine.'}
+          line={hasWords ? 'Rien à réviser pour l’instant.' : 'Il n’y a pas encore de mots. Demande à un parent d’ajouter la liste de la semaine.'}
         />
         <button className="primary big" onClick={onExit}>
           Retour à la tour
@@ -110,11 +131,26 @@ export function Session({ onExit }: { onExit: () => void }) {
   }
 
   if (finished && !transition) {
+    if (!completion) return null;
     return (
       <main className="session-screen center-col">
         <h1 className="title-gold">{frTypo('Séance terminée !')}</h1>
+        {completion.flameLit && (
+          <div className="flame-lit">
+            <div className="flame-big" aria-hidden>
+              🔥
+            </div>
+            <p className="gold">
+              {frTypo(`Flamme du jour allumée ! ${completion.flameDays} jour${completion.flameDays > 1 ? 's' : ''} de magie`)}
+            </p>
+          </div>
+        )}
         <Elsa expression="fiere" line={randomLine(END_LINES)} />
         <div className="card summary">
+          <p className="gold">
+            ✦ +{summary.points + completion.bonusPoints} points{' '}
+            <span className="muted small-text">(dont {completion.bonusPoints} de bonus {kind === 'daily' ? 'de la séance du jour' : 'de séance en plus'})</span>
+          </p>
           <p>✦ {summary.firstTry} sort{summary.firstTry > 1 ? 's' : ''} réussi{summary.firstTry > 1 ? 's' : ''} du premier coup</p>
           {summary.withHint > 0 && (
             <p>
@@ -128,9 +164,14 @@ export function Session({ onExit }: { onExit: () => void }) {
           )}
           {summary.toReview > 0 && <p className="muted">{summary.toReview} mot{summary.toReview > 1 ? 's' : ''} reviendr{summary.toReview > 1 ? 'ont' : 'a'} bientôt</p>}
         </div>
-        <button className="primary big" onClick={onExit}>
-          Retour à la tour
-        </button>
+        <div className="row center">
+          <button className="primary big" onClick={onAgain}>
+            {frTypo('Encore une séance !')}
+          </button>
+          <button className="big" onClick={onExit}>
+            Retour à la tour
+          </button>
+        </div>
       </main>
     );
   }
@@ -146,6 +187,7 @@ export function Session({ onExit }: { onExit: () => void }) {
         <button className="transition" onClick={next} aria-label="Continuer">
           {transition.star && <div className="transition-star">★</div>}
           <Elsa expression={transition.expression} line={transition.line} />
+          {transition.points > 0 && <p className="gold">+{transition.points} points</p>}
           {transition.ada && <p className="muted small-text">Ada s’est réveillée pour te voir !</p>}
         </button>
       ) : (
