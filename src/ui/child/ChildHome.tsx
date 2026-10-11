@@ -12,11 +12,13 @@ import { RewardIcon } from '../components/Avatar';
 import { useSettings } from '../hooks';
 import { Session } from './Session';
 import { Wardrobe } from './Wardrobe';
+import { VocabQuest } from './VocabQuest';
+import { Grimoire } from './Grimoire';
 
 /** Écran principal provisoire : la tour et le ciel arrivent avec les illustrations. */
 export function ChildHome() {
   const [session, setSession] = useState(0);
-  const [screen, setScreen] = useState<'home' | 'wardrobe'>('home');
+  const [screen, setScreen] = useState<'home' | 'wardrobe' | 'quest' | 'grimoire'>('home');
   const progress = useLiveQuery(() => getProgress(), [session]);
   const wardrobe = useLiveQuery(() => getWardrobe(), [session]);
   const settings = useSettings();
@@ -29,6 +31,8 @@ export function ChildHome() {
 
   if (session > 0) return <Session key={session} onExit={() => setSession(0)} onAgain={() => setSession((k) => k + 1)} />;
   if (screen === 'wardrobe') return <Wardrobe onBack={() => setScreen('home')} />;
+  if (screen === 'quest') return <VocabQuest onExit={() => setScreen('home')} onGrimoire={() => setScreen('grimoire')} />;
+  if (screen === 'grimoire') return <Grimoire onBack={() => setScreen('home')} />;
 
   const next = wardrobe && nextReward(wardrobe.unlocked, wardrobe.stats);
   const np = next && wardrobe ? next.progress(wardrobe.stats) : null;
@@ -88,9 +92,22 @@ export function ChildHome() {
           )}
         </div>
       </div>
-      <button className="primary big" onClick={() => setSession(1)}>
-        {progress?.litToday ? frTypo('Encore une séance !') : 'Commencer la séance'}
-      </button>
+      <div className="places">
+        <button className="place" onClick={() => setSession(1)}>
+          <span className="place-icon">🪄</span>
+          <span className="place-name">La Salle des Sortilèges</span>
+          <span className="small-text muted">{progress?.litToday ? frTypo('Encore une séance !') : 'Dictée du jour'}</span>
+        </button>
+        <button className="place" onClick={() => setScreen('quest')}>
+          <span className="place-icon">🔭</span>
+          <span className="place-name">L’Exploratrice des mots</span>
+          <span className="small-text muted">Quête de vocabulaire</span>
+        </button>
+        <button className="place small-place" onClick={() => setScreen('grimoire')}>
+          <span className="place-icon">📖</span>
+          <span className="place-name">Mon grimoire</span>
+        </button>
+      </div>
       {progress?.litToday && <p className="muted small-text">{frTypo(`Flamme du jour allumée · ${progress.todayPoints} points aujourd’hui`)}</p>}
       <button className="next-reward" onClick={() => setScreen('wardrobe')}>
         <span>👗 Garde-robe</span>

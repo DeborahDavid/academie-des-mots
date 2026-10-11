@@ -4,10 +4,12 @@ import { NotionsPanel } from './NotionsPanel';
 import { VoicePanel } from './VoicePanel';
 import { SettingsPanel } from './SettingsPanel';
 import { CharactersPanel } from './CharactersPanel';
+import { VocabPanel } from './VocabPanel';
 
 const TABS = [
   { id: 'weeks', label: 'Listes de mots' },
   { id: 'notions', label: 'Notions' },
+  { id: 'vocab', label: 'Vocabulaire' },
   { id: 'characters', label: 'Personnages' },
   { id: 'voice', label: 'Voix' },
   { id: 'settings', label: 'Réglages & sauvegarde' },
@@ -34,6 +36,7 @@ export function ParentApp({ onExit }: { onExit: () => void }) {
       </nav>
       {tab === 'weeks' && <WeeksPanel />}
       {tab === 'notions' && <NotionsPanel />}
+      {tab === 'vocab' && <VocabPanel />}
       {tab === 'characters' && <CharactersPanel />}
       {tab === 'voice' && <VoicePanel />}
       {tab === 'settings' && <SettingsPanel />}
