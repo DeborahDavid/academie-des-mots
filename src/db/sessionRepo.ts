@@ -6,6 +6,7 @@ import { itemId } from '../domain/model';
 import { isAcquired, isNew, review } from '../domain/scheduler';
 import { localDate, POINTS, pointsFor, pointsForSentence } from '../domain/points';
 import { DEFAULT_PICK, type WordCandidate, pickBonusWords, pickSentences, pickWords } from '../domain/session';
+import { constellationFor, normalizeShapeIds } from '../domain/constellations';
 
 function startOfDay(now: Date): number {
   const d = new Date(now);
@@ -268,7 +269,9 @@ export async function recordSentence(r: SentenceResult, now = new Date(), db: Ac
  */
 export async function updateGuidance(results: Map<string, boolean>, now = new Date(), db: AcademieDB = defaultDb): Promise<string[]> {
   const mastered: string[] = [];
+  const order = normalizeShapeIds((await getSettings(db)).constellations);
   await db.transaction('rw', db.notions, async () => {
+    let alreadyMastered = (await db.notions.toArray()).filter((n) => n.masteredAt).length;
     for (const [id, ok] of results) {
       const n = await db.notions.get(id);
       if (!n) continue;
@@ -290,7 +293,9 @@ export async function updateGuidance(results: Map<string, boolean>, now = new Da
       }
       const becomesMastered = !n.masteredAt && guidanceLevel === 3 && ok && streakOk >= 1;
       if (becomesMastered) mastered.push(id);
-      await db.notions.update(id, { guidanceLevel, streakOk, streakFail, ...(becomesMastered ? { masteredAt: now.getTime() } : {}) });
+      // Chaque notion maîtrisée dessine une constellation : poulet, chat, ballon de foot, puis l'ordre du mode parent.
+      const constellation = becomesMastered ? constellationFor(alreadyMastered++, order).id : undefined;
+      await db.notions.update(id, { guidanceLevel, streakOk, streakFail, ...(becomesMastered ? { masteredAt: now.getTime(), constellation } : {}) });
     }
   });
   return mastered;

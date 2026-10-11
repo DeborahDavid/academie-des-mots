@@ -14,6 +14,8 @@ import { syncUnlocks } from '../../db/rewardsRepo';
 import type { Reward } from '../../domain/rewards';
 import { RewardIcon } from '../components/Avatar';
 import { usePortraitUrl } from '../components/Portrait';
+import { ConstellationArt } from '../components/Sky';
+import { shapeById } from '../../domain/constellations';
 import { playStarChime, playSuccessChime } from '../../speech/sfx';
 import { WordExercise } from './WordExercise';
 
@@ -62,6 +64,7 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
   const [kind, setKind] = useState<SessionKind>('daily');
   const [completion, setCompletion] = useState<SessionCompletion | null>(null);
   const [newRewards, setNewRewards] = useState<Reward[]>([]);
+  const [newConstellations, setNewConstellations] = useState<{ shapeId: string; notion: string }[]>([]);
   const [hasWords, setHasWords] = useState(true);
   const [index, setIndex] = useState(0);
   const [transition, setTransition] = useState<Transition | null>(null);
@@ -83,7 +86,11 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
   useEffect(() => {
     if (done && !completion)
       updateGuidance(notionResults.current)
-        .then(() => completeSession(kind))
+        .then(async (mastered) => {
+          const notions = await db.notions.bulkGet(mastered);
+          setNewConstellations(notions.filter(Boolean).map((n) => ({ shapeId: n!.constellation!, notion: n!.label })));
+          return completeSession(kind);
+        })
         .then(async (c) => {
           setNewRewards(await syncUnlocks());
           return c;
@@ -204,6 +211,20 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
             </p>
           </div>
         )}
+        {newConstellations.map((c) => {
+          const shape = shapeById(c.shapeId);
+          return shape ? (
+            <div key={c.shapeId} className="new-reward">
+              <svg viewBox="0 0 140 140" width="140" height="140" className="constellation-preview" aria-hidden>
+                <ConstellationArt shape={shape} x={70} y={70} size={120} />
+              </svg>
+              <p className="gold">{frTypo(`Nouvelle constellation : ${shape.name} !`)}</p>
+              <p className="muted small-text">
+                Notion maîtrisée : {c.notion}. Ada ouvre un œil… puis se rendort.
+              </p>
+            </div>
+          ) : null;
+        })}
         {newRewards.map((r) => (
           <div key={r.id} className="new-reward">
             <div className="flame-big">

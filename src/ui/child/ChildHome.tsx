@@ -2,7 +2,8 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useState } from 'react';
 import { getProgress } from '../../db/sessionRepo';
 import { updateSettings } from '../../db/repo';
-import { getWardrobe, syncUnlocks } from '../../db/rewardsRepo';
+import { getSky, getWardrobe, syncUnlocks } from '../../db/rewardsRepo';
+import { Sky } from '../components/Sky';
 import { syncExplorerRank } from '../../db/vocabRepo';
 import { nextReward } from '../../domain/rewards';
 import { frTypo } from '../../domain/typo';
@@ -23,6 +24,7 @@ export function ChildHome() {
   const [screen, setScreen] = useState<'home' | 'wardrobe' | 'quest' | 'grimoire' | 'path'>('home');
   const progress = useLiveQuery(() => getProgress(), [session]);
   const wardrobe = useLiveQuery(() => getWardrobe(), [session]);
+  const sky = useLiveQuery(() => getSky(), [session]);
   const settings = useSettings();
   const hasLeyuArt = !!usePortraitUrl('leyu-pied');
   const hasElsaArt = !!usePortraitUrl('elsa-buste');
@@ -43,7 +45,10 @@ export function ChildHome() {
   const np = next && wardrobe ? next.progress(wardrobe.stats) : null;
 
   return (
-    <main className="child-home">
+    <main className={`child-home ${settings?.animations === false ? 'no-motion' : ''}`}>
+      <div className="sky-window" title="Le ciel de la tour : une étoile par mot acquis, une constellation par notion maîtrisée">
+        {sky && <Sky stars={sky.stars} moonPhase={sky.moonPhase} constellations={sky.constellations} />}
+      </div>
       <div className="hud">
         <span className={progress?.litToday ? 'flame on' : 'flame'} title="Jours de magie">
           🔥 {progress?.flameDays ?? 0}

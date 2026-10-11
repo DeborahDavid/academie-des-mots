@@ -146,5 +146,6 @@ describe('guidage dégressif', () => {
     const mastered = await updateGuidance(ok, now, db);
     expect(mastered).toEqual(['gn-nombre']);
     expect((await db.notions.get('gn-nombre'))!.masteredAt).toBeDefined();
+    expect((await db.notions.get('gn-nombre'))!.constellation).toBe('poulet'); // première notion maîtrisée
   });
 });

@@ -71,3 +71,17 @@ export async function getWeekPath(db: AcademieDB = defaultDb) {
     ),
   );
 }
+
+/** Le ciel de la tour : une étoile par mot acquis, une constellation par notion maîtrisée, la lune de la semaine. */
+export async function getSky(db: AcademieDB = defaultDb) {
+  const [stats, settings, notions] = await Promise.all([getMasteryStats(db), getSettings(db), db.notions.toArray()]);
+  return {
+    stars: stats.acquiredWords,
+    onTrack: stats.onTrackWords,
+    moonPhase: settings.moonPhase,
+    constellations: notions
+      .filter((n) => n.masteredAt && n.constellation)
+      .sort((a, b) => a.masteredAt! - b.masteredAt!)
+      .map((n) => ({ shapeId: n.constellation!, notion: n.label })),
+  };
+}

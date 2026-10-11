@@ -166,6 +166,8 @@ export interface Settings {
   voiceURI?: string;
   speechRate: number;
   muted: boolean;
+  /** Animations de l'écran principal (scintillement) : désactivables. */
+  animations?: boolean;
   jersey: Jersey;
   titles: [string, string, string];
   thresholds: Thresholds;
