@@ -1,0 +1,1074 @@
+{
+ "format": "academie-vocab",
+ "version": 1,
+ "batch": 4,
+ "generatedBy": "Claude (assistant IA) — contenu à vérifier par le parent avant d’être montré à l’enfant",
+ "selection": "Rangs 61 à 80 du corpus prioritaire (scripts/vocab/build_lexicon.py)",
+ "words": [
+  {
+   "id": "croquant",
+   "priorityRank": 61,
+   "lemma": "croquant",
+   "pos": "adjectif",
+   "definition": "Qui fait un petit bruit sec sous la dent quand on le croque.",
+   "examples": [
+    "Ces biscuits croquants font crac sous la dent.",
+    "Leyu adore les pommes bien croquantes."
+   ],
+   "synonyms": [
+    "croustillant",
+    "craquant"
+   ],
+   "antonyms": [
+    "mou",
+    "fondant"
+   ],
+   "level": 2,
+   "week": 13,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui fait un petit bruit sec sous la dent.",
+     "choices": [
+      "croquant",
+      "mouillé",
+      "collant"
+     ],
+     "explanation": "Croquant : ça fait crac quand on croque."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Quand Hugo mord dans la carotte, on entend : crac ! La carotte est…",
+     "choices": [
+      "croquante",
+      "molle",
+      "tiède"
+     ],
+     "explanation": "La carotte fait crac sous la dent : elle est croquante."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « croquant » ?",
+     "choices": [
+      "mou",
+      "croustillant",
+      "salé"
+     ],
+     "explanation": "Mou est le contraire de croquant. « Croustillant » veut dire presque la même chose."
+    }
+   ]
+  },
+  {
+   "id": "bleme",
+   "priorityRank": 62,
+   "lemma": "blême",
+   "pos": "adjectif",
+   "definition": "Très pâle, presque blanc, à cause de la peur, du froid ou de la maladie.",
+   "examples": [
+    "En voyant l’araignée géante, Sami devient blême.",
+    "Après le grand manège, Nina était blême."
+   ],
+   "synonyms": [
+    "pâle",
+    "livide"
+   ],
+   "antonyms": [],
+   "level": 2,
+   "week": 13,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Très pâle, presque blanc, à cause de la peur.",
+     "choices": [
+      "blême",
+      "bronzé",
+      "rayonnant"
+     ],
+     "explanation": "Blême : très pâle, presque blanc."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "En entendant le grondement dans la grotte, Hugo devient tout blanc de peur. Il est…",
+     "choices": [
+      "blême",
+      "rouge",
+      "bronzé"
+     ],
+     "explanation": "Hugo devient tout pâle de peur : il est blême."
+    },
+    {
+     "id": "synonyme-1",
+     "type": "synonyme",
+     "prompt": "Quel mot veut dire presque la même chose que « blême » ?",
+     "choices": [
+      "pâle",
+      "joyeux",
+      "rapide"
+     ],
+     "explanation": "Pâle et blême veulent dire : sans couleur, presque blanc."
+    }
+   ]
+  },
+  {
+   "id": "intact",
+   "priorityRank": 63,
+   "lemma": "intact",
+   "pos": "adjectif",
+   "definition": "Qui n’a pas été abîmé, cassé ni touché ; resté entier.",
+   "examples": [
+    "Malgré la chute, le vase est intact.",
+    "Le gâteau est resté intact : personne n’y a goûté."
+   ],
+   "synonyms": [
+    "entier",
+    "indemne"
+   ],
+   "antonyms": [
+    "abîmé",
+    "cassé"
+   ],
+   "level": 2,
+   "week": 13,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui n’a pas été abîmé ni cassé.",
+     "choices": [
+      "intact",
+      "brisé",
+      "sale"
+     ],
+     "explanation": "Intact : resté entier, sans dégât."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Le colis est tombé de l’étagère, mais le jouet à l’intérieur n’a rien du tout. Il est…",
+     "choices": [
+      "intact",
+      "cassé",
+      "perdu"
+     ],
+     "explanation": "Le jouet n’a aucun dégât : il est intact."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « intact » ?",
+     "choices": [
+      "abîmé",
+      "entier",
+      "propre"
+     ],
+     "explanation": "Abîmé est le contraire d’intact. « Entier » veut dire presque la même chose."
+    }
+   ]
+  },
+  {
+   "id": "inoffensif",
+   "priorityRank": 64,
+   "lemma": "inoffensif",
+   "pos": "adjectif",
+   "definition": "Qui ne fait pas de mal, qui n’est pas dangereux.",
+   "examples": [
+    "Cette petite couleuvre est inoffensive.",
+    "Le dragon de l’Académie a l’air terrible, mais il est inoffensif."
+   ],
+   "synonyms": [
+    "sans danger"
+   ],
+   "antonyms": [
+    "dangereux"
+   ],
+   "level": 2,
+   "week": 13,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui ne fait pas de mal, pas dangereux.",
+     "choices": [
+      "inoffensif",
+      "dangereux",
+      "bruyant"
+     ],
+     "explanation": "Inoffensif : qui ne fait pas de mal."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "L’araignée de la salle de bains ne pique pas et ne mord pas. Elle est…",
+     "choices": [
+      "inoffensive",
+      "venimeuse",
+      "féroce"
+     ],
+     "explanation": "Elle ne fait aucun mal : elle est inoffensive."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « inoffensif » ?",
+     "choices": [
+      "dangereux",
+      "gentil",
+      "petit"
+     ],
+     "explanation": "Dangereux est le contraire d’inoffensif."
+    }
+   ]
+  },
+  {
+   "id": "hurlant",
+   "priorityRank": 65,
+   "lemma": "hurlant",
+   "pos": "adjectif",
+   "definition": "Qui crie très fort, ou qui fait un bruit très fort.",
+   "examples": [
+    "Le vent hurlant secoue les volets de la tour.",
+    "Une foule hurlante encourage les joueuses."
+   ],
+   "synonyms": [],
+   "antonyms": [
+    "silencieux"
+   ],
+   "level": 2,
+   "week": 13,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui crie ou fait un bruit très fort.",
+     "choices": [
+      "hurlant",
+      "silencieux",
+      "chuchotant"
+     ],
+     "explanation": "Hurlant : qui crie très fort."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Pendant la tempête, le vent fait un bruit terrible : « Hououou ! » C’est un vent…",
+     "choices": [
+      "hurlant",
+      "léger",
+      "tiède"
+     ],
+     "explanation": "Le vent fait un bruit très fort : c’est un vent hurlant."
+    }
+   ]
+  },
+  {
+   "id": "vraisemblable",
+   "priorityRank": 66,
+   "lemma": "vraisemblable",
+   "pos": "adjectif",
+   "definition": "Qui pourrait être vrai, qui semble possible et crédible.",
+   "examples": [
+    "Ton excuse est vraisemblable : il y avait vraiment des bouchons.",
+    "Une histoire de licorne dans la cuisine, ce n’est pas très vraisemblable !"
+   ],
+   "synonyms": [
+    "crédible",
+    "plausible"
+   ],
+   "antonyms": [
+    "invraisemblable"
+   ],
+   "level": 3,
+   "week": 14,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui pourrait être vrai, qui semble possible.",
+     "choices": [
+      "vraisemblable",
+      "impossible",
+      "ridicule"
+     ],
+     "explanation": "Vraisemblable : ça pourrait bien être vrai."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « vraisemblable » ?",
+     "choices": [
+      "invraisemblable",
+      "crédible",
+      "possible"
+     ],
+     "explanation": "Invraisemblable est le contraire. « Crédible » veut dire presque la même chose que vraisemblable."
+    },
+    {
+     "id": "phrase-1",
+     "type": "phrase",
+     "prompt": "Dans quelle phrase « vraisemblable » est-il bien utilisé ?",
+     "choices": [
+      "« Je suis en retard, car le bus est tombé en panne » : c’est une excuse vraisemblable.",
+      "« Je suis en retard, car un dragon a mangé mon vélo » : c’est une excuse vraisemblable.",
+      "La soupe est vraisemblable et bien chaude."
+     ],
+     "explanation": "Une panne de bus, ça arrive vraiment : l’excuse est vraisemblable."
+    }
+   ]
+  },
+  {
+   "id": "rassurant",
+   "priorityRank": 67,
+   "lemma": "rassurant",
+   "pos": "adjectif",
+   "definition": "Qui enlève la peur ou l’inquiétude, qui fait du bien quand on a peur.",
+   "examples": [
+    "La voix douce de maman est rassurante.",
+    "La petite lumière de la lampe est rassurante pendant la nuit."
+   ],
+   "synonyms": [
+    "apaisant",
+    "réconfortant"
+   ],
+   "antonyms": [
+    "inquiétant",
+    "effrayant"
+   ],
+   "level": 2,
+   "week": 14,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui enlève la peur ou l’inquiétude.",
+     "choices": [
+      "rassurant",
+      "effrayant",
+      "ennuyeux"
+     ],
+     "explanation": "Rassurant : qui enlève la peur."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Leyu a peur de l’orage. Elsa lui prend la main et dit : « Ne t’inquiète pas, je suis là. » Les mots d’Elsa sont…",
+     "choices": [
+      "rassurants",
+      "inquiétants",
+      "bruyants"
+     ],
+     "explanation": "Les mots d’Elsa enlèvent la peur de Leyu : ils sont rassurants."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « rassurant » ?",
+     "choices": [
+      "inquiétant",
+      "apaisant",
+      "gentil"
+     ],
+     "explanation": "Inquiétant est le contraire de rassurant. « Apaisant » veut dire presque la même chose."
+    }
+   ]
+  },
+  {
+   "id": "melancolique",
+   "priorityRank": 68,
+   "lemma": "mélancolique",
+   "pos": "adjectif",
+   "definition": "Un peu triste et rêveur, en pensant à ce qui est passé.",
+   "examples": [
+    "Le soir de la fin des vacances, Leyu est mélancolique.",
+    "La pluie d’automne rend le paysage mélancolique."
+   ],
+   "synonyms": [
+    "nostalgique",
+    "triste"
+   ],
+   "antonyms": [
+    "joyeux",
+    "gai"
+   ],
+   "level": 3,
+   "week": 14,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Un peu triste et rêveur, en pensant au passé.",
+     "choices": [
+      "mélancolique",
+      "furieux",
+      "pressé"
+     ],
+     "explanation": "Mélancolique : doucement triste et rêveur."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "En regardant les photos de l’été, Hugo soupire : il est un peu triste que ce soit fini. Il est…",
+     "choices": [
+      "mélancolique",
+      "en colère",
+      "affamé"
+     ],
+     "explanation": "Hugo est doucement triste en pensant à l’été : il est mélancolique."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « mélancolique » ?",
+     "choices": [
+      "joyeux",
+      "triste",
+      "calme"
+     ],
+     "explanation": "Joyeux est le contraire de mélancolique. « Triste » est proche de mélancolique."
+    }
+   ]
+  },
+  {
+   "id": "tardif",
+   "priorityRank": 69,
+   "lemma": "tardif",
+   "pos": "adjectif",
+   "definition": "Qui arrive tard, après le moment habituel.",
+   "examples": [
+    "À cause de l’orage, le dîner a été tardif.",
+    "Les fleurs tardives s’ouvrent seulement à la fin de l’été."
+   ],
+   "synonyms": [],
+   "antonyms": [
+    "précoce"
+   ],
+   "level": 2,
+   "week": 14,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui arrive tard, après le moment habituel.",
+     "choices": [
+      "tardif",
+      "rapide",
+      "ancien"
+     ],
+     "explanation": "Tardif : qui arrive tard."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "D’habitude, on dîne à 19 heures, mais ce soir on mange à 22 heures. C’est un dîner…",
+     "choices": [
+      "tardif",
+      "précoce",
+      "léger"
+     ],
+     "explanation": "Le dîner arrive bien plus tard que d’habitude : il est tardif."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « tardif » ?",
+     "choices": [
+      "précoce",
+      "lent",
+      "long"
+     ],
+     "explanation": "Précoce, c’est en avance : le contraire de tardif."
+    }
+   ]
+  },
+  {
+   "id": "ecarlate",
+   "priorityRank": 70,
+   "lemma": "écarlate",
+   "pos": "adjectif",
+   "definition": "D’un rouge très vif et éclatant.",
+   "examples": [
+    "Gênée, Nina est devenue écarlate.",
+    "Le dragon crache des flammes écarlates."
+   ],
+   "synonyms": [
+    "rouge vif"
+   ],
+   "antonyms": [],
+   "level": 2,
+   "week": 14,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "D’un rouge très vif.",
+     "choices": [
+      "écarlate",
+      "pâle",
+      "verdâtre"
+     ],
+     "explanation": "Écarlate : rouge très vif."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Après sa course, Hugo a les joues d’un rouge très vif. Il est…",
+     "choices": [
+      "écarlate",
+      "blême",
+      "bleu"
+     ],
+     "explanation": "Ses joues sont d’un rouge éclatant : il est écarlate."
+    }
+   ]
+  },
+  {
+   "id": "theatral",
+   "priorityRank": 71,
+   "lemma": "théâtral",
+   "pos": "adjectif",
+   "definition": "Exagéré, comme sur une scène de théâtre ; ou qui concerne le théâtre.",
+   "examples": [
+    "Avec un geste théâtral, la magicienne ouvre sa cape.",
+    "Arrête de soupirer de façon si théâtrale : ce n’est qu’une dictée !"
+   ],
+   "synonyms": [
+    "exagéré"
+   ],
+   "antonyms": [
+    "naturel",
+    "simple"
+   ],
+   "level": 2,
+   "week": 15,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Exagéré, comme sur une scène de théâtre.",
+     "choices": [
+      "théâtral",
+      "discret",
+      "timide"
+     ],
+     "explanation": "Théâtral : exagéré, pour qu’on le remarque."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Pour dire qu’il a faim, Max se jette par terre en gémissant : « Je meurs de faim ! » Son attitude est…",
+     "choices": [
+      "théâtrale",
+      "discrète",
+      "polie"
+     ],
+     "explanation": "Max exagère énormément, comme au théâtre : son attitude est théâtrale."
+    }
+   ]
+  },
+  {
+   "id": "neigeux",
+   "priorityRank": 72,
+   "lemma": "neigeux",
+   "pos": "adjectif",
+   "definition": "Couvert de neige, ou plein de neige.",
+   "examples": [
+    "Les sommets neigeux brillent au soleil.",
+    "Par ce temps neigeux, les apprenties construisent un bonhomme de neige."
+   ],
+   "synonyms": [
+    "enneigé"
+   ],
+   "antonyms": [],
+   "level": 2,
+   "week": 15,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Couvert de neige.",
+     "choices": [
+      "neigeux",
+      "sablonneux",
+      "boueux"
+     ],
+     "explanation": "Neigeux : couvert de neige."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "En hiver, les toits de l’Académie sont couverts d’un épais manteau blanc. Ils sont…",
+     "choices": [
+      "neigeux",
+      "rouillés",
+      "fleuris"
+     ],
+     "explanation": "Les toits sont couverts de neige : ils sont neigeux."
+    }
+   ]
+  },
+  {
+   "id": "tranchant",
+   "priorityRank": 73,
+   "lemma": "tranchant",
+   "pos": "adjectif",
+   "definition": "Qui coupe très bien.",
+   "examples": [
+    "Attention, ce couteau est tranchant !",
+    "Les feuilles de cette herbe sont tranchantes comme du papier."
+   ],
+   "synonyms": [
+    "coupant",
+    "affûté"
+   ],
+   "antonyms": [
+    "émoussé"
+   ],
+   "level": 2,
+   "week": 15,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui coupe très bien.",
+     "choices": [
+      "tranchant",
+      "mou",
+      "rond"
+     ],
+     "explanation": "Tranchant : qui coupe bien."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Le cuisinier coupe la tomate en une seconde, sans appuyer : son couteau est très…",
+     "choices": [
+      "tranchant",
+      "lourd",
+      "sale"
+     ],
+     "explanation": "Le couteau coupe très bien : il est tranchant."
+    },
+    {
+     "id": "synonyme-1",
+     "type": "synonyme",
+     "prompt": "Quel mot veut dire presque la même chose que « tranchant » ?",
+     "choices": [
+      "coupant",
+      "brillant",
+      "léger"
+     ],
+     "explanation": "Coupant et tranchant : qui coupe bien."
+    }
+   ],
+   "otherSenses": [
+    "Un ton tranchant : une façon de parler sèche et sévère."
+   ]
+  },
+  {
+   "id": "indifferent",
+   "priorityRank": 74,
+   "lemma": "indifférent",
+   "pos": "adjectif",
+   "definition": "Qui ne s’intéresse pas à quelque chose ; que cela ne touche pas.",
+   "examples": [
+    "Ada reste indifférente : la balle ne l’intéresse pas du tout.",
+    "Elsa n’est jamais indifférente quand une amie est triste."
+   ],
+   "synonyms": [
+    "insensible"
+   ],
+   "antonyms": [
+    "intéressé",
+    "curieux"
+   ],
+   "level": 3,
+   "week": 15,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui ne s’intéresse pas à quelque chose.",
+     "choices": [
+      "indifférent",
+      "passionné",
+      "inquiet"
+     ],
+     "explanation": "Indifférent : ça ne l’intéresse pas, ça ne le touche pas."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "On montre un nouveau jouet au chat, mais il bâille et se rendort. Il est…",
+     "choices": [
+      "indifférent",
+      "curieux",
+      "excité"
+     ],
+     "explanation": "Le jouet ne l’intéresse pas du tout : le chat est indifférent."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « indifférent » ?",
+     "choices": [
+      "intéressé",
+      "insensible",
+      "calme"
+     ],
+     "explanation": "Intéressé est le contraire d’indifférent. « Insensible » veut dire presque la même chose."
+    }
+   ]
+  },
+  {
+   "id": "haletant",
+   "priorityRank": 75,
+   "lemma": "haletant",
+   "pos": "adjectif",
+   "definition": "Qui respire vite et fort, souvent après un effort ou une émotion.",
+   "examples": [
+    "Haletante, Leyu arrive en haut de la tour.",
+    "Après la course, le chien haletant boit toute l’eau de sa gamelle."
+   ],
+   "synonyms": [
+    "essoufflé"
+   ],
+   "antonyms": [],
+   "level": 2,
+   "week": 15,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui respire vite et fort après un effort.",
+     "choices": [
+      "haletant",
+      "endormi",
+      "silencieux"
+     ],
+     "explanation": "Haletant : qui respire vite, essoufflé."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Hugo a couru jusqu’à l’école : il respire très vite et n’arrive plus à parler. Il est…",
+     "choices": [
+      "haletant",
+      "reposé",
+      "détendu"
+     ],
+     "explanation": "Hugo respire vite et fort : il est haletant."
+    },
+    {
+     "id": "synonyme-1",
+     "type": "synonyme",
+     "prompt": "Quel mot veut dire presque la même chose que « haletant » ?",
+     "choices": [
+      "essoufflé",
+      "mouillé",
+      "pressé"
+     ],
+     "explanation": "Essoufflé et haletant : qui respire vite après un effort."
+    }
+   ]
+  },
+  {
+   "id": "ebahi",
+   "priorityRank": 76,
+   "lemma": "ébahi",
+   "pos": "adjectif",
+   "definition": "Très étonné, au point de rester bouche bée.",
+   "examples": [
+    "Ébahis, les enfants regardent le magicien sortir un dragon de son chapeau.",
+    "Nina reste ébahie devant le ciel plein d’étoiles filantes."
+   ],
+   "synonyms": [
+    "stupéfait",
+    "émerveillé"
+   ],
+   "antonyms": [
+    "indifférent"
+   ],
+   "level": 2,
+   "week": 16,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Très étonné, bouche bée.",
+     "choices": [
+      "ébahi",
+      "fatigué",
+      "fâché"
+     ],
+     "explanation": "Ébahi : très, très étonné."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Quand le chat se met à parler, Sami reste la bouche grande ouverte, sans bouger. Il est…",
+     "choices": [
+      "ébahi",
+      "endormi",
+      "furieux"
+     ],
+     "explanation": "Sami est tellement étonné qu’il reste bouche bée : il est ébahi."
+    },
+    {
+     "id": "synonyme-1",
+     "type": "synonyme",
+     "prompt": "Quel mot veut dire presque la même chose que « ébahi » ?",
+     "choices": [
+      "stupéfait",
+      "gourmand",
+      "pressé"
+     ],
+     "explanation": "Stupéfait et ébahi : extrêmement étonné."
+    }
+   ]
+  },
+  {
+   "id": "circulaire",
+   "priorityRank": 77,
+   "lemma": "circulaire",
+   "pos": "adjectif",
+   "definition": "Qui a la forme d’un cercle, ou qui fait un tour complet.",
+   "examples": [
+    "La grande fenêtre de la tour est circulaire.",
+    "Les chevaux de bois du manège font un mouvement circulaire."
+   ],
+   "synonyms": [
+    "rond"
+   ],
+   "antonyms": [],
+   "level": 2,
+   "week": 16,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui a la forme d’un cercle.",
+     "choices": [
+      "circulaire",
+      "carré",
+      "pointu"
+     ],
+     "explanation": "Circulaire : en forme de cercle."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "La piste du cirque forme un grand rond. Elle est…",
+     "choices": [
+      "circulaire",
+      "rectangulaire",
+      "triangulaire"
+     ],
+     "explanation": "La piste a la forme d’un cercle : elle est circulaire."
+    }
+   ]
+  },
+  {
+   "id": "definitif",
+   "priorityRank": 78,
+   "lemma": "définitif",
+   "pos": "adjectif",
+   "definition": "Qui ne changera plus ; fixé pour toujours.",
+   "examples": [
+    "C’est décidé, et c’est définitif : nous partons à la mer !",
+    "Le résultat définitif sera annoncé demain."
+   ],
+   "synonyms": [
+    "final"
+   ],
+   "antonyms": [
+    "provisoire"
+   ],
+   "level": 2,
+   "week": 16,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui ne changera plus.",
+     "choices": [
+      "définitif",
+      "provisoire",
+      "rapide"
+     ],
+     "explanation": "Définitif : ça ne changera plus."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « définitif » ?",
+     "choices": [
+      "provisoire",
+      "final",
+      "long"
+     ],
+     "explanation": "Provisoire, c’est pour un moment seulement : le contraire de définitif. « Final » est proche de définitif."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "L’arbitre a sifflé la fin du match : le score ne changera plus. Le score est…",
+     "choices": [
+      "définitif",
+      "provisoire",
+      "secret"
+     ],
+     "explanation": "Le score ne peut plus changer : il est définitif."
+    }
+   ]
+  },
+  {
+   "id": "poussiereux",
+   "priorityRank": 79,
+   "lemma": "poussiéreux",
+   "pos": "adjectif",
+   "definition": "Couvert de poussière.",
+   "examples": [
+    "Dans le grenier, on trouve un vieux coffre poussiéreux.",
+    "Les livres poussiéreux de la bibliothèque font éternuer Elsa."
+   ],
+   "synonyms": [],
+   "antonyms": [
+    "propre"
+   ],
+   "level": 3,
+   "week": 16,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Couvert de poussière.",
+     "choices": [
+      "poussiéreux",
+      "brillant",
+      "mouillé"
+     ],
+     "explanation": "Poussiéreux : couvert de poussière."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Personne n’a ouvert ce vieux grimoire depuis cent ans : il est couvert d’une couche grise. Il est…",
+     "choices": [
+      "poussiéreux",
+      "neuf",
+      "mouillé"
+     ],
+     "explanation": "Le grimoire est couvert de poussière : il est poussiéreux."
+    }
+   ]
+  },
+  {
+   "id": "classique",
+   "priorityRank": 80,
+   "lemma": "classique",
+   "pos": "adjectif",
+   "definition": "Habituel, que tout le monde connaît ; ou admiré depuis très longtemps.",
+   "examples": [
+    "La cape étoilée, c’est la tenue classique des apprenties de l’Académie.",
+    "Mozart a composé de la musique classique."
+   ],
+   "synonyms": [
+    "habituel",
+    "traditionnel"
+   ],
+   "antonyms": [
+    "original"
+   ],
+   "level": 2,
+   "week": 16,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Habituel, que tout le monde connaît.",
+     "choices": [
+      "classique",
+      "bizarre",
+      "inventé"
+     ],
+     "explanation": "Classique : habituel, bien connu."
+    },
+    {
+     "id": "phrase-1",
+     "type": "phrase",
+     "prompt": "Dans quelle phrase « classique » est-il bien utilisé ?",
+     "choices": [
+      "Le jeu du loup, c’est un classique de la récréation.",
+      "Le jeu du loup est classique parce qu’il est mouillé.",
+      "Ce classique s’envole tout seul dans le ciel."
+     ],
+     "explanation": "Le jeu du loup est connu de tous et joué depuis toujours : c’est un classique."
+    }
+   ]
+  }
+ ]
+}

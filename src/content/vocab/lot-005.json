@@ -1,0 +1,1075 @@
+{
+ "format": "academie-vocab",
+ "version": 1,
+ "batch": 5,
+ "generatedBy": "Claude (assistant IA) — contenu à vérifier par le parent avant d’être montré à l’enfant",
+ "selection": "Rangs 81 à 100 du corpus prioritaire (scripts/vocab/build_lexicon.py)",
+ "words": [
+  {
+   "id": "ovale",
+   "priorityRank": 81,
+   "lemma": "ovale",
+   "pos": "adjectif",
+   "definition": "Qui a la forme d’un œuf : arrondi et un peu allongé.",
+   "examples": [
+    "Le miroir de la garde-robe est ovale.",
+    "Un ballon de rugby est ovale."
+   ],
+   "synonyms": [],
+   "antonyms": [],
+   "level": 2,
+   "week": 17,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Arrondi et un peu allongé, comme un œuf.",
+     "choices": [
+      "ovale",
+      "carré",
+      "pointu"
+     ],
+     "explanation": "Ovale : en forme d’œuf."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Le ballon de rugby n’est pas rond comme un ballon de foot : il est allongé comme un œuf. Il est…",
+     "choices": [
+      "ovale",
+      "carré",
+      "plat"
+     ],
+     "explanation": "Allongé comme un œuf : il est ovale."
+    }
+   ]
+  },
+  {
+   "id": "argument",
+   "priorityRank": 82,
+   "lemma": "argument",
+   "pos": "nom",
+   "definition": "Une raison qu’on donne pour convaincre quelqu’un.",
+   "examples": [
+    "Leyu a trouvé un bon argument pour avoir un chaton.",
+    "Quel est ton argument pour dire que c’est vrai ?"
+   ],
+   "synonyms": [
+    "raison",
+    "preuve"
+   ],
+   "antonyms": [],
+   "level": 2,
+   "week": 17,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Une raison qu’on donne pour convaincre quelqu’un.",
+     "choices": [
+      "un argument",
+      "un cadeau",
+      "un secret"
+     ],
+     "explanation": "Un argument : une raison pour convaincre."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Pour aller au parc, Hugo dit : « Il fait beau et j’ai fini mes devoirs. » Il donne de bons…",
+     "choices": [
+      "arguments",
+      "cadeaux",
+      "bonbons"
+     ],
+     "explanation": "Hugo donne des raisons pour convaincre : ce sont des arguments."
+    },
+    {
+     "id": "phrase-1",
+     "type": "phrase",
+     "prompt": "Dans quelle phrase « argument » est-il bien utilisé ?",
+     "choices": [
+      "« Les chats dorment beaucoup » : voilà mon argument pour ne pas réveiller Ada.",
+      "J’ai mis mon argument dans mon cartable avec ma trousse.",
+      "L’argument a mangé toutes les croquettes."
+     ],
+     "explanation": "Un argument est une raison qu’on donne, pas un objet."
+    }
+   ]
+  },
+  {
+   "id": "disponible",
+   "priorityRank": 83,
+   "lemma": "disponible",
+   "pos": "adjectif",
+   "definition": "Libre, qu’on peut avoir ou utiliser tout de suite ; qui a du temps.",
+   "examples": [
+    "Le livre que tu voulais est disponible à la bibliothèque.",
+    "Maman est disponible pour jouer après le dîner."
+   ],
+   "synonyms": [
+    "libre"
+   ],
+   "antonyms": [
+    "occupé"
+   ],
+   "level": 2,
+   "week": 17,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Libre, qu’on peut utiliser ou voir tout de suite.",
+     "choices": [
+      "disponible",
+      "occupé",
+      "cassé"
+     ],
+     "explanation": "Disponible : libre, prêt à servir."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Toutes les balançoires sont prises, sauf une. Cette balançoire est…",
+     "choices": [
+      "disponible",
+      "occupée",
+      "rouillée"
+     ],
+     "explanation": "Personne n’est dessus, on peut la prendre : elle est disponible."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « disponible » ?",
+     "choices": [
+      "occupé",
+      "libre",
+      "gentil"
+     ],
+     "explanation": "Occupé est le contraire de disponible. « Libre » veut dire presque la même chose."
+    }
+   ]
+  },
+  {
+   "id": "monotone",
+   "priorityRank": 84,
+   "lemma": "monotone",
+   "pos": "adjectif",
+   "definition": "Toujours pareil, sans changement, et donc un peu ennuyeux.",
+   "examples": [
+    "La voix monotone du robot endort Sami.",
+    "Le paysage du désert est monotone : du sable, encore du sable."
+   ],
+   "synonyms": [
+    "ennuyeux",
+    "uniforme"
+   ],
+   "antonyms": [
+    "varié"
+   ],
+   "level": 2,
+   "week": 17,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Toujours pareil, sans changement, un peu ennuyeux.",
+     "choices": [
+      "monotone",
+      "passionnant",
+      "varié"
+     ],
+     "explanation": "Monotone : toujours la même chose."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Pendant tout le trajet, on ne voit que des champs, des champs et encore des champs. Le paysage est…",
+     "choices": [
+      "monotone",
+      "varié",
+      "effrayant"
+     ],
+     "explanation": "Toujours la même chose : le paysage est monotone."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « monotone » ?",
+     "choices": [
+      "varié",
+      "ennuyeux",
+      "lent"
+     ],
+     "explanation": "Varié est le contraire. « Ennuyeux » est proche de monotone."
+    }
+   ]
+  },
+  {
+   "id": "debutant",
+   "priorityRank": 85,
+   "lemma": "débutant",
+   "pos": "adjectif",
+   "definition": "Qui commence à apprendre quelque chose.",
+   "examples": [
+    "Au judo, Nina est encore débutante.",
+    "Le cours débutant de magie a lieu le mercredi."
+   ],
+   "synonyms": [
+    "novice"
+   ],
+   "antonyms": [
+    "expert"
+   ],
+   "level": 2,
+   "week": 17,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui commence à apprendre quelque chose.",
+     "choices": [
+      "débutant",
+      "champion",
+      "expert"
+     ],
+     "explanation": "Débutant : qui commence à apprendre."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Max fait du piano depuis une semaine seulement. Il est…",
+     "choices": [
+      "débutant",
+      "expert",
+      "célèbre"
+     ],
+     "explanation": "Max commence tout juste : il est débutant."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « débutant » ?",
+     "choices": [
+      "expert",
+      "novice",
+      "petit"
+     ],
+     "explanation": "Expert, c’est quelqu’un qui sait très bien faire : le contraire de débutant."
+    }
+   ]
+  },
+  {
+   "id": "penaud",
+   "priorityRank": 86,
+   "lemma": "penaud",
+   "pos": "adjectif",
+   "definition": "Gêné et un peu honteux, après une bêtise ou un échec.",
+   "examples": [
+    "Après avoir renversé le lait, Ada a l’air penaude.",
+    "Hugo revient penaud : il a perdu le ballon de l’équipe."
+   ],
+   "synonyms": [
+    "honteux",
+    "confus"
+   ],
+   "antonyms": [
+    "fier"
+   ],
+   "level": 2,
+   "week": 18,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Gêné et un peu honteux après une bêtise.",
+     "choices": [
+      "penaud",
+      "fier",
+      "joyeux"
+     ],
+     "explanation": "Penaud : gêné et honteux."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Sami a cassé le vase par accident. Il baisse la tête et n’ose plus parler. Il est…",
+     "choices": [
+      "penaud",
+      "fier",
+      "furieux"
+     ],
+     "explanation": "Sami est gêné et honteux : il est penaud."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « penaud » ?",
+     "choices": [
+      "fier",
+      "honteux",
+      "calme"
+     ],
+     "explanation": "Fier est le contraire de penaud. « Honteux » veut dire presque la même chose."
+    }
+   ]
+  },
+  {
+   "id": "trapu",
+   "priorityRank": 87,
+   "lemma": "trapu",
+   "pos": "adjectif",
+   "definition": "Petit et large, à l’air solide.",
+   "examples": [
+    "Le gardien de la tour est un homme trapu et fort.",
+    "Ce petit cheval trapu peut porter de lourdes charges."
+   ],
+   "synonyms": [
+    "costaud"
+   ],
+   "antonyms": [
+    "élancé"
+   ],
+   "level": 2,
+   "week": 18,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Petit et large, à l’air solide.",
+     "choices": [
+      "trapu",
+      "maigre",
+      "élancé"
+     ],
+     "explanation": "Trapu : petit, large et solide."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Le chien de Théo n’est pas grand, mais il est large, avec des pattes courtes et musclées. Il est…",
+     "choices": [
+      "trapu",
+      "fragile",
+      "élancé"
+     ],
+     "explanation": "Petit, large et solide : il est trapu."
+    }
+   ]
+  },
+  {
+   "id": "ingenieux",
+   "priorityRank": 88,
+   "lemma": "ingénieux",
+   "pos": "adjectif",
+   "definition": "Qui a des idées astucieuses pour trouver des solutions.",
+   "examples": [
+    "Elsa a eu une idée ingénieuse pour attraper la balle coincée.",
+    "Ce tire-bouchon est un objet ingénieux."
+   ],
+   "synonyms": [
+    "astucieux",
+    "inventif"
+   ],
+   "antonyms": [],
+   "level": 2,
+   "week": 18,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui a des idées astucieuses pour trouver des solutions.",
+     "choices": [
+      "ingénieux",
+      "paresseux",
+      "maladroit"
+     ],
+     "explanation": "Ingénieux : plein d’idées astucieuses."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Le cerf-volant est coincé dans l’arbre. Léonie attache une cuillère à un balai pour le décrocher. Son idée est…",
+     "choices": [
+      "ingénieuse",
+      "paresseuse",
+      "dangereuse"
+     ],
+     "explanation": "Léonie trouve une solution astucieuse : son idée est ingénieuse."
+    },
+    {
+     "id": "synonyme-1",
+     "type": "synonyme",
+     "prompt": "Quel mot veut dire presque la même chose que « ingénieux » ?",
+     "choices": [
+      "astucieux",
+      "timide",
+      "bruyant"
+     ],
+     "explanation": "Astucieux et ingénieux : qui trouve de bonnes idées."
+    }
+   ]
+  },
+  {
+   "id": "incomprehensible",
+   "priorityRank": 89,
+   "lemma": "incompréhensible",
+   "pos": "adjectif",
+   "definition": "Qu’on n’arrive pas du tout à comprendre.",
+   "examples": [
+    "Ce vieux grimoire est écrit dans une langue incompréhensible.",
+    "Le message tout mouillé est devenu incompréhensible."
+   ],
+   "synonyms": [
+    "obscur"
+   ],
+   "antonyms": [
+    "clair",
+    "compréhensible"
+   ],
+   "level": 3,
+   "week": 18,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qu’on n’arrive pas du tout à comprendre.",
+     "choices": [
+      "incompréhensible",
+      "évident",
+      "facile"
+     ],
+     "explanation": "Incompréhensible : impossible à comprendre."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Max parle la bouche pleine de gâteau : personne ne comprend ce qu’il dit. Ses paroles sont…",
+     "choices": [
+      "incompréhensibles",
+      "claires",
+      "polies"
+     ],
+     "explanation": "Personne ne comprend : ses paroles sont incompréhensibles."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « incompréhensible » ?",
+     "choices": [
+      "clair",
+      "obscur",
+      "long"
+     ],
+     "explanation": "Clair est le contraire d’incompréhensible."
+    }
+   ]
+  },
+  {
+   "id": "analyser",
+   "priorityRank": 90,
+   "lemma": "analyser",
+   "pos": "verbe",
+   "definition": "Examiner quelque chose en détail pour bien le comprendre.",
+   "examples": [
+    "Les apprenties analysent la potion pour trouver ses ingrédients.",
+    "Elsa analyse la phrase mot par mot."
+   ],
+   "synonyms": [
+    "examiner",
+    "étudier"
+   ],
+   "antonyms": [],
+   "level": 2,
+   "week": 18,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Examiner en détail pour bien comprendre.",
+     "choices": [
+      "analyser",
+      "oublier",
+      "jeter"
+     ],
+     "explanation": "Analyser : regarder en détail pour comprendre."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Au laboratoire, le savant regarde la goutte d’eau au microscope pour savoir ce qu’elle contient. Il l’…",
+     "choices": [
+      "analyse",
+      "oublie",
+      "boit"
+     ],
+     "explanation": "Il l’examine en détail : il l’analyse."
+    },
+    {
+     "id": "synonyme-1",
+     "type": "synonyme",
+     "prompt": "Quel mot veut dire presque la même chose que « analyser » ?",
+     "choices": [
+      "examiner",
+      "courir",
+      "dessiner"
+     ],
+     "explanation": "Examiner et analyser : regarder de près pour comprendre."
+    }
+   ]
+  },
+  {
+   "id": "gravite",
+   "priorityRank": 91,
+   "lemma": "gravité",
+   "pos": "nom",
+   "definition": "Le fait d’être grave, sérieux ; ou la force qui fait tomber les objets vers le sol.",
+   "examples": [
+    "Grâce à la gravité, la pomme tombe de l’arbre.",
+    "Le docteur parle avec gravité : c’est sérieux."
+   ],
+   "synonyms": [
+    "sérieux"
+   ],
+   "antonyms": [
+    "légèreté"
+   ],
+   "level": 2,
+   "week": 19,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "La force qui fait tomber les objets vers le sol.",
+     "choices": [
+      "la gravité",
+      "la vitesse",
+      "la lumière"
+     ],
+     "explanation": "La gravité attire les objets vers le sol."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Leyu lâche son crayon : il tombe par terre au lieu de flotter. C’est à cause de…",
+     "choices": [
+      "la gravité",
+      "la musique",
+      "la chaleur"
+     ],
+     "explanation": "La gravité fait tomber le crayon vers le sol."
+    }
+   ],
+   "otherSenses": [
+    "La gravité d’une situation : à quel point elle est sérieuse."
+   ]
+  },
+  {
+   "id": "demontrer",
+   "priorityRank": 92,
+   "lemma": "démontrer",
+   "pos": "verbe",
+   "definition": "Prouver que quelque chose est vrai, en donnant des preuves.",
+   "examples": [
+    "Nina démontre que l’aimant attire le fer.",
+    "Peux-tu démontrer que ta réponse est juste ?"
+   ],
+   "synonyms": [
+    "prouver"
+   ],
+   "antonyms": [],
+   "level": 3,
+   "week": 19,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Prouver que quelque chose est vrai.",
+     "choices": [
+      "démontrer",
+      "cacher",
+      "deviner"
+     ],
+     "explanation": "Démontrer : prouver que c’est vrai."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Pour prouver que l’eau gèle au froid, Théo met un verre d’eau au congélateur et montre la glace. Il…",
+     "choices": [
+      "démontre",
+      "devine",
+      "oublie"
+     ],
+     "explanation": "Théo prouve que c’est vrai avec une expérience : il démontre."
+    },
+    {
+     "id": "synonyme-1",
+     "type": "synonyme",
+     "prompt": "Quel mot veut dire presque la même chose que « démontrer » ?",
+     "choices": [
+      "prouver",
+      "chanter",
+      "cacher"
+     ],
+     "explanation": "Prouver et démontrer : montrer que c’est vrai."
+    }
+   ]
+  },
+  {
+   "id": "invraisemblable",
+   "priorityRank": 93,
+   "lemma": "invraisemblable",
+   "pos": "adjectif",
+   "definition": "Qui a l’air impossible, qu’on a du mal à croire.",
+   "examples": [
+    "Hugo raconte une histoire invraisemblable de pirates dans la cour.",
+    "Il a neigé en plein mois d’août : c’est invraisemblable !"
+   ],
+   "synonyms": [
+    "incroyable"
+   ],
+   "antonyms": [
+    "vraisemblable"
+   ],
+   "level": 3,
+   "week": 19,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui a l’air impossible, qu’on a du mal à croire.",
+     "choices": [
+      "invraisemblable",
+      "banal",
+      "certain"
+     ],
+     "explanation": "Invraisemblable : difficile à croire."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Sami dit qu’il a vu un éléphant faire du vélo dans la rue. Son histoire est…",
+     "choices": [
+      "invraisemblable",
+      "banale",
+      "vraisemblable"
+     ],
+     "explanation": "On a du mal à le croire : c’est invraisemblable."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « invraisemblable » ?",
+     "choices": [
+      "vraisemblable",
+      "incroyable",
+      "étrange"
+     ],
+     "explanation": "Vraisemblable est le contraire. « Incroyable » est proche d’invraisemblable."
+    }
+   ]
+  },
+  {
+   "id": "antique",
+   "priorityRank": 94,
+   "lemma": "antique",
+   "pos": "adjectif",
+   "definition": "Très, très ancien, qui date d’il y a des siècles.",
+   "examples": [
+    "Dans la tour, on garde une horloge antique.",
+    "Les Romains ont construit des théâtres antiques."
+   ],
+   "synonyms": [
+    "ancien"
+   ],
+   "antonyms": [
+    "moderne"
+   ],
+   "level": 2,
+   "week": 19,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Très, très ancien.",
+     "choices": [
+      "antique",
+      "moderne",
+      "neuf"
+     ],
+     "explanation": "Antique : très ancien."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Au musée, Léonie voit un vase fabriqué il y a deux mille ans. Ce vase est…",
+     "choices": [
+      "antique",
+      "moderne",
+      "cassant"
+     ],
+     "explanation": "Il a deux mille ans : il est antique."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « antique » ?",
+     "choices": [
+      "moderne",
+      "ancien",
+      "beau"
+     ],
+     "explanation": "Moderne est le contraire d’antique. « Ancien » veut dire presque la même chose."
+    }
+   ]
+  },
+  {
+   "id": "douloureux",
+   "priorityRank": 95,
+   "lemma": "douloureux",
+   "pos": "adjectif",
+   "definition": "Qui fait mal, qui cause de la douleur ou du chagrin.",
+   "examples": [
+    "Après la chute, son genou est douloureux.",
+    "Dire au revoir à sa meilleure amie est un moment douloureux."
+   ],
+   "synonyms": [],
+   "antonyms": [
+    "agréable"
+   ],
+   "level": 2,
+   "week": 19,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui fait mal.",
+     "choices": [
+      "douloureux",
+      "agréable",
+      "doux"
+     ],
+     "explanation": "Douloureux : qui fait mal."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Hugo s’est cogné le pied contre la table : il ne peut plus marcher dessus tellement ça fait mal. Son pied est…",
+     "choices": [
+      "douloureux",
+      "propre",
+      "léger"
+     ],
+     "explanation": "Son pied lui fait mal : il est douloureux."
+    }
+   ]
+  },
+  {
+   "id": "terrifier",
+   "priorityRank": 96,
+   "lemma": "terrifier",
+   "pos": "verbe",
+   "definition": "Faire très, très peur.",
+   "examples": [
+    "L’orage terrifie le petit chien.",
+    "Les histoires de fantômes terrifient Max."
+   ],
+   "synonyms": [
+    "effrayer",
+    "épouvanter"
+   ],
+   "antonyms": [
+    "rassurer"
+   ],
+   "level": 3,
+   "week": 20,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Faire très, très peur.",
+     "choices": [
+      "terrifier",
+      "rassurer",
+      "amuser"
+     ],
+     "explanation": "Terrifier : faire très peur."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Quand le tonnerre gronde, le chaton tremble et se cache sous le lit. L’orage le…",
+     "choices": [
+      "terrifie",
+      "rassure",
+      "amuse"
+     ],
+     "explanation": "Le chaton a très peur : l’orage le terrifie."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « terrifier » ?",
+     "choices": [
+      "rassurer",
+      "effrayer",
+      "crier"
+     ],
+     "explanation": "Rassurer est le contraire. « Effrayer » veut dire presque la même chose que terrifier."
+    }
+   ]
+  },
+  {
+   "id": "pitoyable",
+   "priorityRank": 97,
+   "lemma": "pitoyable",
+   "pos": "adjectif",
+   "definition": "Qui fait pitié ; ou très mauvais, raté.",
+   "examples": [
+    "Trempé par la pluie, le chat avait un air pitoyable.",
+    "Mon premier gâteau était pitoyable : tout brûlé !"
+   ],
+   "synonyms": [
+    "lamentable"
+   ],
+   "antonyms": [],
+   "level": 2,
+   "week": 20,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui fait pitié, ou très raté.",
+     "choices": [
+      "pitoyable",
+      "magnifique",
+      "parfait"
+     ],
+     "explanation": "Pitoyable : qui fait pitié, ou très raté."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Le château de sable s’est écroulé : il ne reste qu’un petit tas tout mouillé. Il est…",
+     "choices": [
+      "pitoyable",
+      "magnifique",
+      "solide"
+     ],
+     "explanation": "Le château est complètement raté : il est pitoyable."
+    }
+   ]
+  },
+  {
+   "id": "complementaire",
+   "priorityRank": 98,
+   "lemma": "complémentaire",
+   "pos": "adjectif",
+   "definition": "Qui complète autre chose ; qui va bien ensemble en s’ajoutant.",
+   "examples": [
+    "Leyu et Elsa sont complémentaires : l’une invente, l’autre organise.",
+    "Le maître donne un exercice complémentaire à ceux qui ont fini."
+   ],
+   "synonyms": [],
+   "antonyms": [],
+   "level": 3,
+   "week": 20,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Qui complète autre chose, qui va bien ensemble.",
+     "choices": [
+      "complémentaire",
+      "identique",
+      "inutile"
+     ],
+     "explanation": "Complémentaire : qui complète."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Dans l’équipe, Nina court vite et Théo est très bon gardien : chacun apporte ce qui manque à l’autre. Ils sont…",
+     "choices": [
+      "complémentaires",
+      "identiques",
+      "fâchés"
+     ],
+     "explanation": "Chacun complète l’autre : ils sont complémentaires."
+    }
+   ]
+  },
+  {
+   "id": "frele",
+   "priorityRank": 99,
+   "lemma": "frêle",
+   "pos": "adjectif",
+   "definition": "Mince et fragile, qui semble pouvoir se casser facilement.",
+   "examples": [
+    "Une frêle petite fleur pousse entre les pierres.",
+    "L’oisillon frêle tremble dans son nid."
+   ],
+   "synonyms": [
+    "fragile",
+    "délicat"
+   ],
+   "antonyms": [
+    "robuste"
+   ],
+   "level": 2,
+   "week": 20,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Mince et fragile.",
+     "choices": [
+      "frêle",
+      "robuste",
+      "lourd"
+     ],
+     "explanation": "Frêle : mince et fragile."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "La tige de la petite fleur est si fine qu’elle plie au moindre souffle. Elle est…",
+     "choices": [
+      "frêle",
+      "robuste",
+      "épaisse"
+     ],
+     "explanation": "Fine et fragile : la tige est frêle."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « frêle » ?",
+     "choices": [
+      "robuste",
+      "fragile",
+      "petit"
+     ],
+     "explanation": "Robuste est le contraire. « Fragile » veut dire presque la même chose que frêle."
+    }
+   ]
+  },
+  {
+   "id": "ample",
+   "priorityRank": 100,
+   "lemma": "ample",
+   "pos": "adjectif",
+   "definition": "Large, où l’on a beaucoup de place.",
+   "examples": [
+    "La cape de l’Académie est ample : elle vole au vent.",
+    "Leyu aime porter des pulls amples et doux."
+   ],
+   "synonyms": [
+    "large"
+   ],
+   "antonyms": [
+    "étroit",
+    "serré"
+   ],
+   "level": 2,
+   "week": 20,
+   "sources": [
+    "corpus"
+   ],
+   "questions": [
+    {
+     "id": "sens-1",
+     "type": "sens",
+     "prompt": "Large, avec beaucoup de place.",
+     "choices": [
+      "ample",
+      "serré",
+      "court"
+     ],
+     "explanation": "Ample : large."
+    },
+    {
+     "id": "situation-1",
+     "type": "situation",
+     "prompt": "Le pull de papa est si large que Leyu peut se cacher dedans. Il est…",
+     "choices": [
+      "ample",
+      "étroit",
+      "serré"
+     ],
+     "explanation": "Le pull est très large : il est ample."
+    },
+    {
+     "id": "antonyme-1",
+     "type": "antonyme",
+     "prompt": "Quel est le contraire de « ample » ?",
+     "choices": [
+      "étroit",
+      "large",
+      "doux"
+     ],
+     "explanation": "Étroit est le contraire d’ample. « Large » veut dire presque la même chose."
+    }
+   ]
+  }
+ ]
+}

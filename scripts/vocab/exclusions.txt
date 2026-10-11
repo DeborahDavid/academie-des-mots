@@ -24,3 +24,12 @@ soviétique	adjectif de nationalité : pas un mot de vocabulaire à enrichir
 mini	préfixe familier
 chic	familier
 atteint	participe du verbe « atteindre » (variante fléchie)
+neuf	probablement déjà connu à 8 ans
+nu	déjà connu ; se prête mal à des exercices pour 8 ans
+découvert	participe du verbe « découvrir » (variante fléchie)
+commercial	vocabulaire adulte / institutionnel, peu utile à 8 ans
+civil	vocabulaire adulte / institutionnel, peu utile à 8 ans
+religieux	thème religieux : peu adapté à des exercices automatisés
+pieux	thème religieux, et ambigu avec « pieux » (pluriel de pieu)
+soutenu	participe du verbe « soutenir » (variante fléchie)
+numéral	terme technique de grammaire, peu utile pour l’expression
