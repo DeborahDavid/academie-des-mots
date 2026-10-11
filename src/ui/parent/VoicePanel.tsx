@@ -88,12 +88,12 @@ export function VoicePanel() {
           ))}
         </div>
         <div className="notice small-text">
-          <strong>Pour une voix plus naturelle sur Mac :</strong> Réglages Système → Accessibilité → Contenu énoncé → Voix du système → Gérer
-          les voix… → Français (France) → téléchargez une voix « Premium » ou « améliorée » (ex. Amélie, Thomas), puis rechargez cette page.
+          <strong>Recommandé : Chrome avec la voix « Google français ».</strong> C’est la voix la plus naturelle sur Mac ; les voix
+          intégrées à macOS ont souvent un accent étranger. Safari ne propose pas cette voix.
           <br />
-          Les voix marquées « en ligne » envoient le texte lu à un serveur externe : préférez une voix locale.
+          Les voix « en ligne » envoient seulement le texte lu (mots et phrases de la dictée) à Google, aucune donnée sur Leyu.
           <br />
-          Vous pouvez aussi enregistrer votre propre voix pour chaque mot (bouton ⏺ dans les listes).
+          Vous pouvez aussi enregistrer votre propre voix pour chaque mot (bouton ⏺ dans les listes) : elle est alors utilisée à la place.
         </div>
       </section>
     </div>

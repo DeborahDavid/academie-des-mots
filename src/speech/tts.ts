@@ -23,13 +23,14 @@ export async function listFrenchVoices(): Promise<SpeechSynthesisVoice[]> {
 }
 
 /**
- * fr-FR d'abord, puis voix locales (les voix « en ligne » envoient le texte à un serveur),
- * puis voix « premium / améliorées ».
+ * fr-FR d'abord ; « Google français » (Chrome) en tête : testée, c'est la seule voix
+ * à l'accent vraiment français sur le Mac de Leyu. Puis voix « premium / améliorées ».
+ * Les voix en ligne n'envoient que le texte dicté (mots de la liste), aucune donnée personnelle.
  */
 function sortVoices(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice[] {
   const score = (v: SpeechSynthesisVoice) =>
     (v.lang.toLowerCase().replace('_', '-') === 'fr-fr' ? 0 : 10) +
-    (v.localService ? 0 : 5) +
+    (/google/i.test(v.name) ? 0 : 5) +
     (/premium|enhanced|amélior|natural/i.test(v.name) ? 0 : 2) +
     (/amélie|thomas|audrey|aurélie|marie/i.test(v.name) ? 0 : 1) +
     // Voix « fantaisie » de macOS : peu adaptées à une dictée.
