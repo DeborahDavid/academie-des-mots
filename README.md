@@ -24,7 +24,7 @@ npm run build
 
 - [x] Étape 0 — test de la voix fr-FR
 - [x] Étape 1 — mode parent minimal, modèle de données, export/import JSON
-- [ ] Étape 2 — dictée de mots + répétition espacée
+- [x] Étape 2 — dictée de mots + répétition espacée
 - [ ] Étape 3 — dictée de phrase, double relecture, guidage niveau 1
 - [ ] Étape 4 — écran principal (tour, ciel, Leyu, Elsa, Ada), arrivée et fin
 

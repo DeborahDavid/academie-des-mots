@@ -38,18 +38,24 @@ export interface Item {
   refId: string;
   card: Card;
   createdAt: number;
+  /** Date de la 1re révision (limite de nouveaux mots par jour). */
+  introducedAt?: number;
 }
 
 export type Outcome = 'success' | 'success_hint' | 'fail';
 export type ErrorType = 'accent' | 'spelling' | 'agreement';
 
-/** Une tentative (seule la 1re tentative d'un item dans une séance compte pour FSRS). */
+/** Une présentation d'un item. Seule la 1re présentation de la séance compte pour FSRS. */
 export interface ReviewLog {
   id?: number;
   itemId: string;
   kind: ItemKind;
   sessionId: string;
   at: number;
+  /** 1 = première présentation dans la séance. */
+  presentation: number;
+  /** Cette présentation a replanifié l'item (FSRS). */
+  scheduled: boolean;
   outcome: Outcome;
   errorTypes: ErrorType[];
   /** Notions concernées par une erreur d'accord. */
@@ -104,8 +110,8 @@ export interface Jersey {
 export interface Thresholds {
   /** Stabilité FSRS (jours) à partir de laquelle un mot est « acquis ». */
   acquiredStabilityDays: number;
-  /** Nouveaux mots introduits au maximum par séance. */
-  newWordsPerSession: number;
+  /** Nouveaux mots introduits au maximum par jour. */
+  newWordsPerDay: number;
   hatWords: number;
   sneakersWords: number;
   crownWords: number;
@@ -136,7 +142,7 @@ export const DEFAULT_SETTINGS: Settings = {
   titles: ['Titre 1', 'Titre 2', 'Titre 3'],
   thresholds: {
     acquiredStabilityDays: 21,
-    newWordsPerSession: 4,
+    newWordsPerDay: 4,
     hatWords: 25,
     sneakersWords: 50,
     crownWords: 100,
