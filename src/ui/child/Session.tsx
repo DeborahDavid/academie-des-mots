@@ -8,6 +8,9 @@ import { db } from '../../db/db';
 import { type WordRun, shouldRequeue } from '../../domain/wordRun';
 import { Elsa, type ElsaExpression } from '../components/Elsa';
 import { useSettings } from '../hooks';
+import { syncUnlocks } from '../../db/rewardsRepo';
+import type { Reward } from '../../domain/rewards';
+import { RewardIcon } from '../components/Avatar';
 import { playStarChime, playSuccessChime } from '../../speech/sfx';
 import { WordExercise } from './WordExercise';
 
@@ -43,6 +46,7 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
   const [queue, setQueue] = useState<Task[] | null>(null);
   const [kind, setKind] = useState<SessionKind>('daily');
   const [completion, setCompletion] = useState<SessionCompletion | null>(null);
+  const [newRewards, setNewRewards] = useState<Reward[]>([]);
   const [hasWords, setHasWords] = useState(true);
   const [index, setIndex] = useState(0);
   const [transition, setTransition] = useState<Transition | null>(null);
@@ -58,7 +62,13 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
 
   const done = !!queue && queue.length > 0 && index >= queue.length && !transition;
   useEffect(() => {
-    if (done && !completion) completeSession(kind).then(setCompletion);
+    if (done && !completion)
+      completeSession(kind)
+        .then(async (c) => {
+          setNewRewards(await syncUnlocks());
+          return c;
+        })
+        .then(setCompletion);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done]);
 
@@ -148,6 +158,15 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
             </p>
           </div>
         )}
+        {newRewards.map((r) => (
+          <div key={r.id} className="new-reward">
+            <div className="flame-big">
+              <RewardIcon id={r.id} />
+            </div>
+            <p className="gold">{frTypo(`Nouvelle récompense : ${r.name} !`)}</p>
+            <p className="muted small-text">Elle est dans ta garde-robe.</p>
+          </div>
+        ))}
         <Elsa expression="fiere" line={randomLine(END_LINES)} />
         <div className="card summary">
           <p className="gold">

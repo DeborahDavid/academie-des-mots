@@ -1,21 +1,34 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { getProgress } from '../../db/sessionRepo';
 import { updateSettings } from '../../db/repo';
-import { useSettings } from '../hooks';
+import { getWardrobe, syncUnlocks } from '../../db/rewardsRepo';
+import { nextReward } from '../../domain/rewards';
 import { frTypo } from '../../domain/typo';
 import { navigate } from '../../router';
-import { Session } from './Session';
+import { Avatar } from '../components/Avatar';
 import { Portrait } from '../components/Portrait';
+import { useSettings } from '../hooks';
+import { Session } from './Session';
+import { Wardrobe } from './Wardrobe';
 
-/** Écran provisoire : la tour, le ciel et les personnages arrivent avec la direction artistique. */
+/** Écran principal provisoire : la tour et le ciel arrivent avec les illustrations. */
 export function ChildHome() {
   const [session, setSession] = useState(0);
+  const [screen, setScreen] = useState<'home' | 'wardrobe'>('home');
   const progress = useLiveQuery(() => getProgress(), [session]);
+  const wardrobe = useLiveQuery(() => getWardrobe(), [session]);
   const settings = useSettings();
 
-  if (session > 0)
-    return <Session key={session} onExit={() => setSession(0)} onAgain={() => setSession((k) => k + 1)} />;
+  useEffect(() => {
+    syncUnlocks();
+  }, [session]);
+
+  if (session > 0) return <Session key={session} onExit={() => setSession(0)} onAgain={() => setSession((k) => k + 1)} />;
+  if (screen === 'wardrobe') return <Wardrobe onBack={() => setScreen('home')} />;
+
+  const next = wardrobe && nextReward(wardrobe.unlocked, wardrobe.stats);
+  const np = next && wardrobe ? next.progress(wardrobe.stats) : null;
 
   return (
     <main className="child-home">
@@ -39,11 +52,11 @@ export function ChildHome() {
       <p className="muted">La Tour des meilleures amies et d’Ada</p>
       <div className="friends">
         <div className="friend">
-          <Portrait who="leyu" size={150} fallback="🧙‍♀️" />
+          <Avatar worn={wardrobe?.worn ?? []} size={190} />
           <span className="title-chip">{settings?.titles[0] ?? 'Titre 1'}</span>
         </div>
         <div className="friend">
-          <Portrait who="elsa" size={150} fallback="😊" />
+          <Portrait who="elsa" size={130} fallback="😊" />
           <span className="muted small-text">Elsa</span>
         </div>
       </div>
@@ -51,6 +64,17 @@ export function ChildHome() {
         {progress?.litToday ? frTypo('Encore une séance !') : 'Commencer la séance'}
       </button>
       {progress?.litToday && <p className="muted small-text">{frTypo(`Flamme du jour allumée · ${progress.todayPoints} points aujourd’hui`)}</p>}
+      <button className="next-reward" onClick={() => setScreen('wardrobe')}>
+        <span>👗 Garde-robe</span>
+        {next && np && (
+          <span className="small-text">
+            {frTypo(`Prochaine récompense : ${next.name} — ${np.current}/${np.target} ${np.unit}`)}
+            <span className="bar">
+              <span style={{ width: `${(100 * np.current) / np.target}%` }} />
+            </span>
+          </span>
+        )}
+      </button>
       <button className="ghost small parent-link" onClick={() => navigate('parent')} aria-label="Mode parent">
         🔒 Parent
       </button>

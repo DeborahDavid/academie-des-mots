@@ -153,6 +153,8 @@ export interface Settings {
   thresholds: Thresholds;
   /** Formes des constellations, dans l'ordre d'attribution. */
   constellations: string[];
+  /** Garde-robe : récompenses gagnées (définitivement) et tenue portée. */
+  wardrobe?: { unlocked: Record<string, number>; worn: string[] };
   /** Portraits importés (id d'image), à la place des dessins par défaut. */
   portraits?: Partial<Record<CharacterId, string>>;
   /** Version de la banque de phrases déjà proposée au parent. */
