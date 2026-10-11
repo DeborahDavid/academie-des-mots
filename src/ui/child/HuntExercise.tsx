@@ -7,6 +7,7 @@ import { frTypo } from '../../domain/typo';
 import { playOopsSound, playSuccessChime } from '../../speech/sfx';
 import { AccentBar } from '../components/AccentBar';
 import { Elsa } from '../components/Elsa';
+import { Icon } from '../components/Icon';
 
 /**
  * Chasse aux erreurs (spec 5.2 b) : 1 à 3 erreurs d'accord, on dit combien, jamais où.
@@ -86,7 +87,7 @@ export function HuntExercise({ task, settings, onDone }: { task: SentenceTask; s
         <Elsa expression={line?.startsWith('Bien') || line?.startsWith('Toutes') ? 'fiere' : 'concentree'} line={hintState === 'offer' ? 'Tu veux un indice ?' : line ?? undefined} />
       </aside>
       <section className="exercise-main">
-        <p className="instruction">🔍 Chasse aux erreurs</p>
+        <p className="instruction"><Icon name="magnifier" size={22} className="icon-inline" />Chasse aux erreurs</p>
         <p className="hunt-count">
           {remaining > 0
             ? frTypo(`Il reste ${remaining} erreur${remaining > 1 ? 's' : ''} d’accord. Touche un mot mal accordé.`)

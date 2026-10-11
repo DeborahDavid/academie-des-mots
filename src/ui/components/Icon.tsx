@@ -26,7 +26,14 @@ export type IconName =
   | 'quill'
   | 'crown'
   | 'flag'
-  | 'sparkles';
+  | 'sparkles'
+  | 'hourglass'
+  | 'scarf'
+  | 'cat'
+  | 'moon'
+  | 'hat'
+  | 'sneakers'
+  | 'redo';
 
 const INK = '#3E2D4F';
 const GOLD = '#F7C65B';
@@ -209,6 +216,58 @@ const ICONS: Record<IconName, ReactNode> = {
       <path d="M13 5c.8 5.6 2.2 7.2 8 8-5.8.8-7.2 2.4-8 8-.8-5.6-2.2-7.2-8-8 5.8-.8 7.2-2.4 8-8Z" fill={GOLD} {...line} strokeWidth={1.6} />
       <path d="M24 17c.5 3 1.1 3.6 4 4-2.9.4-3.5 1-4 4-.5-3-1.1-3.6-4-4 2.9-.4 3.5-1 4-4Z" fill={ROSE} {...line} strokeWidth={1.4} />
       <circle cx="25" cy="7.5" r="1.4" fill={GOLD_D} />
+    </>
+  ),
+  hourglass: (
+    <>
+      <path d="M8 4.5h16M8 27.5h16" {...line} />
+      <path d="M10 4.5c0 6 6 7.5 6 11.5s-6 5.5-6 11.5h12c0-6-6-7.5-6-11.5s6-5.5 6-11.5Z" fill={CREAM} {...line} />
+      <path d="M12.6 25.5c.6-2.6 2.2-3.8 3.4-4.6 1.2.8 2.8 2 3.4 4.6Z" fill={GOLD} />
+      <path d="M13 9.5h6l-3 3.5Z" fill={GOLD} />
+    </>
+  ),
+  scarf: (
+    <>
+      <path d="M7 9.5c3 2.4 15 2.4 18 0l-1.6 5c-3.4 1.8-11.4 1.8-14.8 0Z" fill={ROSE} {...line} />
+      <path d="M19 14.8l1.5 12.2-4.5-1.2-1-10.7" fill={ROSE} {...line} />
+      <path d="M16.6 19.5l3.4.5M17.2 23l3.4.5" stroke="#fff" strokeOpacity={0.8} strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M11 12.4l1.2 2.6M15 13l.6 2.8M21 12.4l-1 2.6" stroke="#fff" strokeOpacity={0.8} strokeWidth="1.4" strokeLinecap="round" />
+    </>
+  ),
+  cat: (
+    <>
+      <path d="M6.5 25c-1.2-7 1.8-12 2-17l5 4.2c1.6-.4 3.4-.4 5 0l5-4.2c.2 5 3.2 10 2 17-3 2.2-16 2.2-19 0Z" fill="#2A2540" {...line} />
+      <path d="M11 18.5q2 1.6 4 0M17 18.5q2 1.6 4 0" stroke="#8FE0A8" strokeWidth="1.7" fill="none" strokeLinecap="round" />
+      <path d="M15 21.3l1 .8 1-.8Z" fill={ROSE} />
+      <path d="M10.5 10.8l1.4 1.4M21.5 10.8l-1.4 1.4" stroke={ROSE} strokeWidth="1.4" strokeLinecap="round" />
+    </>
+  ),
+  moon: (
+    <>
+      <path d="M20.5 4.5a11.5 11.5 0 1 0 7 19A9.5 9.5 0 0 1 20.5 4.5Z" fill={GOLD} {...line} />
+      <path d="M9 13a8 8 0 0 1 4.5-5.5" {...shine} />
+      <circle cx="25" cy="8" r="1.2" fill={GOLD_D} />
+    </>
+  ),
+  hat: (
+    <>
+      <path d="M16 3.5c-2 5-5 12-6.5 18.5h13C21 16 18.5 9 20.5 6.5c-1.5-.3-3 -.8-4.5-3Z" fill={NIGHT} {...line} />
+      <ellipse cx="16" cy="23" rx="12" ry="3.6" fill={NIGHT} {...line} />
+      <path d="M10.6 18.5c3.6 1 7.2 1 10.8 0" stroke={GOLD} strokeWidth="2.4" strokeLinecap="round" />
+      <path d="M15 11c.4 1.6.8 2 2.4 2.4-1.6.4-2 .8-2.4 2.4-.4-1.6-.8-2-2.4-2.4 1.6-.4 2-.8 2.4-2.4Z" fill={GOLD} />
+    </>
+  ),
+  sneakers: (
+    <>
+      <path d="M4.5 22.5V13c2 .8 4.5.8 6-1 2.5 3.2 6 5.2 11 6 3.4.6 6 2 6 4.5v1H4.5Z" fill="#fff" {...line} />
+      <path d="M4.5 22.5h23v2.2c0 .7-.5 1.3-1.2 1.3H5.7c-.7 0-1.2-.6-1.2-1.3Z" fill={TURQ} {...line} />
+      <path d="M11.5 14.5l2-1.5M13.5 16.5l2-1.5M15.8 18l1.8-1.6" stroke={TURQ} strokeWidth="1.6" strokeLinecap="round" />
+    </>
+  ),
+  redo: (
+    <>
+      <path d="M24.5 16a8.5 8.5 0 1 1-2.6-6.1" fill="none" {...line} />
+      <path d="M23.5 4.5v6h-6" fill="none" {...line} />
     </>
   ),
 };

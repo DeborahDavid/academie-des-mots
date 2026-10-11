@@ -19,6 +19,7 @@ import { speak, speakSlowly, stopSpeaking } from '../../speech/tts';
 import { AccentBar } from '../components/AccentBar';
 import { Elsa } from '../components/Elsa';
 import type { SentenceTask } from '../../db/sessionRepo';
+import { Icon } from '../components/Icon';
 
 /**
  * Dictée de phrase : écriture, puis deux relectures obligatoires (orthographe, puis accords),
@@ -140,10 +141,10 @@ export function SentenceExercise({ task, settings, onDone }: { task: SentenceTas
               {(run.phase === 'write' || run.phase === 'proof1' || run.phase === 'proof2' || run.phase === 'retry') && (
                 <>
                   <button type="button" className="big" onClick={listen}>
-                    🔊 Réécouter
+                    <Icon name="speaker" size={22} className="icon-inline" />Réécouter
                   </button>
                   <button type="button" className="big" onClick={listenSlowly}>
-                    🐢 Lentement
+                    <Icon name="turtle" size={22} className="icon-inline" />Lentement
                   </button>
                 </>
               )}

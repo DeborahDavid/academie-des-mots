@@ -10,6 +10,7 @@ import { playOopsSound } from '../../speech/sfx';
 import { AccentBar } from '../components/AccentBar';
 import { Elsa } from '../components/Elsa';
 import { playWord } from '../hooks';
+import { Icon } from '../components/Icon';
 
 interface Props {
   word: Word;
@@ -143,7 +144,7 @@ export function WordExercise({ word, itemId, presentation, failures, settings, o
             <div className="row center">
               {run.phase === 'answer' && (
                 <button type="button" className="big" onClick={listen}>
-                  🔊 Réécouter
+                  <Icon name="speaker" size={22} className="icon-inline" />Réécouter
                 </button>
               )}
               <button type="submit" className="primary big" disabled={!value.trim()}>

@@ -2,6 +2,7 @@ import { useLiveQuery } from 'dexie-react-hooks';
 import { useEffect, useState } from 'react';
 import { getProductions, getVocabProgress, syncExplorerRank, type WordProgress } from '../../db/vocabRepo';
 import { STAGES } from '../../domain/vocab';
+import { Icon } from '../components/Icon';
 
 const stageOf = (p: WordProgress) => STAGES.find((s) => s.id === p.info.stage)!;
 
@@ -33,7 +34,7 @@ export function Grimoire({ onBack }: { onBack: () => void }) {
       </header>
       {rank && (
         <div className="rank-card">
-          <span className="rank-name">🏅 {rank.rank.name}</span>
+          <span className="rank-name"><Icon name="medal" size={22} className="icon-inline" />{rank.rank.name}</span>
           {rank.next && rank.missing && (
             <span className="small-text muted">
               Pour devenir {rank.next.name} : encore{' '}
@@ -51,7 +52,7 @@ export function Grimoire({ onBack }: { onBack: () => void }) {
       <div className="stage-legend">
         {STAGES.slice(1).map((s) => (
           <span key={s.id}>
-            {s.icon} {s.label} · {known.filter((p) => p.info.stage === s.id).length}
+            <Icon name={s.icon} size={20} className="icon-inline" />{s.label} · {known.filter((p) => p.info.stage === s.id).length}
           </span>
         ))}
       </div>
@@ -59,7 +60,9 @@ export function Grimoire({ onBack }: { onBack: () => void }) {
       <div className="spell-grid">
         {known.map((p) => (
           <button key={p.word.id} className="spell-card" onClick={() => setOpen(p)}>
-            <span className="spell-icon">{stageOf(p).icon}</span>
+            <span className="spell-icon">
+              <Icon name={stageOf(p).icon} size={34} />
+            </span>
             <span className="spell-name">{p.word.lemma}</span>
             <span className="small-text muted">{stageOf(p).label}</span>
             {p.info.toConsolidate && <span className="small-text consolidate">à consolider</span>}
@@ -67,7 +70,9 @@ export function Grimoire({ onBack }: { onBack: () => void }) {
         ))}
         {mysteries > 0 && (
           <div className="spell-card mystery">
-            <span className="spell-icon">🔮</span>
+            <span className="spell-icon">
+              <Icon name="crystal" size={34} />
+            </span>
             <span className="spell-name">
               {mysteries} mot{mysteries > 1 ? 's' : ''} mystérieux
             </span>
@@ -93,7 +98,7 @@ function WordPage({ p, onBack }: { p: WordProgress; onBack: () => void }) {
       </header>
       <section className="grimoire-page">
         <p className="page-kicker">
-          {st.icon} {st.label}
+          <Icon name={st.icon} size={22} className="icon-inline" />{st.label}
           {p.info.toConsolidate ? ' · à consolider' : ''}
         </p>
         <h2 className="spell-word">{w.lemma}</h2>
@@ -124,7 +129,7 @@ function WordPage({ p, onBack }: { p: WordProgress; onBack: () => void }) {
             <strong>Mes sortilèges personnels</strong>
             {mine.map((x) => (
               <p key={x.id}>
-                {x.status === 'validated' ? '✍️' : x.status === 'pending' ? '⏳' : '↺'} « {x.text} »{' '}
+                <Icon name={x.status === 'validated' ? 'quill' : x.status === 'pending' ? 'hourglass' : 'redo'} size={20} className="icon-inline" />« {x.text} »{' '}
                 <span className="small-text muted">{x.status === 'validated' ? '· validé' : x.status === 'pending' ? '· en lecture' : '· à retravailler'}</span>
               </p>
             ))}

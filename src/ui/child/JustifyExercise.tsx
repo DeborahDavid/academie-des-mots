@@ -5,6 +5,7 @@ import { tokenize } from '../../domain/sentenceCheck';
 import { frTypo } from '../../domain/typo';
 import { playOopsSound, playSuccessChime } from '../../speech/sfx';
 import { Elsa } from '../components/Elsa';
+import { Icon } from '../components/Icon';
 
 /** Justification (spec 5.2 c) : après une phrase, Leyu choisit pourquoi un mot s'écrit ainsi. */
 export function JustifyExercise({ sentence, settings, onDone }: { sentence: Sentence; settings: Settings; onDone: (answer: string, correct: boolean) => void }) {
@@ -26,7 +27,7 @@ export function JustifyExercise({ sentence, settings, onDone }: { sentence: Sent
         {picked !== null && <Elsa expression={choices[picked].correct ? 'fiere' : 'contente'} line={choices[picked].correct ? 'Exactement !' : 'Regarde la bonne raison.'} />}
       </aside>
       <section className="exercise-main">
-        <p className="instruction">💡 Pourquoi ?</p>
+        <p className="instruction"><Icon name="bulb" size={22} className="icon-inline" />Pourquoi ?</p>
         <p className="why-sentence">
           {tokens.map((t, i) => (
             <span key={i} className={i === target ? 'why-word' : /\p{L}/u.test(t) ? '' : 'tight-punct'}>

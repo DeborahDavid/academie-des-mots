@@ -25,6 +25,7 @@ import { shapeById } from '../../domain/constellations';
 import { playStarChime, playSuccessChime } from '../../speech/sfx';
 import { playConstellationJingle, playFanfare } from '../../speech/music';
 import { WordExercise } from './WordExercise';
+import { Icon } from '../components/Icon';
 
 interface WordItem {
   kind: 'word';
@@ -257,7 +258,7 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
         {completion.flameLit && (
           <div className="flame-lit">
             <div className="flame-big" aria-hidden>
-              🔥
+              <Icon name="flame" size={72} />
             </div>
             <p className="gold">
               {frTypo(`Flamme du jour allumée ! ${completion.flameDays} jour${completion.flameDays > 1 ? 's' : ''} de magie`)}

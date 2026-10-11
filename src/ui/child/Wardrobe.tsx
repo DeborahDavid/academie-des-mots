@@ -4,6 +4,7 @@ import { REWARDS, type RewardId, wearNew } from '../../domain/rewards';
 import { frTypo } from '../../domain/typo';
 import { Avatar, RewardIcon } from '../components/Avatar';
 import { usePortraitUrl } from '../components/Portrait';
+import { Icon } from '../components/Icon';
 
 /** Garde-robe : tout ce qui est gagné est combinable. Rien ne s'achète, tout se gagne par la maîtrise. */
 export function Wardrobe({ onBack }: { onBack: () => void }) {
@@ -55,7 +56,7 @@ export function Wardrobe({ onBack }: { onBack: () => void }) {
             const p = r.progress(stats);
             return (
               <button key={r.id} className={`reward ${got ? 'got' : 'locked'} ${worn.includes(r.id) ? 'worn' : ''}`} disabled={!got} onClick={() => toggle(r.id)}>
-                <span className="reward-icon">{got ? <RewardIcon id={r.id} /> : '🔒'}</span>
+                <span className="reward-icon">{got ? <RewardIcon id={r.id} /> : <Icon name="lock" size={34} />}</span>
                 <span className="reward-text">
                   <strong>{r.name}</strong>
                   {got ? (

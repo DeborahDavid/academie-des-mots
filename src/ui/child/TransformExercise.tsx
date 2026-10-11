@@ -15,6 +15,7 @@ import { frTypo } from '../../domain/typo';
 import { playOopsSound } from '../../speech/sfx';
 import { AccentBar } from '../components/AccentBar';
 import { Elsa } from '../components/Elsa';
+import { Icon } from '../components/Icon';
 
 /**
  * Transformation (spec 5.2 d) : réécrire une phrase au pluriel, au féminin ou à un autre temps.
@@ -60,7 +61,7 @@ export function TransformExercise({ task, settings, onDone }: { task: SentenceTa
         <Elsa expression={oops ? 'grimace' : 'concentree'} line={run.phase === 'hintOffer' ? 'Tu veux un indice ?' : undefined} />
       </aside>
       <section className="exercise-main">
-        <p className="instruction">🪄 Transformation</p>
+        <p className="instruction"><Icon name="wand" size={22} className="icon-inline" />Transformation</p>
         <div className="source-sentence">{task.sentence.text}</div>
         <p className="question-prompt" style={{ textAlign: 'center' }}>
           {frTypo(t.instruction)}

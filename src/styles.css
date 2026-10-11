@@ -479,3 +479,7 @@ button.big { min-height: 60px; font-size: 1.2rem; padding: 0.6em 1.6em; border-r
 /* onglets du mode parent : une bande défilante de petites pastilles */
 .tabs { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; scrollbar-width: thin; }
 .tabs button { flex-shrink: 0; min-height: 40px; font-size: 0.92rem; padding: 0.35em 0.9em; border-radius: 999px; }
+
+/* Icônes dessinées dans le texte et les boutons (aucun emoji) */
+.icon.icon-inline { display: inline-block; vertical-align: -0.3em; margin-right: 0.35em; }
+.stop-node .icon, .spell-icon .icon, .reward-icon .icon, .flame-big .icon { display: block; margin: 0 auto; }

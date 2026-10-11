@@ -106,12 +106,15 @@ export function validateCorpus(data: unknown): string[] {
 
 export type VocabStage = 'mysterieux' | 'decouvert' | 'compris' | 'utilise' | 'maitrise';
 
-export const STAGES: { id: VocabStage; label: string; icon: string }[] = [
-  { id: 'mysterieux', label: 'Mot mystérieux', icon: '🔮' },
-  { id: 'decouvert', label: 'Mot découvert', icon: '✨' },
-  { id: 'compris', label: 'Mot compris', icon: '💡' },
-  { id: 'utilise', label: 'Mot utilisé', icon: '✍️' },
-  { id: 'maitrise', label: 'Mot maîtrisé', icon: '👑' },
+/** Nom de l'icône dessinée (src/ui/components/Icon.tsx). */
+export type StageIcon = 'crystal' | 'sparkles' | 'bulb' | 'quill' | 'crown';
+
+export const STAGES: { id: VocabStage; label: string; icon: StageIcon }[] = [
+  { id: 'mysterieux', label: 'Mot mystérieux', icon: 'crystal' },
+  { id: 'decouvert', label: 'Mot découvert', icon: 'sparkles' },
+  { id: 'compris', label: 'Mot compris', icon: 'bulb' },
+  { id: 'utilise', label: 'Mot utilisé', icon: 'quill' },
+  { id: 'maitrise', label: 'Mot maîtrisé', icon: 'crown' },
 ];
 
 /** Ce qu'on sait d'un mot pour l'enfant (calculé depuis les journaux, jamais saisi à la main). */

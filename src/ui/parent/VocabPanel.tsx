@@ -4,6 +4,7 @@ import { exportCorpus, getConfusions, getProductions, getVocabProgress, importCo
 import type { VocabProduction } from '../../domain/model';
 import { QUESTION_TITLES, STAGES, type VocabStage } from '../../domain/vocab';
 import { useSettings } from '../hooks';
+import { Icon } from '../components/Icon';
 
 const ORDER: VocabStage[] = ['mysterieux', 'decouvert', 'compris', 'utilise', 'maitrise'];
 const atLeast = (p: WordProgress, s: VocabStage) => ORDER.indexOf(p.info.stage) >= ORDER.indexOf(s);
@@ -177,7 +178,7 @@ function WordEditor({ p }: { p: WordProgress }) {
           <strong>{w.lemma}</strong> <span className="muted small-text">· {w.pos}{w.priorityRank ? ` · rang ${w.priorityRank}` : ''} · difficulté {w.level}</span>
         </span>
         <span className="small-text">
-          {w.status === 'pending' ? <span className="warn">à valider</span> : <>{stage.icon} {stage.label}</>}
+          {w.status === 'pending' ? <span className="warn">à valider</span> : <><Icon name={stage.icon} size={18} className="icon-inline" />{stage.label}</>}
           {p.info.toConsolidate ? ' · à consolider' : ''}
           {p.nextReview ? ` · révision ${p.nextReview.toLocaleDateString('fr-FR')}` : ''}
         </span>

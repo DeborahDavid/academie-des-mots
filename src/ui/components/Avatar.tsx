@@ -2,6 +2,7 @@ import { useId } from 'react';
 import type { RewardId } from '../../domain/rewards';
 import { useSettings } from '../hooks';
 import { usePortraitUrl } from './Portrait';
+import { Icon, type IconName } from './Icon';
 
 function star(cx: number, cy: number, r: number) {
   const p: string[] = [];
@@ -127,6 +128,7 @@ export function Avatar({ worn, size = 240, silhouette }: { worn: RewardId[]; siz
 }
 
 /** Icône d'un objet de la garde-robe (pour les vignettes). */
-export function RewardIcon({ id }: { id: RewardId }) {
-  return <span aria-hidden>{({ 'cape-star': '⭐', scarf: '🧣', 'ada-brooch': '🐈‍⬛', 'cape-moon': '🌙', hat: '🎩', sneakers: '👟', crown: '👑' } as const)[id]}</span>;
+export function RewardIcon({ id, size = 36 }: { id: RewardId; size?: number }) {
+  const name = ({ 'cape-star': 'star', scarf: 'scarf', 'ada-brooch': 'cat', 'cape-moon': 'moon', hat: 'hat', sneakers: 'sneakers', crown: 'crown' } as const satisfies Record<RewardId, IconName>)[id];
+  return <Icon name={name} size={size} />;
 }

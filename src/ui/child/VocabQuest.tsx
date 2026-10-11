@@ -15,6 +15,7 @@ import { RewardIcon } from '../components/Avatar';
 import { Elsa } from '../components/Elsa';
 import { Fireworks } from '../components/Fireworks';
 import { useSettings } from '../hooks';
+import { Icon } from '../components/Icon';
 
 const ROLE_LABEL = { learn: 'Nouvelle découverte', review: 'Sortilège à renforcer', challenge: 'Défi final' } as const;
 
@@ -52,7 +53,7 @@ export function VocabQuest({ onExit, onGrimoire }: { onExit: () => void; onGrimo
         <Elsa expression="contente" line="Ta quête du jour est terminée. De nouveaux mots t’attendent demain !" />
         <div className="row center">
           <button className="primary big" onClick={onGrimoire}>
-            📖 Mon grimoire
+            <Icon name="book" size={22} className="icon-inline" />Mon grimoire
           </button>
           <button className="big" onClick={onExit}>
             Retour à la tour
@@ -70,7 +71,7 @@ export function VocabQuest({ onExit, onGrimoire }: { onExit: () => void; onGrimo
         {completion.flameLit && (
           <div className="flame-lit">
             <div className="flame-big" aria-hidden>
-              🔥
+              <Icon name="flame" size={72} />
             </div>
             <p className="gold">{frTypo(`Flamme du jour allumée ! ${completion.flameDays} jour${completion.flameDays > 1 ? 's' : ''} de magie`)}</p>
           </div>
@@ -84,8 +85,8 @@ export function VocabQuest({ onExit, onGrimoire }: { onExit: () => void; onGrimo
           </div>
         ))}
         <div className="card summary">
-          {stats.discovered.length > 0 && <p className="gold">✨ Découverte magique : {stats.discovered.join(', ')}</p>}
-          {stats.written.length > 0 && <p>✍️ Sortilège personnel écrit : {stats.written.join(', ')} (un parent va le lire)</p>}
+          {stats.discovered.length > 0 && <p className="gold"><Icon name="sparkles" size={22} className="icon-inline" />Découverte magique : {stats.discovered.join(', ')}</p>}
+          {stats.written.length > 0 && <p><Icon name="quill" size={22} className="icon-inline" />Sortilège personnel écrit : {stats.written.join(', ')} (un parent va le lire)</p>}
           <p>
             ✦ {stats.correct} bonne{stats.correct > 1 ? 's' : ''} réponse{stats.correct > 1 ? 's' : ''}
           </p>
@@ -93,7 +94,7 @@ export function VocabQuest({ onExit, onGrimoire }: { onExit: () => void; onGrimo
         </div>
         <div className="row center">
           <button className="primary big" onClick={onGrimoire}>
-            📖 Mon grimoire
+            <Icon name="book" size={22} className="icon-inline" />Mon grimoire
           </button>
           <button className="big" onClick={onExit}>
             Retour à la tour
@@ -155,7 +156,7 @@ function DiscoverCard({ word, settings, onDone }: { word: VocabWord; settings: N
   const listen = () => speak(`${word.lemma}. ${word.definition}`, { voiceURI: settings.voiceURI, rate: settings.speechRate }).catch(() => {});
   return (
     <section className="grimoire-page">
-      <p className="page-kicker">✨ Découverte magique</p>
+      <p className="page-kicker"><Icon name="sparkles" size={22} className="icon-inline" />Découverte magique</p>
       <h2 className="spell-word">{word.lemma}</h2>
       <p className="muted">{word.pos}</p>
       <p className="definition">{word.definition}</p>
@@ -180,7 +181,7 @@ function DiscoverCard({ word, settings, onDone }: { word: VocabWord; settings: N
       )}
       <div className="row center">
         <button className="big" onClick={listen}>
-          🔊 Écouter
+          <Icon name="speaker" size={22} className="icon-inline" />Écouter
         </button>
         <button className="primary big" onClick={onDone}>
           J’ai compris !
@@ -268,7 +269,7 @@ function ProduceCard({ word, muted, onSubmit, onNext }: { word: VocabWord; muted
 
   return (
     <section className="grimoire-page">
-      <p className="page-kicker">✍️ Le sortilège personnel</p>
+      <p className="page-kicker"><Icon name="quill" size={22} className="icon-inline" />Le sortilège personnel</p>
       <h2 className="spell-word">{word.lemma}</h2>
       <p className="muted">{word.definition}</p>
       {sent ? (

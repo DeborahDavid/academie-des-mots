@@ -1,12 +1,13 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { getWeekPath } from '../../db/rewardsRepo';
 import type { StopState, WeekStop } from '../../domain/path';
+import { Icon, type IconName } from '../components/Icon';
 
-const STATE: Record<StopState, { icon: string; label: string }> = {
-  avenir: { icon: '🔒', label: 'À venir' },
-  encours: { icon: '✨', label: 'En cours' },
-  completee: { icon: '⭐', label: 'Tous les mots en bonne voie' },
-  maitrisee: { icon: '👑', label: 'Maîtrisée !' },
+const STATE: Record<StopState, { icon: IconName; label: string }> = {
+  avenir: { icon: 'lock', label: 'À venir' },
+  encours: { icon: 'sparkles', label: 'En cours' },
+  completee: { icon: 'star', label: 'Tous les mots en bonne voie' },
+  maitrisee: { icon: 'crown', label: 'Maîtrisée !' },
 };
 
 function formatDate(iso: string): string {
@@ -43,7 +44,7 @@ export function WeekPath({ onBack }: { onBack: () => void }) {
             {[...stops].reverse().map((s, i) => (
               <Stop key={s.weekId} stop={s} side={i % 2 === 0 ? 'left' : 'right'} current={i === 0} />
             ))}
-            <li className="path-start">🏁 Rentrée</li>
+            <li className="path-start"><Icon name="flag" size={20} className="icon-inline" />Rentrée</li>
           </ol>
         </>
       )}
@@ -57,7 +58,7 @@ function Stop({ stop, side, current }: { stop: WeekStop; side: 'left' | 'right';
   return (
     <li className={`path-stop ${side} ${stop.state} ${current ? 'current' : ''}`}>
       <div className="stop-node" aria-hidden>
-        {st.icon}
+        <Icon name={st.icon} size={30} />
       </div>
       <div className="stop-card">
         <strong>{stop.label}</strong>
