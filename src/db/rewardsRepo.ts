@@ -1,6 +1,7 @@
 import { type AcademieDB, db as defaultDb } from './db';
 import { getSettings } from './repo';
 import { type MasteryStats, REWARDS, type Reward, type RewardId, isReached, wearNew, wordStats } from '../domain/rewards';
+import { weekStop } from '../domain/path';
 
 export async function getMasteryStats(db: AcademieDB = defaultDb): Promise<MasteryStats> {
   const [settings, items, words, notions] = await Promise.all([
@@ -54,4 +55,19 @@ export async function setWorn(worn: RewardId[], db: AcademieDB = defaultDb) {
     const s = await getSettings(db);
     await db.settings.put({ key: 'settings', value: { ...s, wardrobe: { unlocked: s.wardrobe?.unlocked ?? {}, worn } } });
   });
+}
+
+/** Parcours de la dictée : une étape par liste, de la plus ancienne à la plus récente. */
+export async function getWeekPath(db: AcademieDB = defaultDb) {
+  const [settings, weeks, words, items] = await Promise.all([getSettings(db), db.weeks.orderBy('startDate').toArray(), db.words.toArray(), db.items.where('kind').equals('word').toArray()]);
+  const cardOf = new Map(items.map((i) => [i.refId, i.card]));
+  return weeks.map((w) =>
+    weekStop(
+      w.id,
+      w.label,
+      w.startDate,
+      words.filter((x) => x.weekId === w.id && cardOf.has(x.id)).map((x) => cardOf.get(x.id)!),
+      settings.thresholds.acquiredStabilityDays,
+    ),
+  );
 }

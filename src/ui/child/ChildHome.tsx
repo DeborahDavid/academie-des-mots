@@ -15,11 +15,12 @@ import { Session } from './Session';
 import { Wardrobe } from './Wardrobe';
 import { VocabQuest } from './VocabQuest';
 import { Grimoire } from './Grimoire';
+import { WeekPath } from './WeekPath';
 
 /** Écran principal provisoire : la tour et le ciel arrivent avec les illustrations. */
 export function ChildHome() {
   const [session, setSession] = useState(0);
-  const [screen, setScreen] = useState<'home' | 'wardrobe' | 'quest' | 'grimoire'>('home');
+  const [screen, setScreen] = useState<'home' | 'wardrobe' | 'quest' | 'grimoire' | 'path'>('home');
   const progress = useLiveQuery(() => getProgress(), [session]);
   const wardrobe = useLiveQuery(() => getWardrobe(), [session]);
   const settings = useSettings();
@@ -36,6 +37,7 @@ export function ChildHome() {
   if (screen === 'wardrobe') return <Wardrobe onBack={() => setScreen('home')} />;
   if (screen === 'quest') return <VocabQuest onExit={() => setScreen('home')} onGrimoire={() => setScreen('grimoire')} />;
   if (screen === 'grimoire') return <Grimoire onBack={() => setScreen('home')} />;
+  if (screen === 'path') return <WeekPath onBack={() => setScreen('home')} />;
 
   const next = wardrobe && nextReward(wardrobe.unlocked, wardrobe.stats);
   const np = next && wardrobe ? next.progress(wardrobe.stats) : null;
@@ -105,6 +107,10 @@ export function ChildHome() {
           <span className="place-icon">🔭</span>
           <span className="place-name">L’Exploratrice des mots</span>
           <span className="small-text muted">{rankName || 'Quête de vocabulaire'}</span>
+        </button>
+        <button className="place small-place" onClick={() => setScreen('path')}>
+          <span className="place-icon">🗺️</span>
+          <span className="place-name">Mon parcours</span>
         </button>
         <button className="place small-place" onClick={() => setScreen('grimoire')}>
           <span className="place-icon">📖</span>
