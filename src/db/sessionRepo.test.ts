@@ -149,3 +149,25 @@ describe('guidage dégressif', () => {
     expect((await db.notions.get('gn-nombre'))!.constellation).toBe('poulet'); // première notion maîtrisée
   });
 });
+
+describe('chasse aux erreurs dans la séance', () => {
+  it('une phrase sur deux en chasse aux erreurs ; versions ajoutées aux phrases existantes', async () => {
+    const { setNotionStatus, setSentenceStatus } = await import('./repo');
+    expect((await db.sentences.toArray()).every((s) => s.huntText)).toBe(true);
+    for (const n of ['gn-nombre', 'sv-eloigne', 'conj-present']) await setNotionStatus(n, true, db);
+    for (const s of await db.sentences.toArray()) await setSentenceStatus(s.id, 'validated', db);
+    const plan = await planSession(now, db);
+    expect(plan.sentences.map((s) => s.mode)).toEqual(['dictation', 'hunt', 'dictation']);
+  });
+
+  it('migration v1 → v2 : la version chasse s’ajoute sans toucher aux phrases modifiées', async () => {
+    const db2 = new AcademieDB(`sess-${n++}`);
+    await db2.settings.add({ key: 'settings', value: { ...(await import('../domain/model')).DEFAULT_SETTINGS, seedSentencesVersion: 1 } });
+    await db2.sentences.add({ id: 'seed-v1-0', text: 'Les petites filles jouent dans la cour.', notionIds: ['gn-genre'], source: 'seed', status: 'validated', createdAt: 0 });
+    await db2.sentences.add({ id: 'seed-v1-1', text: 'Phrase modifiée par le parent.', notionIds: ['gn-genre'], source: 'seed', status: 'validated', createdAt: 1 });
+    await ensureSeeded(db2);
+    expect((await db2.sentences.get('seed-v1-0'))!.huntText).toBe('Les petite filles joue dans la cour.');
+    expect((await db2.sentences.get('seed-v1-1'))!.huntText).toBeUndefined();
+    expect(await db2.sentences.count()).toBe(55); // les 53 autres phrases de départ sont ajoutées
+  });
+});

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { db } from '../../db/db';
 import { addSentence, deleteSentence, setSentenceStatus, updateSentence } from '../../db/repo';
 import type { Notion, Sentence, ValidationStatus } from '../../domain/model';
+import { buildHunt } from '../../domain/hunt';
 
 /** Phrases pour la dictée de phrase : rien n'est dicté à Leyu sans validation. */
 export function SentencesPanel() {
@@ -60,6 +61,16 @@ function SentenceRow({ s, label, seen }: { s: Sentence; label: Map<string, strin
         style={{ width: '100%' }}
         onBlur={(e) => e.target.value.trim() && e.target.value.trim() !== s.text && updateSentence(s.id, { text: e.target.value })}
       />
+      <label className="small-text" style={{ margin: 0 }}>
+        🔍 Version « chasse aux erreurs » (1 à 3 erreurs d’accord, facultatif)
+        <input
+          defaultValue={s.huntText ?? ''}
+          aria-label="Version chasse aux erreurs"
+          style={{ width: '100%' }}
+          onBlur={(e) => e.target.value.trim() !== (s.huntText ?? '') && updateSentence(s.id, { huntText: e.target.value })}
+        />
+      </label>
+      {s.huntText && buildHunt(s.text, s.huntText).problem && <span className="warn small-text">Chasse non utilisable : {buildHunt(s.text, s.huntText).problem}</span>}
       <span className="small-text muted">
         {s.notionIds.map((n) => (
           <span key={n} className={seen.has(n) ? '' : 'warn'}>

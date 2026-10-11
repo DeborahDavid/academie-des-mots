@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react';
 import { type SentenceTask, type SessionCompletion, type SessionKind, type WordTask, completeSession, planSession, recordPresentation, recordSentence, updateGuidance } from '../../db/sessionRepo';
 import { type SentenceRun, notionOutcome } from '../../domain/sentenceRun';
 import { SentenceExercise } from './SentenceExercise';
+import { HuntExercise } from './HuntExercise';
+import type { HuntResult } from '../../domain/hunt';
 import { AFTER_FAIL_LINES, END_LINES, randomLine, successLine } from '../../domain/lines';
 import { newId } from '../../domain/model';
 import { interleave, requeue } from '../../domain/session';
@@ -117,17 +119,21 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
   const finished = index >= queue.length;
   const task = queue[index];
 
-  async function handleSentenceDone(run: SentenceRun) {
+  /** Dictée de phrase et chasse aux erreurs aboutissent au même type de résultat. */
+  const fromRun = (run: SentenceRun): HuntResult => ({ outcome: run.outcome!, notionOutcome: notionOutcome(run), errorTypes: run.errorTypes, hintUsed: run.hintUsed });
+
+  async function handleSentenceDone(result: HuntResult) {
     const t = (task as SentenceItem).task;
-    const nOutcome = notionOutcome(run);
+    const nOutcome = result.notionOutcome;
+    const run = result;
     const { points } = await recordSentence({
       sessionId,
       sentence: t.sentence,
       scheduledNotionIds: t.scheduledNotionIds,
-      outcome: run.outcome!,
+      outcome: result.outcome,
       notionOutcome: nOutcome,
-      errorTypes: run.errorTypes,
-      hintUsed: run.hintUsed,
+      errorTypes: result.errorTypes,
+      hintUsed: result.hintUsed,
     });
     // Une notion « réussie » dans la séance = aucune erreur d'accord au premier essai.
     for (const n of t.sentence.notionIds) notionResults.current.set(n, (notionResults.current.get(n) ?? true) && nOutcome === 'success');
@@ -136,7 +142,20 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
     playSuccessChime(settings!.muted);
     setTransition(
       ok
-        ? { expression: 'fiere', line: run.outcome === 'success' ? 'Phrase parfaite !' : 'Tu as trouvé tes erreurs toute seule !', star: false, ada: false, points }
+        ? {
+            expression: 'fiere',
+            line:
+              run.outcome === 'success'
+                ? t.mode === 'hunt'
+                  ? 'Œil de lynx : toutes trouvées !'
+                  : 'Phrase parfaite !'
+                : run.hintUsed
+                  ? 'Corrigé, avec un petit indice !'
+                  : 'Tu as trouvé tes erreurs toute seule !',
+            star: false,
+            ada: false,
+            points,
+          }
         : { expression: 'contente', line: 'Cette phrase t’a appris quelque chose.', star: false, ada: false, points: 0 },
     );
   }
@@ -299,7 +318,11 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
         </button>
       ) : (
         task.kind === 'sentence' ? (
-          <SentenceExercise key={task.key} task={task.task} settings={settings} onDone={handleSentenceDone} />
+          task.task.mode === 'hunt' ? (
+            <HuntExercise key={task.key} task={task.task} settings={settings} onDone={handleSentenceDone} />
+          ) : (
+            <SentenceExercise key={task.key} task={task.task} settings={settings} onDone={(run) => handleSentenceDone(fromRun(run))} />
+          )
         ) : (
           <WordExercise
             key={task.key}

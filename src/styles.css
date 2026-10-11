@@ -382,3 +382,16 @@ button.big { min-height: 60px; font-size: 1.2rem; padding: 0.6em 1.6em; }
 @media (prefers-reduced-motion: reduce) { .earned-star { animation: none; } }
 .no-motion .earned-star { animation: none; }
 .constellation-preview { background: radial-gradient(circle, #22336f, transparent 70%); border-radius: 50%; }
+
+/* --- Chasse aux erreurs --- */
+.hunt-count { font-size: 1.2rem; margin: 0; color: var(--gold-soft); text-align: center; }
+.hunt-sentence { display: flex; flex-wrap: wrap; gap: 0.45rem 0.35rem; justify-content: center; align-items: baseline; background: var(--cream); border: 3px solid var(--gold); border-radius: 16px; padding: 1rem 1.2rem; width: min(760px, 100%); }
+.hunt-word { background: transparent; color: var(--ink); font-size: 1.6rem; padding: 0.1em 0.35em; min-height: 0; border: 2px solid transparent; border-radius: 10px; }
+.hunt-word:hover:not(:disabled) { border-color: #b9a6e0; }
+.hunt-word.selected { border-color: #6a3fa0; background: #efe7fb; }
+.hunt-word.fixed { color: #9a6b12; font-weight: 700; background: #fff4cf; }
+.hunt-word.fixed:disabled { opacity: 1; }
+.hunt-word.hinted { background: #e9f3ff; }
+.hunt-punct { color: var(--ink); font-size: 1.6rem; }
+/* Ponctuation collée au mot précédent (sauf ? ! : ; qui gardent l'espace fine française). */
+.hunt-punct.tight { margin-left: -0.6rem; }

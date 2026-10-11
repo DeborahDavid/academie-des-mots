@@ -21,7 +21,9 @@ const HOMOPHONES: string[][] = [
 ];
 
 /** Terminaisons d'accord et de conjugaison, les plus longues d'abord. */
-const ENDINGS = ['aient', 'erons', 'eront', 'erez', 'ions', 'iez', 'ais', 'ait', 'ant', 'ent', 'ons', 'ont', 'ées', 'és', 'ée', 'ez', 'er', 'é', 'es', 'e', 's', 'x', 't'];
+const ENDINGS = ['aient', 'erons', 'eront', 'erez', 'erai', 'eras', 'era', 'ions', 'iez', 'ais', 'ait', 'ant', 'ent', 'ons', 'ont', 'ées', 'és', 'ée', 'ez', 'er', 'é', 'es', 'e', 's', 'x', 't'].sort(
+  (a, b) => b.length - a.length,
+);
 
 function stem(w: string): string {
   for (const e of ENDINGS) if (w.length - e.length >= 2 && w.endsWith(e)) return w.slice(0, -e.length);
@@ -44,6 +46,9 @@ export function isAgreementVariant(answer: string, expected: string): boolean {
   const e = expected.toLocaleLowerCase('fr-FR');
   if (a === e) return false;
   if (HOMOPHONES.some((g) => g.includes(a) && g.includes(e))) return true;
+  // Marques d'accord ajoutées ou oubliées : parent / parents, ami / amie, beau / beaux, petit / petites.
+  const [short, long] = a.length < e.length ? [a, e] : [e, a];
+  if (long.startsWith(short) && ['s', 'x', 'e', 'es'].includes(long.slice(short.length))) return true;
   const sa = stem(a), se = stem(e);
   if (sa === se) return true;
   if ((sa.startsWith(se) || se.startsWith(sa)) && Math.abs(sa.length - se.length) <= 2 && Math.min(sa.length, se.length) >= 3) return true;

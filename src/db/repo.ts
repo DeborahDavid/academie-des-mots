@@ -28,8 +28,15 @@ export async function ensureSeeded(db: AcademieDB = defaultDb): Promise<void> {
       // Proposées au parent (« à valider ») ; une phrase déjà modifiée ou supprimée n'est pas recréée.
       const now = Date.now();
       const existing = new Set(await db.sentences.toCollection().primaryKeys());
-      const fresh: Sentence[] = SEED_SENTENCES.map((x, i) => ({ id: `seed-v${SEED_SENTENCES_VERSION}-${i}`, text: x.text, notionIds: x.notionIds, source: 'seed', status: 'pending', createdAt: now + i }));
+      // Identifiants stables (seed-v1-i) : une nouvelle version complète les phrases existantes sans les dupliquer.
+      const fresh: Sentence[] = SEED_SENTENCES.map((x, i) => ({ id: `seed-v1-${i}`, text: x.text, notionIds: x.notionIds, huntText: x.hunt, source: 'seed', status: 'pending', createdAt: now + i }));
+      // Les phrases de départ ne sont jamais supprimées (seulement écartées) : un identifiant absent = jamais proposée.
       await db.sentences.bulkAdd(fresh.filter((x) => !existing.has(x.id)));
+      // v2 : ajoute la version « chasse aux erreurs » aux phrases de départ que le parent n'a pas modifiées.
+      for (const f of fresh) {
+        const cur = await db.sentences.get(f.id);
+        if (cur && !cur.huntText && cur.text === f.text && f.huntText) await db.sentences.update(f.id, { huntText: f.huntText });
+      }
       await db.settings.put({ key: 'settings', value: { ...s, seedSentencesVersion: SEED_SENTENCES_VERSION } });
     }
   });
@@ -187,8 +194,9 @@ export async function addSentence(text: string, notionIds: string[], db: Academi
   await db.sentences.add({ id: newId(), text: text.trim().replace(/'/g, '’'), notionIds, source: 'parent', status: 'validated', createdAt: Date.now() });
 }
 
-export async function updateSentence(id: string, patch: Partial<Pick<Sentence, 'text' | 'notionIds'>>, db: AcademieDB = defaultDb) {
-  await db.sentences.update(id, patch.text ? { ...patch, text: patch.text.trim().replace(/'/g, '’') } : patch);
+export async function updateSentence(id: string, patch: Partial<Pick<Sentence, 'text' | 'notionIds' | 'huntText'>>, db: AcademieDB = defaultDb) {
+  const clean = (t?: string) => (t === undefined ? undefined : t.trim().replace(/'/g, '’') || undefined);
+  await db.sentences.update(id, { ...patch, ...('text' in patch ? { text: clean(patch.text) } : {}), ...('huntText' in patch ? { huntText: clean(patch.huntText) } : {}) });
 }
 
 export async function setSentenceStatus(id: string, status: ValidationStatus, db: AcademieDB = defaultDb) {

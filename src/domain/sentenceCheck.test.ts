@@ -60,3 +60,18 @@ describe('isAgreementVariant', () => {
     ['fame', 'femme'],
   ])('%s / %s → orthographe', (a, e) => expect(isAgreementVariant(a, e)).toBe(false));
 });
+
+describe('futur', () => {
+  it('chantera / chanteront, arrivera / arriveront → accord', () => {
+    expect(isAgreementVariant('chantera', 'chanteront')).toBe(true);
+    expect(isAgreementVariant('arrivera', 'arriveront')).toBe(true);
+  });
+});
+
+describe('exemples du parent', () => {
+  it('« Les ligne noir » et « ont été découvert » : erreurs d’accord', () => {
+    const c = checkSentence('Les ligne noir du cahier sont bien droites.', 'Les lignes noires du cahier sont bien droites.');
+    expect(c).toMatchObject({ errorCount: 2, agreementErrors: 2, errorTypes: ['agreement'] });
+    expect(isAgreementVariant('découvert', 'découvertes')).toBe(true);
+  });
+});

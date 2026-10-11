@@ -11,6 +11,7 @@ export function guidedQuestions(notionIds: string[]): string[] {
   if (has('inf-pp')) q.push('Un mot finit par le son « é » ? Remplace-le par « vendre » ou « vendu » pour choisir -er ou -é.');
   if (has('homo-')) q.push('Les petits mots qui se prononcent pareil (a/à, et/est, son/sont…) : essaie de les remplacer pour vérifier.');
   if (has('conj-')) q.push('À quel temps est la phrase ? Vérifie la terminaison des verbes.');
+  if (has('pp-etre')) q.push('Avec « être », le participe passé s’accorde avec le sujet : qui est-ce ? Féminin ? Pluriel ?');
   return q;
 }
 

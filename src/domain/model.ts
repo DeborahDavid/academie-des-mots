@@ -105,6 +105,8 @@ export interface Sentence {
   id: string;
   text: string;
   notionIds: string[];
+  /** Version « chasse aux erreurs » (1 à 3 erreurs d'accord), facultative. */
+  huntText?: string;
   source: 'seed' | 'parent' | 'llm';
   status: ValidationStatus;
   createdAt: number;
