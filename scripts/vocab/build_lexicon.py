@@ -9,8 +9,7 @@ Sorties  : data/build/lexique-complet.json   (toutes les entrées retenues, avec
            data/build/RAPPORT.md             (comptes, exclusions, provenance)
 
 Reproductible : mêmes sources + mêmes listes (themes/, exclusions.txt) → même résultat.
-Les sorties contiennent des données dérivées des sources : elles restent hors du dépôt Git
-(data/build/ est ignoré) tant que les licences n'ont pas été vérifiées.
+Une copie des sorties de référence est versionnée dans data/corpus/ (licences validées le 11/10/2026).
 """
 from __future__ import annotations
 
@@ -49,14 +48,14 @@ PROVENANCE = {
         'citation': 'Lété, B., Sprenger-Charolles, L., & Colé, P. (2004). MANULEX: A grade-level lexical database from French '
         'elementary school readers. Behavior Research Methods, Instruments, & Computers, 36(1), 156-166.',
         'file': 'manulex.xls (feuille LEMMES)',
-        'license': 'Non indiquée dans le fichier fourni. À vérifier auprès des auteurs avant toute redistribution.',
+        'license': 'Non indiquée dans le fichier fourni. Réutilisation validée par la responsable du projet le 11/10/2026.',
     },
     'eduscol': {
         'name': 'Éduscol — Mots les plus fréquents de la langue écrite française (XIXe et XXe siècles)',
         'description': 'Table hiérarchique d’environ 1 500 lemmes avec catégorie et fréquence.',
         'citation': 'Ministère de l’Éducation nationale, DESCO A1 (2002). Liste de fréquence lexicale, Éduscol.',
         'file': 'eduscol-mots-frequents.pdf (métadonnées : auteur « DESCO A1 », créé le 05/09/2002)',
-        'license': 'Non indiquée dans le document fourni. À vérifier sur eduscol.education.fr avant toute redistribution.',
+        'license': 'Non indiquée dans le document fourni. Réutilisation validée par la responsable du projet le 11/10/2026.',
     },
 }
 

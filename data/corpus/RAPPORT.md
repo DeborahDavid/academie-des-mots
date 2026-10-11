@@ -1,0 +1,80 @@
+# Rapport — lexique de l’Exploratrice des mots
+
+- Lemmes Manulex lus : 23812 · entrées Éduscol lues : 1499
+- Entrées retenues après filtrage : 6917 · corpus prioritaire : 2000
+- Catégories du corpus : {'adjectif': 816, 'verbe': 635, 'adverbe': 136, 'nom': 413}
+- Difficulté estimée : {1: 54, 2: 1008, 3: 938}
+- Avec un thème prioritaire : 99 · présents dans Éduscol : 69
+
+## Exclusions
+- exclu : absent du corpus CE2-CM2 : 608 (ex. abracadabrant, abrasion, aérosol, affinage, affiner, agave, agonir, algonquin)
+- exclu : expression de plusieurs mots : 34 (ex. à cloche-pied, à contrecœur, à croupetons, à jeun, à la saint-glinglin, à l'aveuglette, à l'improviste, à mi-course)
+- exclu : forme inhabituelle (majuscule, chiffre, trop courte) : 35 (ex. an, as, bu, çà, ci, dé, do, dû)
+- exclu : liste d’exclusion (adjectif de nationalité : pas un mot de vocabulaire à enrichir) : 6 (ex. breton, breton, soviétique, soviétique, suisse, suisse)
+- exclu : liste d’exclusion (familier) : 2 (ex. chic, chic)
+- exclu : liste d’exclusion (participe du verbe « atteindre » (variante fléchie)) : 1 (ex. atteint)
+- exclu : liste d’exclusion (préfixe familier) : 2 (ex. mini, mini)
+- exclu : liste d’exclusion (terme identitaire : ne se prête pas à des exercices automatisés) : 2 (ex. juif, juif)
+- exclu : liste d’exclusion (terme injurieux) : 1 (ex. nègre)
+- exclu : liste d’exclusion (thème inadapté à des exercices pour 8 ans) : 4 (ex. alcool, drogue, ivre, vin)
+- exclu : liste d’exclusion (violence (sens fréquent) : inadapté à l’univers du jeu) : 1 (ex. pendre)
+- exclu : liste d’exclusion (violence : inadapté à l’univers du jeu) : 3 (ex. assassin, cadavre, crime)
+- exclu : liste d’exclusion (vulgaire) : 2 (ex. cul, foutre)
+- exclu : mot grammatical ou hors vocabulaire (ABR) : 24 (ex. bd, ce1, ce2, cm, cm1, cm2, déca, dl)
+- exclu : mot grammatical ou hors vocabulaire (CON) : 20 (ex. car, comme, comment, donc, et, lorsque, mais, ni)
+- exclu : mot grammatical ou hors vocabulaire (DET) : 18 (ex. au, ce, de, du, le, les, leur, mien)
+- exclu : mot grammatical ou hors vocabulaire (INT) : 139 (ex. adieu, ah, aïe, alerte, alléluia, allô, amen, areuh)
+- exclu : mot grammatical ou hors vocabulaire (PRE) : 53 (ex. à, après, auprès, avant, avec, chez, concernant, contre)
+- exclu : mot grammatical ou hors vocabulaire (PRO) : 61 (ex. aucun, auquel, autre, autrui, ça, ce, ceci, cela)
+- exclu : mot grammatical ou hors vocabulaire (UEUPH) : 3 (ex. l, le, t)
+- exclu : nom propre (Manulex NP) : 4454 (ex. aardvark, abbey, abd el-kader, abdallah, abdavulocat, abdelassem, abderrahman, abdou)
+- exclu : nombre écrit en lettres : 76 (ex. cent, cent, cent-vingt, cinq, cinquante, cinquante-cinq, cinquante-deux, cinquante-huit)
+- exclu : probablement déjà connu à 8 ans (fréquent ou courant dès le CP-CE1) : 2725 (ex. abandonner, abattre, abeille, abîmer, aboyer, abracadabra, abri, abricot)
+- exclu : trop rare dans les manuels CE2-CM2 (SFI < 38) : 6852 (ex. abajoue, abasourdir, abat, abattement, abbaye, abbé, abcès, abdominal)
+- exclu : variante fléchie redondante : 694 (ex. abaissé (participe du verbe « abaisser »), abandonné (participe du verbe « abandonner »), abonné (participe du verbe « abonner »), abordé (participe du verbe « aborder »), abrégé (participe du verbe « abréger »), abrité (participe du verbe « abriter »), absorbé (participe du verbe « absorber »), accablé (participe du verbe « accabler »))
+
+## 40 premières entrées
+1. anxieux (adjectif, difficulté 2, emotions)
+2. distrait (adjectif, difficulté 2, caractere)
+3. prétentieux (adjectif, difficulté 3, caractere)
+4. serein (adjectif, difficulté 2, emotions)
+5. intrépide (adjectif, difficulté 2, caractere)
+6. probable (adjectif, difficulté 2, raisonnement)
+7. insolent (adjectif, difficulté 2, caractere)
+8. végétal (adjectif, difficulté 2, sciences)
+9. exaspérer (verbe, difficulté 2, emotions)
+10. balbutier (verbe, difficulté 2, lecture)
+11. perplexe (adjectif, difficulté 2, emotions)
+12. audacieux (adjectif, difficulté 2, caractere)
+13. social (adjectif, difficulté 2)
+14. docile (adjectif, difficulté 2, caractere)
+15. germer (verbe, difficulté 2, sciences)
+16. sincère (adjectif, difficulté 3, caractere)
+17. évident (adjectif, difficulté 2, raisonnement)
+18. néanmoins (adverbe, difficulté 2, lecture)
+19. absolu (adjectif, difficulté 2)
+20. attendrir (verbe, difficulté 2, emotions)
+21. épouvanter (verbe, difficulté 2, emotions)
+22. définir (verbe, difficulté 2, raisonnement)
+23. raisonner (verbe, difficulté 2, raisonnement)
+24. capricieux (adjectif, difficulté 2, caractere)
+25. téméraire (adjectif, difficulté 3, caractere)
+26. méfiant (adjectif, difficulté 2, caractere)
+27. environnement (nom, difficulté 3, sciences)
+28. loyal (adjectif, difficulté 2, caractere)
+29. discret (adjectif, difficulté 2, caractere)
+30. bienveillant (adjectif, difficulté 3, caractere)
+31. déduire (verbe, difficulté 3, raisonnement)
+32. vorace (adjectif, difficulté 2)
+33. frémissant (adjectif, difficulté 2)
+34. abrupt (adjectif, difficulté 2)
+35. farouche (adjectif, difficulté 2)
+36. couchant (adjectif, difficulté 2)
+37. diurne (adjectif, difficulté 2)
+38. turbulent (adjectif, difficulté 2)
+39. effroyable (adjectif, difficulté 2)
+40. injuste (adjectif, difficulté 2)
+
+## Provenance et licences
+- **MANULEX** — Lété, B., Sprenger-Charolles, L., & Colé, P. (2004). MANULEX: A grade-level lexical database from French elementary school readers. Behavior Research Methods, Instruments, & Computers, 36(1), 156-166. Licence : Non indiquée dans le fichier fourni. Réutilisation validée par la responsable du projet le 11/10/2026.
+- **Éduscol — Mots les plus fréquents de la langue écrite française (XIXe et XXe siècles)** — Ministère de l’Éducation nationale, DESCO A1 (2002). Liste de fréquence lexicale, Éduscol. Licence : Non indiquée dans le document fourni. Réutilisation validée par la responsable du projet le 11/10/2026.

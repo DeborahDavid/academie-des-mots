@@ -1,0 +1,254 @@
+{
+  "format": "academie-vocab",
+  "version": 1,
+  "batch": 2,
+  "generatedBy": "Claude (assistant IA) — contenu à vérifier par le parent avant d’être montré à l’enfant",
+  "selection": "Rangs 21 à 40 du corpus prioritaire (scripts/vocab/build_lexicon.py)",
+  "words": [
+    {
+      "id": "epouvanter", "priorityRank": 21, "lemma": "épouvanter", "pos": "verbe",
+      "definition": "Faire très, très peur.",
+      "examples": ["Le hurlement du loup épouvante les moutons.", "Ne te laisse pas épouvanter : ce n’est que l’ombre d’un arbre !"],
+      "synonyms": ["terrifier", "effrayer"], "antonyms": ["rassurer"],
+      "level": 2, "week": 5, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Faire très, très peur.", "choices": ["épouvanter", "consoler", "amuser"], "explanation": "Épouvanter, c’est faire très peur." },
+        { "id": "situation-1", "type": "situation", "prompt": "Un grondement terrible sort de la grotte et les petits lutins s’enfuient en hurlant. Ce bruit les…", "choices": ["épouvante", "endort", "rassure"], "explanation": "Les lutins ont très peur : le bruit les épouvante." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « épouvanter » ?", "choices": ["rassurer", "effrayer", "chanter"], "explanation": "Rassurer, c’est enlever la peur : le contraire d’épouvanter. « Effrayer » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "definir", "priorityRank": 22, "lemma": "définir", "pos": "verbe",
+      "definition": "Expliquer avec précision ce que veut dire un mot, ou ce qu’est une chose.",
+      "examples": ["Peux-tu définir le mot « grimoire » ? — C’est un livre de magie.", "Avant de jouer, il faut définir les règles."],
+      "synonyms": ["expliquer", "préciser"], "antonyms": [],
+      "level": 2, "week": 5, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Expliquer avec précision ce que veut dire un mot.", "choices": ["définir", "dessiner", "effacer"], "explanation": "Définir un mot, c’est expliquer précisément ce qu’il veut dire." },
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « définir » est-il bien utilisé ?",
+          "choices": ["Pour définir le mot « île », Nina dit : « une terre entourée d’eau ».", "Pour définir le mot « île », Nina chante très fort.", "Nina définit son goûter au fond de sa poche."],
+          "explanation": "Nina explique précisément ce qu’est une île : elle définit le mot."
+        }
+      ]
+    },
+    {
+      "id": "raisonner", "priorityRank": 23, "lemma": "raisonner", "pos": "verbe",
+      "definition": "Réfléchir de façon logique pour comprendre quelque chose ou trouver une solution.",
+      "examples": ["Pour résoudre l’énigme, Leyu raisonne : « Si ce n’est pas le chat, alors c’est le chien. »", "Le détective raisonne calmement avant d’accuser quelqu’un."],
+      "synonyms": ["réfléchir"], "antonyms": [],
+      "level": 2, "week": 5, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Réfléchir de façon logique pour trouver une solution.", "choices": ["raisonner", "rêver", "crier"], "explanation": "Raisonner, c’est réfléchir de façon logique. (Attention : « résonner », avec un s, c’est faire un bruit qui se prolonge.)" },
+        { "id": "situation-1", "type": "situation", "prompt": "Hugo se dit : « Il y a des traces de boue, donc quelqu’un est entré par le jardin. » Il…", "choices": ["raisonne", "chante", "dort"], "explanation": "Hugo part d’un indice pour arriver à une conclusion : il raisonne." }
+      ]
+    },
+    {
+      "id": "capricieux", "priorityRank": 24, "lemma": "capricieux", "pos": "adjectif",
+      "definition": "Qui change d’avis tout le temps et veut tout de suite ce qu’il désire.",
+      "examples": ["Le prince capricieux réclame une glace, puis un gâteau, puis plus rien du tout.", "Ne fais pas ta capricieuse : on ira au parc après le goûter."],
+      "synonyms": ["exigeant"], "antonyms": ["raisonnable"],
+      "level": 2, "week": 5, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui change d’avis tout le temps et veut tout, tout de suite.", "choices": ["capricieux", "patient", "timide"], "explanation": "Être capricieux, c’est vouloir tout, tout de suite, et changer d’avis sans arrêt." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le petit dragon veut un jouet, le jette, en réclame un autre, puis se met à pleurer. Il est…", "choices": ["capricieux", "sage", "courageux"], "explanation": "Il change d’envie sans arrêt et pleure pour l’obtenir : il est capricieux." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « capricieux » ?", "choices": ["raisonnable", "exigeant", "gourmand"], "explanation": "Une personne raisonnable accepte d’attendre : c’est le contraire de capricieux." }
+      ]
+    },
+    {
+      "id": "temeraire", "priorityRank": 25, "lemma": "téméraire", "pos": "adjectif",
+      "definition": "Qui prend des risques beaucoup trop grands, sans réfléchir au danger.",
+      "examples": ["Grimper sur le toit de la tour sans corde, c’est téméraire !", "Le chevalier téméraire fonce vers le dragon sans armure."],
+      "synonyms": ["imprudent", "casse-cou"], "antonyms": ["prudent"],
+      "level": 3, "week": 5, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui prend des risques beaucoup trop grands, sans réfléchir.", "choices": ["téméraire", "prudent", "paresseux"], "explanation": "Être téméraire, c’est prendre des risques trop grands. Le courage réfléchit, la témérité non." },
+        { "id": "situation-1", "type": "situation", "prompt": "Malgré la tempête, Max veut traverser le lac en barque, tout seul et sans gilet. Il est…", "choices": ["téméraire", "prudent", "timide"], "explanation": "Max prend un risque énorme sans réfléchir : il est téméraire." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « téméraire » ?", "choices": ["prudent", "imprudent", "rapide"], "explanation": "Prudent, c’est faire attention au danger : le contraire de téméraire. « Imprudent » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "mefiant", "priorityRank": 26, "lemma": "méfiant", "pos": "adjectif",
+      "definition": "Qui ne fait pas confiance facilement, qui se demande si on ne va pas le tromper.",
+      "examples": ["Ada est méfiante : elle renifle longtemps la nouvelle boîte avant d’y entrer.", "Le renard méfiant tourne autour du piège sans s’approcher."],
+      "synonyms": ["soupçonneux"], "antonyms": ["confiant"],
+      "level": 2, "week": 6, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui ne fait pas confiance facilement.", "choices": ["méfiant", "généreux", "bruyant"], "explanation": "Être méfiant, c’est ne pas faire confiance facilement." },
+        { "id": "situation-1", "type": "situation", "prompt": "Un inconnu propose à Nina de monter dans sa voiture. Elle recule et refuse : elle ne lui fait pas confiance. Elle est…", "choices": ["méfiante", "gourmande", "distraite"], "explanation": "Nina ne fait pas confiance à l’inconnu : elle est méfiante, et elle a bien raison !" },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « méfiant » ?", "choices": ["confiant", "soupçonneux", "calme"], "explanation": "Confiant, c’est faire confiance : le contraire de méfiant. « Soupçonneux » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "environnement", "priorityRank": 27, "lemma": "environnement", "pos": "nom",
+      "definition": "Tout ce qui nous entoure : la nature, l’air, l’eau, les animaux et les plantes.",
+      "examples": ["Trier ses déchets, c’est protéger l’environnement.", "La grenouille vit dans un environnement humide, près de la mare."],
+      "synonyms": ["milieu", "nature"], "antonyms": [],
+      "level": 3, "week": 6, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Tout ce qui nous entoure : la nature, l’air, l’eau, les animaux…", "choices": ["l’environnement", "l’horaire", "le vêtement"], "explanation": "L’environnement, c’est tout ce qui nous entoure." },
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « environnement » est-il bien utilisé ?",
+          "choices": ["Pour protéger l’environnement, on ramasse les papiers dans la forêt.", "Pour protéger l’environnement, on jette ses déchets dans la rivière.", "L’environnement est rangé dans mon cartable."],
+          "explanation": "Ramasser les papiers dans la forêt, c’est prendre soin de la nature : de l’environnement."
+        }
+      ]
+    },
+    {
+      "id": "loyal", "priorityRank": 28, "lemma": "loyal", "pos": "adjectif",
+      "definition": "Qui reste fidèle à ses amis et respecte sa parole.",
+      "examples": ["Elsa est une amie loyale : elle ne révèle jamais les secrets de Leyu.", "Un joueur loyal respecte les règles, même quand il perd."],
+      "synonyms": ["fidèle", "honnête"], "antonyms": ["déloyal", "traître"],
+      "level": 2, "week": 6, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui reste fidèle à ses amis et respecte sa parole.", "choices": ["loyal", "jaloux", "maladroit"], "explanation": "Être loyal, c’est rester fidèle et tenir parole." },
+        { "id": "situation-1", "type": "situation", "prompt": "Même quand tout le monde se moque de son ami, Sami reste à ses côtés et le défend. Sami est…", "choices": ["loyal", "jaloux", "distrait"], "explanation": "Sami reste fidèle à son ami : il est loyal." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « loyal » ?", "choices": ["déloyal", "fidèle", "poli"], "explanation": "Déloyal est le contraire de loyal. « Fidèle » veut dire presque la même chose que loyal." }
+      ]
+    },
+    {
+      "id": "discret", "priorityRank": 29, "lemma": "discret", "pos": "adjectif",
+      "definition": "Qui ne se fait pas remarquer, ne fait pas de bruit et sait garder un secret.",
+      "examples": ["Ada est discrète : on ne l’entend jamais arriver.", "Sois discrète, c’est une surprise pour l’anniversaire d’Elsa !"],
+      "synonyms": ["réservé"], "antonyms": ["bavard", "bruyant"],
+      "level": 2, "week": 6, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui ne se fait pas remarquer et sait garder un secret.", "choices": ["discret", "bruyant", "rapide"], "explanation": "Être discret, c’est ne pas se faire remarquer et savoir garder un secret." },
+        { "id": "situation-1", "type": "situation", "prompt": "Léonie connaît le secret de la fête surprise, mais elle n’en parle à personne. Elle est…", "choices": ["discrète", "bavarde", "furieuse"], "explanation": "Léonie garde le secret : elle est discrète." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « discret » ?", "choices": ["bavard", "réservé", "gentil"], "explanation": "Un bavard raconte tout : c’est le contraire de discret. « Réservé » veut dire presque la même chose que discret." }
+      ]
+    },
+    {
+      "id": "bienveillant", "priorityRank": 30, "lemma": "bienveillant", "pos": "adjectif",
+      "definition": "Qui veut du bien aux autres, qui est gentil et attentionné.",
+      "examples": ["Le professeur bienveillant encourage chaque élève avec un sourire.", "Elsa jette un regard bienveillant au nouveau qui se sent perdu."],
+      "synonyms": ["gentil", "attentionné"], "antonyms": ["malveillant", "méchant"],
+      "level": 3, "week": 6, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui veut du bien aux autres, gentil et attentionné.", "choices": ["bienveillant", "méfiant", "cruel"], "explanation": "Être bienveillant, c’est vouloir du bien aux autres." },
+        { "id": "situation-1", "type": "situation", "prompt": "La vieille dame aide le petit garçon perdu, le rassure et le raccompagne chez lui. Elle est…", "choices": ["bienveillante", "méchante", "distraite"], "explanation": "Elle veut du bien au petit garçon : elle est bienveillante." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « bienveillant » ?", "choices": ["malveillant", "gentil", "curieux"], "explanation": "Malveillant, c’est vouloir du mal : le contraire de bienveillant." }
+      ]
+    },
+    {
+      "id": "deduire", "priorityRank": 31, "lemma": "déduire", "pos": "verbe",
+      "definition": "Trouver une conclusion à partir de ce qu’on a remarqué.",
+      "examples": ["Le sol est mouillé : Leyu en déduit qu’il a plu pendant la nuit.", "D’après les traces dans la neige, le chasseur déduit qu’un renard est passé."],
+      "synonyms": ["conclure"], "antonyms": [],
+      "otherSenses": ["En calcul : enlever un nombre d’un autre. On déduit 3 de 10, il reste 7."],
+      "level": 3, "week": 7, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Trouver une conclusion à partir de ce qu’on a remarqué.", "choices": ["déduire", "oublier", "cacher"], "explanation": "Déduire, c’est trouver une conclusion grâce à des indices." },
+        { "id": "situation-1", "type": "situation", "prompt": "Nina voit du chocolat au coin de la bouche de son frère. Elle en … qu’il a mangé le gâteau.", "choices": ["déduit", "oublie", "chante"], "explanation": "Nina part d’un indice pour arriver à une conclusion : elle en déduit qu’il a mangé le gâteau." }
+      ]
+    },
+    {
+      "id": "vorace", "priorityRank": 32, "lemma": "vorace", "pos": "adjectif",
+      "definition": "Qui mange beaucoup, avec une grande avidité.",
+      "examples": ["La chenille vorace a dévoré toutes les feuilles du rosier.", "Après le match, Leyu a un appétit vorace !"],
+      "synonyms": ["glouton", "goinfre"], "antonyms": [],
+      "level": 2, "week": 7, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui mange beaucoup, avec avidité.", "choices": ["vorace", "timide", "frileux"], "explanation": "Vorace : qui mange beaucoup et vite." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le petit dragon avale trois gâteaux, dix pommes et réclame encore à manger. Il est…", "choices": ["vorace", "fatigué", "poli"], "explanation": "Il mange énormément : il est vorace." },
+        { "id": "synonyme-1", "type": "synonyme", "prompt": "Quel mot veut dire presque la même chose que « vorace » ?", "choices": ["glouton", "gentil", "rapide"], "explanation": "Un glouton mange beaucoup et avidement, comme un animal vorace." }
+      ]
+    },
+    {
+      "id": "fremissant", "priorityRank": 33, "lemma": "frémissant", "pos": "adjectif",
+      "definition": "Qui tremble légèrement, d’émotion, de froid, ou sous le vent.",
+      "examples": ["Frémissante d’impatience, Leyu attend l’ouverture du coffre.", "Les feuilles frémissantes bougent doucement sous la brise."],
+      "synonyms": ["tremblant"], "antonyms": ["immobile"],
+      "level": 2, "week": 7, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui tremble légèrement.", "choices": ["frémissant", "immobile", "bruyant"], "explanation": "Frémissant : qui tremble un peu." },
+        { "id": "situation-1", "type": "situation", "prompt": "Les moustaches du chat tremblent légèrement quand il aperçoit l’oiseau. Ses moustaches sont…", "choices": ["frémissantes", "endormies", "mouillées"], "explanation": "Les moustaches tremblent un peu : elles sont frémissantes." }
+      ]
+    },
+    {
+      "id": "abrupt", "priorityRank": 34, "lemma": "abrupt", "pos": "adjectif",
+      "definition": "Très en pente, presque à la verticale.",
+      "examples": ["Le sentier abrupt monte jusqu’à la tour de l’Académie.", "La falaise est si abrupte qu’on ne peut pas l’escalader."],
+      "synonyms": ["escarpé", "raide"], "antonyms": ["plat"],
+      "otherSenses": ["Une réponse abrupte est sèche et brusque."],
+      "level": 2, "week": 7, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Très en pente, presque à la verticale.", "choices": ["abrupt", "plat", "lisse"], "explanation": "Abrupt : très en pente." },
+        { "id": "situation-1", "type": "situation", "prompt": "Pour monter au château, il faut grimper un chemin qui monte presque tout droit vers le ciel. Le chemin est…", "choices": ["abrupt", "plat", "court"], "explanation": "Le chemin est très en pente : il est abrupt." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « abrupt » ?", "choices": ["plat", "raide", "haut"], "explanation": "Plat, c’est sans pente : le contraire d’abrupt. « Raide » veut dire presque la même chose qu’abrupt." }
+      ]
+    },
+    {
+      "id": "farouche", "priorityRank": 35, "lemma": "farouche", "pos": "adjectif",
+      "definition": "Qui a peur des gens et s’enfuit facilement ; difficile à approcher.",
+      "examples": ["Le chevreuil farouche disparaît dans les bois dès qu’il nous entend.", "Ce petit chat est encore farouche : il se cache sous le lit."],
+      "synonyms": ["sauvage", "craintif"], "antonyms": ["apprivoisé", "familier"],
+      "otherSenses": ["Très fort, acharné : une volonté farouche."],
+      "level": 2, "week": 7, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui a peur des gens et s’enfuit facilement.", "choices": ["farouche", "docile", "bavard"], "explanation": "Un animal farouche a peur et s’enfuit." },
+        { "id": "situation-1", "type": "situation", "prompt": "Dès qu’on s’approche, l’écureuil file en haut de l’arbre et se cache. Il est…", "choices": ["farouche", "apprivoisé", "paresseux"], "explanation": "L’écureuil se sauve dès qu’on approche : il est farouche." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « farouche » pour un animal ?", "choices": ["apprivoisé", "sauvage", "rapide"], "explanation": "Un animal apprivoisé se laisse approcher : c’est le contraire de farouche. « Sauvage » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "couchant", "priorityRank": 36, "lemma": "couchant", "pos": "adjectif",
+      "definition": "Se dit du soleil quand il descend et disparaît à l’horizon, le soir.",
+      "examples": ["Au soleil couchant, le ciel devient orange et rose.", "La tour de l’Académie brille dans la lumière du soleil couchant."],
+      "synonyms": [], "antonyms": ["levant"],
+      "otherSenses": ["Le couchant : l’ouest, le côté où le soleil se couche."],
+      "level": 2, "week": 8, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Se dit du soleil quand il disparaît le soir.", "choices": ["couchant", "levant", "brûlant"], "explanation": "Le soleil couchant, c’est le soleil du soir qui disparaît." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « couchant » dans « le soleil couchant » ?", "choices": ["levant", "brillant", "chaud"], "explanation": "Le soleil levant apparaît le matin ; le soleil couchant disparaît le soir." }
+      ]
+    },
+    {
+      "id": "diurne", "priorityRank": 37, "lemma": "diurne", "pos": "adjectif",
+      "definition": "Qui vit et qui est actif pendant le jour.",
+      "examples": ["L’écureuil est un animal diurne : il dort la nuit.", "Ada n’a rien d’une chatte diurne : elle dort toute la journée !"],
+      "synonyms": [], "antonyms": ["nocturne"],
+      "level": 2, "week": 8, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui vit et est actif pendant le jour.", "choices": ["diurne", "nocturne", "aquatique"], "explanation": "Diurne : actif le jour. Nocturne : actif la nuit." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « diurne » ?", "choices": ["nocturne", "matinal", "sauvage"], "explanation": "Un animal nocturne vit la nuit : c’est le contraire de diurne." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le papillon vole le jour et se repose quand la nuit tombe. C’est un animal…", "choices": ["diurne", "nocturne", "marin"], "explanation": "Le papillon est actif le jour : il est diurne." }
+      ]
+    },
+    {
+      "id": "turbulent", "priorityRank": 38, "lemma": "turbulent", "pos": "adjectif",
+      "definition": "Qui bouge beaucoup, fait du bruit et a du mal à rester calme.",
+      "examples": ["Les élèves turbulents courent partout dans le couloir.", "Le chiot turbulent a renversé tous les coussins."],
+      "synonyms": ["agité", "remuant"], "antonyms": ["calme", "sage"],
+      "level": 2, "week": 8, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui bouge beaucoup et a du mal à rester calme.", "choices": ["turbulent", "sage", "timide"], "explanation": "Turbulent : qui bouge beaucoup et fait du bruit." },
+        { "id": "situation-1", "type": "situation", "prompt": "Pendant la sieste, le petit frère saute sur le lit, crie et réveille tout le monde. Il est…", "choices": ["turbulent", "sage", "fatigué"], "explanation": "Il bouge et fait du bruit : il est turbulent." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « turbulent » ?", "choices": ["calme", "agité", "gentil"], "explanation": "Calme est le contraire de turbulent. « Agité » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "effroyable", "priorityRank": 39, "lemma": "effroyable", "pos": "adjectif",
+      "definition": "Qui fait très peur ; terrible.",
+      "examples": ["Un cri effroyable résonne dans la forêt.", "Quelle tempête effroyable : les arbres plient sous le vent !"],
+      "synonyms": ["terrifiant", "épouvantable"], "antonyms": [],
+      "level": 2, "week": 8, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui fait très peur ; terrible.", "choices": ["effroyable", "agréable", "minuscule"], "explanation": "Effroyable : qui fait très peur." },
+        { "id": "synonyme-1", "type": "synonyme", "prompt": "Quel mot veut dire presque la même chose que « effroyable » ?", "choices": ["terrifiant", "joyeux", "lent"], "explanation": "Terrifiant et effroyable veulent dire tous les deux : qui fait très peur." }
+      ]
+    },
+    {
+      "id": "injuste", "priorityRank": 40, "lemma": "injuste", "pos": "adjectif",
+      "definition": "Qui n’est pas juste, qui ne traite pas tout le monde de la même façon.",
+      "examples": ["C’est injuste : Hugo a été puni alors que ce n’était pas lui !", "Le roi injuste donnait tout à ses amis et rien aux autres."],
+      "synonyms": [], "antonyms": ["juste", "équitable"],
+      "level": 2, "week": 8, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui ne traite pas tout le monde de la même façon.", "choices": ["injuste", "honnête", "généreux"], "explanation": "Injuste : qui ne traite pas tout le monde pareil." },
+        { "id": "situation-1", "type": "situation", "prompt": "Deux enfants ont rangé la salle ensemble, mais un seul reçoit une récompense. C’est…", "choices": ["injuste", "logique", "drôle"], "explanation": "Ils ont fait le même travail, mais un seul est récompensé : c’est injuste." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « injuste » ?", "choices": ["équitable", "cruel", "triste"], "explanation": "Équitable, c’est juste pour tout le monde : le contraire d’injuste." }
+      ]
+    }
+  ]
+}

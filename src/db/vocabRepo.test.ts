@@ -16,14 +16,14 @@ beforeEach(async () => {
 });
 
 describe('import', () => {
-  it('lot 1 proposé « à valider » ; rien dans la quête avant validation ; importé une seule fois', async () => {
-    expect(await db.vocabWords.count()).toBe(20);
+  it('lots 1 à 3 proposés « à valider » ; rien dans la quête avant validation ; importé une seule fois', async () => {
+    expect(await db.vocabWords.count()).toBe(60);
     expect((await db.vocabWords.toArray()).every((w) => w.status === 'pending')).toBe(true);
     expect(await planVocabQuest(day1, db)).toEqual([]);
     await db.vocabWords.update('anxieux', { definition: 'Corrigé par le parent.' });
     await ensureVocabSeeded(db);
     expect((await db.vocabWords.get('anxieux'))!.definition).toBe('Corrigé par le parent.');
-    expect(await db.vocabWords.count()).toBe(20);
+    expect(await db.vocabWords.count()).toBe(60);
   });
 
   it('réimport : fusion par identifiant, sources ajoutées, statut conservé, pas de doublon', async () => {
@@ -35,13 +35,13 @@ describe('import', () => {
     expect(w.definition).toBe('Qui hésite.');
     expect(w.sources.sort()).toEqual(['corpus', 'dictee']);
     expect(w.status).toBe('validated');
-    expect(await db.vocabWords.count()).toBe(20);
+    expect(await db.vocabWords.count()).toBe(60);
   });
 
   it('fichier invalide : erreurs, rien n’est importé', async () => {
     const r = await importCorpus({ format: 'academie-vocab', version: 1, words: [{ id: 'x' }] }, db);
     expect(r.errors.length).toBeGreaterThan(0);
-    expect(await db.vocabWords.count()).toBe(20);
+    expect(await db.vocabWords.count()).toBe(60);
   });
 });
 

@@ -23,3 +23,4 @@ breton	adjectif de nationalité : pas un mot de vocabulaire à enrichir
 soviétique	adjectif de nationalité : pas un mot de vocabulaire à enrichir
 mini	préfixe familier
 chic	familier
+atteint	participe du verbe « atteindre » (variante fléchie)

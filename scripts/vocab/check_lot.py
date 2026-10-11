@@ -34,6 +34,22 @@ def stem(lemma: str) -> str:
     return p
 
 
+def forms(lemma: str) -> list[str]:
+    """Radical + formes que le radical ne couvre pas (rêveur → rêveuse, loyal → loyaux, créateur → créatrice)."""
+    p = plain(lemma)
+    out = [stem(lemma)]
+    if p.endswith('eur'):
+        out += [p[:-3] + 'euse', p[:-4] + 'rice' if p.endswith('teur') else None]
+    if p.endswith('al'):
+        out.append(p[:-2] + 'aux')
+    return [f for f in out if f]
+
+
+def has_word(text: str, lemma: str) -> bool:
+    t = plain(text)
+    return any(f in t for f in forms(lemma))
+
+
 def check(path: str, corpus: dict[str, dict] | None) -> tuple[list[str], list[str]]:
     errors: list[str] = []
     warnings: list[str] = []
@@ -67,7 +83,7 @@ def check(path: str, corpus: dict[str, dict] | None) -> tuple[list[str], list[st
         if len(w.get('examples', [])) < 2:
             warnings.append(f'{at} : moins de 2 exemples')
         for ex in w.get('examples', []):
-            if st not in plain(ex):
+            if not has_word(ex, w['lemma']):
                 warnings.append(f'{at} : le mot n’apparaît pas dans l’exemple « {ex[:50]}… »')
         syn = {plain(s) for s in w.get('synonyms', [])}
         qs = w.get('questions', [])
@@ -90,9 +106,9 @@ def check(path: str, corpus: dict[str, dict] | None) -> tuple[list[str], list[st
             if not q.get('explanation', '').strip():
                 errors.append(f'{qat} : explication manquante')
             right, *wrong = ch
-            if q['type'] in ('sens', 'situation', 'phrase') and st not in plain(right):
+            if q['type'] in ('sens', 'situation', 'phrase') and not has_word(right, w['lemma']):
                 errors.append(f'{qat} : la bonne réponse (en premier) ne contient pas le mot')
-            if q['type'] == 'phrase' and not all(st in plain(c) for c in ch):
+            if q['type'] == 'phrase' and not all(has_word(c, w['lemma']) for c in ch):
                 warnings.append(f'{qat} : toutes les phrases devraient contenir le mot')
             if q['type'] in ('sens', 'situation') and any(plain(x) in syn for x in wrong):
                 errors.append(f'{qat} : un distracteur est un synonyme du mot (deux bonnes réponses)')

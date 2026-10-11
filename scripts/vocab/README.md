@@ -4,14 +4,14 @@ Pipeline reproductible : sources lexicales → corpus prioritaire → lots enric
 
 ## 1. Sources (hors dépôt Git)
 
-Déposer dans `data/sources/` (dossier ignoré par Git : licences non vérifiées pour la redistribution) :
+Déposer dans `data/sources/` (fichiers bruts, non versionnés car volumineux) :
 
 | Fichier | Source | Rôle |
 |---|---|---|
 | `manulex.xls` | MANULEX — Lété, Sprenger-Charolles & Colé (2004), *Behavior Research Methods, Instruments, & Computers*, 36(1), 156-166 | **Source principale** : fréquences par niveau scolaire (feuille LEMMES) |
 | `eduscol-mots-frequents.pdf` | Éduscol, DESCO A1 (2002) — « Mots les plus fréquents de la langue écrite française » | Référence complémentaire (~1 500 lemmes) |
 
-Licences : non indiquées dans les fichiers fournis — **à vérifier avant toute redistribution** des données dérivées. Elles sont recopiées dans chaque sortie (`sources`).
+Licences : non indiquées dans les fichiers fournis ; réutilisation validée par la responsable du projet le 11/10/2026. Provenance et citations recopiées dans chaque sortie (`sources`).
 
 ## 2. Construire le corpus
 
@@ -20,7 +20,7 @@ python3 -m venv .venv && .venv/bin/pip install -r scripts/vocab/requirements.txt
 npm run vocab:lexique
 ```
 
-Sorties dans `data/build/` (ignoré par Git) : `lexique-complet.json`, `corpus-2000.json`, `RAPPORT.md`.
+Sorties dans `data/build/` (ignoré par Git) : `lexique-complet.json`, `corpus-2000.json`, `RAPPORT.md`. Copie de référence versionnée : `data/corpus/`.
 
 Trois notions distinctes par entrée :
 - **fréquence statistique** (`frequency`) : Manulex CE2-CM2 (par million, SFI, dispersion), présence CP-CE1, rang Éduscol ;

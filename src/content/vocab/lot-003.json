@@ -1,0 +1,252 @@
+{
+  "format": "academie-vocab",
+  "version": 1,
+  "batch": 3,
+  "generatedBy": "Claude (assistant IA) — contenu à vérifier par le parent avant d’être montré à l’enfant",
+  "selection": "Rangs 41 à 60 du corpus prioritaire (scripts/vocab/build_lexicon.py)",
+  "words": [
+    {
+      "id": "sanglant", "priorityRank": 41, "lemma": "sanglant", "pos": "adjectif",
+      "definition": "Taché ou couvert de sang.",
+      "examples": ["Après sa chute, Hugo a le genou un peu sanglant ; l’infirmière le soigne.", "Au coucher du soleil, le ciel prend une couleur rouge presque sanglante."],
+      "synonyms": ["ensanglanté"], "antonyms": [],
+      "level": 2, "week": 9, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Taché ou couvert de sang.", "choices": ["sanglant", "poussiéreux", "mouillé"], "explanation": "Sanglant : taché de sang." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le genou de Sami saigne un peu après sa chute dans les cailloux. Son genou est…", "choices": ["sanglant", "glacé", "propre"], "explanation": "Le genou saigne : il est sanglant." }
+      ]
+    },
+    {
+      "id": "rauque", "priorityRank": 42, "lemma": "rauque", "pos": "adjectif",
+      "definition": "Se dit d’une voix grave et un peu cassée, comme enrouée.",
+      "examples": ["Avec son rhume, Leyu a une voix rauque.", "Le vieux pirate parle d’une voix rauque."],
+      "synonyms": ["enroué", "éraillé"], "antonyms": ["clair"],
+      "level": 2, "week": 9, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Se dit d’une voix grave et cassée.", "choices": ["rauque", "aiguë", "douce"], "explanation": "Une voix rauque est grave et un peu cassée." },
+        { "id": "situation-1", "type": "situation", "prompt": "Après avoir crié pendant tout le match, Elsa a la voix grave et cassée. Sa voix est…", "choices": ["rauque", "aiguë", "mélodieuse"], "explanation": "La voix d’Elsa est grave et cassée : elle est rauque." }
+      ]
+    },
+    {
+      "id": "logique", "priorityRank": 43, "lemma": "logique", "pos": "adjectif",
+      "definition": "Qui suit un raisonnement juste, qui a du sens.",
+      "examples": ["Il pleut, donc le sol est mouillé : c’est logique !", "Leyu trouve une solution logique à l’énigme."],
+      "synonyms": ["cohérent"], "antonyms": ["absurde", "illogique"],
+      "otherSenses": ["La logique : la façon de raisonner correctement."],
+      "level": 2, "week": 9, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui suit un raisonnement juste, qui a du sens.", "choices": ["logique", "bizarre", "bruyant"], "explanation": "Logique : qui a du sens, qui suit un bon raisonnement." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « logique » ?", "choices": ["absurde", "cohérent", "précis"], "explanation": "Absurde, c’est ce qui n’a pas de sens : le contraire de logique. « Cohérent » veut dire presque la même chose que logique." },
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « logique » est-il bien utilisé ?",
+          "choices": ["J’ai très soif, alors je bois de l’eau : c’est logique.", "J’ai très soif, alors je mange du sable : c’est logique.", "Mon chat est logique et tout violet."],
+          "explanation": "Boire quand on a soif, ça a du sens : c’est logique."
+        }
+      ]
+    },
+    {
+      "id": "furtif", "priorityRank": 44, "lemma": "furtif", "pos": "adjectif",
+      "definition": "Rapide et discret, pour ne pas être vu ni entendu.",
+      "examples": ["Ada se glisse d’un pas furtif jusqu’à la cuisine.", "Elsa jette un regard furtif vers le cadeau caché."],
+      "synonyms": ["discret"], "antonyms": [],
+      "level": 2, "week": 9, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Rapide et discret, pour ne pas être remarqué.", "choices": ["furtif", "bruyant", "lourd"], "explanation": "Furtif : rapide et discret." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le renard s’approche du poulailler sans faire de bruit, en se cachant derrière les buissons. Son pas est…", "choices": ["furtif", "bruyant", "maladroit"], "explanation": "Le renard avance sans se faire remarquer : son pas est furtif." }
+      ]
+    },
+    {
+      "id": "sablonneux", "priorityRank": 45, "lemma": "sablonneux", "pos": "adjectif",
+      "definition": "Plein de sable.",
+      "examples": ["Le chemin sablonneux mène jusqu’à la plage.", "Ce sol sablonneux est parfait pour les fourmis."],
+      "synonyms": [], "antonyms": [],
+      "level": 2, "week": 9, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Plein de sable.", "choices": ["sablonneux", "neigeux", "boueux"], "explanation": "Sablonneux : plein de sable. Neigeux : plein de neige. Boueux : plein de boue." },
+        { "id": "situation-1", "type": "situation", "prompt": "Sur la plage, nos pieds s’enfoncent dans un sol plein de sable. Le sol est…", "choices": ["sablonneux", "neigeux", "glacé"], "explanation": "Un sol plein de sable est sablonneux." }
+      ]
+    },
+    {
+      "id": "modeste", "priorityRank": 46, "lemma": "modeste", "pos": "adjectif",
+      "definition": "Qui ne se vante pas de ce qu’il réussit.",
+      "examples": ["Leyu a marqué trois buts, mais elle reste modeste : « C’est toute l’équipe qui a gagné. »", "Le grand magicien est très modeste : il dit qu’il apprend encore."],
+      "synonyms": ["humble"], "antonyms": ["prétentieux", "vaniteux"],
+      "otherSenses": ["Simple, pas luxueux : une maison modeste."],
+      "level": 2, "week": 10, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui ne se vante pas de ce qu’il réussit.", "choices": ["modeste", "prétentieux", "peureux"], "explanation": "Être modeste, c’est ne pas se vanter." },
+        { "id": "situation-1", "type": "situation", "prompt": "Nina gagne le concours de dessin. Elle sourit : « J’ai eu de la chance, les autres dessins étaient beaux aussi. » Elle est…", "choices": ["modeste", "vaniteuse", "jalouse"], "explanation": "Nina ne se vante pas : elle est modeste." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « modeste » ?", "choices": ["prétentieux", "humble", "timide"], "explanation": "Prétentieux est le contraire de modeste. « Humble » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "rougeatre", "priorityRank": 47, "lemma": "rougeâtre", "pos": "adjectif",
+      "definition": "D’une couleur qui tire sur le rouge, un peu rouge.",
+      "examples": ["Au loin, la planète Mars brille d’une lumière rougeâtre.", "En automne, les feuilles prennent une teinte rougeâtre."],
+      "synonyms": [], "antonyms": [],
+      "level": 2, "week": 10, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "D’une couleur qui tire sur le rouge.", "choices": ["rougeâtre", "verdâtre", "bleuté"], "explanation": "Rougeâtre : un peu rouge. Le suffixe -âtre veut dire « qui tire sur »." },
+        { "id": "situation-1", "type": "situation", "prompt": "La pomme n’est pas tout à fait rouge, mais elle tire sur le rouge. Elle est…", "choices": ["rougeâtre", "bleuâtre", "blanche"], "explanation": "Une pomme qui tire sur le rouge est rougeâtre." }
+      ]
+    },
+    {
+      "id": "energique", "priorityRank": 48, "lemma": "énergique", "pos": "adjectif",
+      "definition": "Plein d’énergie et de force ; qui agit avec vigueur.",
+      "examples": ["Après une bonne nuit, Leyu est énergique : elle court jusqu’à l’Académie.", "La professeure donne un coup de baguette énergique."],
+      "synonyms": ["dynamique", "vif"], "antonyms": ["mou"],
+      "level": 2, "week": 10, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Plein d’énergie et de force.", "choices": ["énergique", "endormi", "timide"], "explanation": "Énergique : plein d’énergie." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « énergique » ?", "choices": ["mou", "dynamique", "rapide"], "explanation": "Mou, c’est sans énergie : le contraire d’énergique. « Dynamique » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "illustre", "priorityRank": 49, "lemma": "illustre", "pos": "adjectif",
+      "definition": "Très connu et admiré ; célèbre.",
+      "examples": ["Victor Hugo est un écrivain illustre.", "L’illustre magicienne a écrit le plus vieux grimoire de l’Académie."],
+      "synonyms": ["célèbre"], "antonyms": ["inconnu"],
+      "level": 2, "week": 10, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Très connu et admiré.", "choices": ["illustre", "inconnu", "minuscule"], "explanation": "Illustre : très connu et admiré." },
+        { "id": "synonyme-1", "type": "synonyme", "prompt": "Quel mot veut dire presque la même chose que « illustre » ?", "choices": ["célèbre", "ancien", "joyeux"], "explanation": "Une personne illustre est célèbre." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « illustre » ?", "choices": ["inconnu", "célèbre", "riche"], "explanation": "Inconnu est le contraire d’illustre." }
+      ]
+    },
+    {
+      "id": "subit", "priorityRank": 50, "lemma": "subit", "pos": "adjectif",
+      "definition": "Qui arrive tout d’un coup, sans prévenir.",
+      "examples": ["Un orage subit a obligé les apprenties à rentrer.", "La disparition subite d’Ada a inquiété toute l’Académie."],
+      "synonyms": ["soudain", "brusque"], "antonyms": ["progressif"],
+      "level": 2, "week": 10, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui arrive tout d’un coup, sans prévenir.", "choices": ["subit", "lent", "prévu"], "explanation": "Subit : qui arrive tout d’un coup." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le ciel était bleu et, tout à coup, une grosse averse tombe ! Cette averse est…", "choices": ["subite", "prévue", "légère"], "explanation": "L’averse arrive sans prévenir : elle est subite." },
+        { "id": "synonyme-1", "type": "synonyme", "prompt": "Quel mot veut dire presque la même chose que « subit » ?", "choices": ["soudain", "joyeux", "lourd"], "explanation": "Soudain et subit veulent dire tous les deux : qui arrive tout d’un coup." }
+      ]
+    },
+    {
+      "id": "mensuel", "priorityRank": 51, "lemma": "mensuel", "pos": "adjectif",
+      "definition": "Qui a lieu, ou qui paraît, une fois par mois.",
+      "examples": ["Leyu reçoit un magazine mensuel : un nouveau numéro chaque mois.", "La réunion mensuelle des magiciens a lieu le premier lundi du mois."],
+      "synonyms": [], "antonyms": [],
+      "level": 2, "week": 11, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui a lieu une fois par mois.", "choices": ["mensuel", "annuel", "quotidien"], "explanation": "Mensuel : chaque mois. Annuel : chaque année. Quotidien : chaque jour." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le grand marché de l’Académie a lieu une fois par mois. C’est un marché…", "choices": ["mensuel", "quotidien", "annuel"], "explanation": "Une fois par mois : mensuel." }
+      ]
+    },
+    {
+      "id": "sournois", "priorityRank": 52, "lemma": "sournois", "pos": "adjectif",
+      "definition": "Qui cache ses mauvaises intentions et agit en cachette.",
+      "examples": ["Le renard sournois fait semblant d’être gentil pour attraper le corbeau.", "Ada lance un regard sournois vers la pelote de laine."],
+      "synonyms": ["hypocrite", "rusé"], "antonyms": ["franc", "sincère"],
+      "level": 2, "week": 11, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui cache ses mauvaises intentions et agit en cachette.", "choices": ["sournois", "franc", "timide"], "explanation": "Être sournois, c’est cacher ses mauvaises intentions." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le lutin sourit gentiment à Hugo… puis lui fait un croche-pied dès qu’il a le dos tourné. Il est…", "choices": ["sournois", "loyal", "distrait"], "explanation": "Le lutin cache ses mauvaises intentions : il est sournois." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « sournois » ?", "choices": ["franc", "rusé", "méchant"], "explanation": "Une personne franche ne cache rien : c’est le contraire de sournois. « Rusé » est proche de sournois." }
+      ]
+    },
+    {
+      "id": "incertain", "priorityRank": 53, "lemma": "incertain", "pos": "adjectif",
+      "definition": "Pas sûr ; dont on ne sait pas comment il va se passer.",
+      "examples": ["Le temps est incertain : il pleuvra peut-être.", "Nina est incertaine : elle ne sait pas quelle porte ouvrir."],
+      "synonyms": ["douteux", "hésitant"], "antonyms": ["certain", "sûr"],
+      "level": 2, "week": 11, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Pas sûr, dont on ne sait pas comment il va se passer.", "choices": ["incertain", "certain", "rapide"], "explanation": "Incertain : pas sûr." },
+        { "id": "situation-1", "type": "situation", "prompt": "Le ciel est à moitié bleu, à moitié gris : on ne sait pas s’il va pleuvoir. Le temps est…", "choices": ["incertain", "magnifique", "glacial"], "explanation": "On ne sait pas comment le temps va tourner : il est incertain." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « incertain » ?", "choices": ["certain", "douteux", "prudent"], "explanation": "Certain veut dire sûr : le contraire d’incertain. « Douteux » veut dire presque la même chose qu’incertain." }
+      ]
+    },
+    {
+      "id": "manier", "priorityRank": 54, "lemma": "manier", "pos": "verbe",
+      "definition": "Tenir dans ses mains et utiliser avec habileté.",
+      "examples": ["Le jongleur manie trois balles à la fois.", "Leyu apprend à manier le pinceau pour écrire les sorts en lettres dorées."],
+      "synonyms": ["manipuler", "utiliser"], "antonyms": [],
+      "level": 2, "week": 11, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Tenir dans ses mains et utiliser avec habileté.", "choices": ["manier", "oublier", "casser"], "explanation": "Manier, c’est utiliser avec ses mains, habilement." },
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « manier » est-il bien utilisé ?",
+          "choices": ["Le cuisinier sait manier son couteau avec précaution.", "Le cuisinier manie le soleil dans le ciel.", "Le cuisinier manie très fort quand il a sommeil."],
+          "explanation": "Le cuisinier utilise son couteau avec habileté : il sait le manier."
+        }
+      ]
+    },
+    {
+      "id": "succulent", "priorityRank": 55, "lemma": "succulent", "pos": "adjectif",
+      "definition": "Qui a très bon goût ; délicieux.",
+      "examples": ["Mamie a préparé une tarte succulente.", "Ce chocolat chaud est succulent !"],
+      "synonyms": ["délicieux", "savoureux"], "antonyms": ["infect", "immangeable"],
+      "level": 2, "week": 11, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui a très bon goût.", "choices": ["succulent", "amer", "froid"], "explanation": "Succulent : délicieux." },
+        { "id": "synonyme-1", "type": "synonyme", "prompt": "Quel mot veut dire presque la même chose que « succulent » ?", "choices": ["délicieux", "piquant", "salé"], "explanation": "Un plat succulent est délicieux." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « succulent » ?", "choices": ["infect", "savoureux", "chaud"], "explanation": "Infect veut dire très mauvais : le contraire de succulent. « Savoureux » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "deception", "priorityRank": 56, "lemma": "déception", "pos": "nom",
+      "definition": "Ce qu’on ressent quand quelque chose est moins bien que ce qu’on espérait.",
+      "examples": ["Le match est annulé : quelle déception !", "Malgré sa déception, Hugo félicite le gagnant."],
+      "synonyms": ["désillusion"], "antonyms": ["satisfaction"],
+      "level": 2, "week": 12, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Ce qu’on ressent quand c’est moins bien que ce qu’on espérait.", "choices": ["la déception", "la fierté", "la colère"], "explanation": "La déception, c’est quand on espérait mieux." },
+        { "id": "situation-1", "type": "situation", "prompt": "Leyu attendait la sortie au zoo depuis des semaines, mais elle est annulée. Elle ressent une grande…", "choices": ["déception", "fierté", "faim"], "explanation": "Leyu espérait cette sortie : elle ressent de la déception." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « déception » ?", "choices": ["satisfaction", "tristesse", "peur"], "explanation": "La satisfaction, c’est quand on est content de ce qui arrive : le contraire de la déception." }
+      ]
+    },
+    {
+      "id": "bredouiller", "priorityRank": 57, "lemma": "bredouiller", "pos": "verbe",
+      "definition": "Parler vite et mal, de façon peu claire, souvent parce qu’on est gêné.",
+      "examples": ["Prise en faute, Nina bredouille une excuse.", "Le garçon timide bredouille quelques mots en rougissant."],
+      "synonyms": ["balbutier", "bafouiller"], "antonyms": [],
+      "level": 3, "week": 12, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Parler vite et mal, de façon peu claire.", "choices": ["bredouiller", "articuler", "chanter"], "explanation": "Bredouiller, c’est parler de façon peu claire. Articuler, c’est le contraire : bien prononcer." },
+        { "id": "synonyme-1", "type": "synonyme", "prompt": "Quel mot veut dire presque la même chose que « bredouiller » ?", "choices": ["balbutier", "crier", "courir"], "explanation": "Balbutier et bredouiller : parler en hésitant, pas clairement." },
+        { "id": "situation-1", "type": "situation", "prompt": "Surpris la patte dans le pot de miel, l’ours dit très vite et pas clairement : « C’est… euh… pas moi… » Il…", "choices": ["bredouille", "chante", "hurle"], "explanation": "L’ours parle vite et mal parce qu’il est gêné : il bredouille." }
+      ]
+    },
+    {
+      "id": "nervosite", "priorityRank": 58, "lemma": "nervosité", "pos": "nom",
+      "definition": "État de quelqu’un qui est tendu, agité, et qui n’arrive pas à rester calme.",
+      "examples": ["Avant le spectacle, Elsa tortille ses cheveux de nervosité.", "La nervosité du cheval augmente quand l’orage approche."],
+      "synonyms": ["agitation", "énervement"], "antonyms": ["calme", "sérénité"],
+      "level": 2, "week": 12, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "État de quelqu’un de tendu, qui n’arrive pas à rester calme.", "choices": ["la nervosité", "la paresse", "la gaieté"], "explanation": "La nervosité, c’est être tendu et agité." },
+        { "id": "antonyme-1", "type": "antonyme", "prompt": "Quel est le contraire de « nervosité » ?", "choices": ["calme", "agitation", "colère"], "explanation": "Le calme est le contraire de la nervosité. « Agitation » veut dire presque la même chose." }
+      ]
+    },
+    {
+      "id": "reveur", "priorityRank": 59, "lemma": "rêveur", "pos": "adjectif",
+      "definition": "Qui aime rêver et imaginer ; qui a souvent la tête ailleurs.",
+      "examples": ["Rêveuse, Leyu regarde les nuages et imagine des dragons.", "Le garçon rêveur oublie souvent ses affaires."],
+      "synonyms": ["songeur", "distrait"], "antonyms": ["réaliste"],
+      "level": 2, "week": 12, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Qui aime rêver et imaginer.", "choices": ["rêveur", "bavard", "pressé"], "explanation": "Rêveur : qui aime rêver, qui a la tête ailleurs." },
+        { "id": "situation-1", "type": "situation", "prompt": "Assis près de la fenêtre, Sami regarde les étoiles et imagine des voyages vers d’autres planètes. Il est…", "choices": ["rêveur", "furieux", "pressé"], "explanation": "Sami imagine et rêve : il est rêveur." }
+      ]
+    },
+    {
+      "id": "vertigineux", "priorityRank": 60, "lemma": "vertigineux", "pos": "adjectif",
+      "definition": "Si haut qu’il donne le vertige ; ou très grand, énorme.",
+      "examples": ["Du haut de la tour, la vue est vertigineuse.", "Les montagnes russes descendent à une vitesse vertigineuse."],
+      "synonyms": ["immense"], "antonyms": [],
+      "level": 3, "week": 12, "sources": ["corpus"],
+      "questions": [
+        { "id": "sens-1", "type": "sens", "prompt": "Si haut qu’il donne le vertige.", "choices": ["vertigineux", "minuscule", "plat"], "explanation": "Vertigineux : si haut qu’on a le vertige." },
+        {
+          "id": "phrase-1", "type": "phrase", "prompt": "Dans quelle phrase « vertigineux » est-il bien utilisé ?",
+          "choices": ["Du haut de la falaise, on voit la mer tout en bas : c’est vertigineux !", "La fourmi est vertigineuse au fond de ma poche.", "Le tapis est vertigineux et tout plat."],
+          "explanation": "Regarder de très haut donne le vertige : c’est vertigineux."
+        }
+      ]
+    }
+  ]
+}

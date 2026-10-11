@@ -264,6 +264,17 @@ export function wordStem(lemma: string): string {
   return p;
 }
 
+/** Le texte contient-il le mot, sous une forme accordée ou conjuguée ? (rêveur → rêveuse, loyal → loyaux…) */
+export function containsWord(text: string, lemma: string): boolean {
+  const t = plainText(text);
+  const p = plainText(lemma);
+  const forms = [wordStem(lemma)];
+  if (p.endsWith('eur')) forms.push(p.slice(0, -3) + 'euse');
+  if (p.endsWith('teur')) forms.push(p.slice(0, -4) + 'rice');
+  if (p.endsWith('al')) forms.push(p.slice(0, -2) + 'aux');
+  return forms.some((f) => t.includes(f));
+}
+
 export type ProductionCheck = { ok: true } | { ok: false; message: string };
 
 /**
@@ -274,7 +285,7 @@ export function checkProduction(text: string, word: VocabWord): ProductionCheck 
   const t = text.trim();
   const words = t.split(/\s+/).filter(Boolean);
   if (words.length < 4) return { ok: false, message: 'Écris une vraie phrase, avec au moins quatre mots.' };
-  if (!plainText(t).includes(wordStem(word.lemma))) return { ok: false, message: `N’oublie pas d’utiliser le mot « ${word.lemma} » dans ta phrase.` };
+  if (!containsWord(t, word.lemma)) return { ok: false, message: `N’oublie pas d’utiliser le mot « ${word.lemma} » dans ta phrase.` };
   const norm = (s: string) => plainText(s).replace(/[^a-z0-9]+/g, ' ').trim();
   if (word.examples.some((e) => norm(e) === norm(t))) return { ok: false, message: 'Invente ta propre phrase, différente des exemples !' };
   return { ok: true };

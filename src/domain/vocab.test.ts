@@ -117,3 +117,15 @@ describe('checkProduction', () => {
     expect(checkProduction('Les élèves sont perplexes devant ce problème.', w).ok).toBe(true);
   });
 });
+
+describe('containsWord', () => {
+  it('reconnaît les formes accordées et conjuguées', async () => {
+    const { containsWord } = await import('./vocab');
+    expect(containsWord('Elle est rêveuse.', 'rêveur')).toBe(true);
+    expect(containsWord('Des amis loyaux.', 'loyal')).toBe(true);
+    expect(containsWord('Il exaspère tout le monde.', 'exaspérer')).toBe(true);
+    expect(containsWord('Elle est anxieuse.', 'anxieux')).toBe(true);
+    expect(containsWord('Une marche furtive.', 'furtif')).toBe(true);
+    expect(containsWord('Il fait beau.', 'rêveur')).toBe(false);
+  });
+});
