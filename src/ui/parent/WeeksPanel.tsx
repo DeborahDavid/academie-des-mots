@@ -55,6 +55,23 @@ function AddWeekForm({ weeks }: { weeks: Week[] }) {
     <section className="card stack">
       <h2>Ajouter une liste</h2>
       {weeks.length === 0 && (
+        <div className="row">
+          <button
+            className="ghost"
+            onClick={() =>
+              setTexts({
+                jaune: 'la forêt | Le loup se cache dans la forêt.\nun château | Le roi habite dans un grand château.\ngrand | Mon frère est très grand. | Pense à « grande » pour la lettre muette.',
+                vert: 'soudain | Soudain, le chat a sauté sur la table.\naujourd’hui | Aujourd’hui, il fait beau.',
+                violet: 'la lumière | La lumière de la bougie éclaire la pièce.',
+              })
+            }
+          >
+            Essayer avec une liste d’exemple
+          </button>
+          <span className="muted small-text">Remplit les zones ci-dessous ; cliquez ensuite sur « Ajouter ». Vous pourrez supprimer cette semaine après.</span>
+        </div>
+      )}
+      {weeks.length === 0 && (
         <p className="notice small-text">
           Pour rattraper les semaines depuis la rentrée : ajoutez-les une par une, <strong>de la plus ancienne à la plus récente</strong>.
           L’application introduira ces mots progressivement (quelques nouveaux par séance, la semaine en cours en priorité).
