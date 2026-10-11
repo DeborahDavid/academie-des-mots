@@ -355,3 +355,10 @@ button.big { min-height: 60px; font-size: 1.2rem; padding: 0.6em 1.6em; }
   .path-stop .stop-node, .path-stop.left .stop-node, .path-stop.right .stop-node { left: -2px; right: auto; }
   .path-stop.left .stop-card { align-items: flex-start; }
 }
+.sentence-input { font-size: 1.5rem; text-align: left; min-height: 120px; width: min(720px, 100%); resize: vertical; }
+.model-sentence { font-size: 1.6rem; font-weight: 700; color: var(--ink); background: var(--cream); border: 3px solid var(--gold); border-radius: 16px; padding: 0.5em 1em; width: min(720px, 100%); text-align: center; }
+.hint-box.guided { display: flex; flex-direction: column; gap: 0.5rem; width: min(720px, 100%); }
+.notion-picks { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.notion-picks label { display: flex; align-items: center; gap: 0.35rem; background: var(--panel-2); color: var(--text); border-radius: 999px; padding: 0.25rem 0.7rem; font-size: 0.85rem; cursor: pointer; margin: 0; }
+.notion-picks label.picked { background: var(--gold); color: var(--ink); }
+.notion-picks input { min-height: 0; width: 16px; height: 16px; }

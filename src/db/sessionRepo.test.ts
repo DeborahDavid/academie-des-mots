@@ -128,3 +128,23 @@ describe('phrases', () => {
     expect(notionItem!.card.reps).toBe(1);
   });
 });
+
+describe('guidage dégressif', () => {
+  it('monte après 2 séances sans erreur d’accord, descend après 2 échecs, maîtrise au niveau 3', async () => {
+    const { updateGuidance } = await import('./sessionRepo');
+    const ok = new Map([['gn-nombre', true]]);
+    const ko = new Map([['gn-nombre', false]]);
+    await updateGuidance(ok, now, db);
+    expect((await db.notions.get('gn-nombre'))!.guidanceLevel).toBe(1);
+    await updateGuidance(ok, now, db);
+    expect((await db.notions.get('gn-nombre'))!.guidanceLevel).toBe(2);
+    await updateGuidance(ko, now, db);
+    await updateGuidance(ko, now, db);
+    expect((await db.notions.get('gn-nombre'))!.guidanceLevel).toBe(1);
+    for (let i = 0; i < 4; i++) await updateGuidance(ok, now, db);
+    expect((await db.notions.get('gn-nombre'))!.guidanceLevel).toBe(3);
+    const mastered = await updateGuidance(ok, now, db);
+    expect(mastered).toEqual(['gn-nombre']);
+    expect((await db.notions.get('gn-nombre'))!.masteredAt).toBeDefined();
+  });
+});

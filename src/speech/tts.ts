@@ -96,3 +96,16 @@ export function playBlob(blob: Blob): Promise<void> {
     audio.play().catch(reject);
   });
 }
+
+/** Dictée lente : la phrase par petits groupes de mots, avec des pauses (comme en classe). */
+export async function speakSlowly(sentence: string, opts: SpeakOptions = {}): Promise<void> {
+  const groups: string[] = [];
+  for (const part of sentence.split(/(?<=[,;:])\s+/)) {
+    const words = part.split(/\s+/);
+    for (let i = 0; i < words.length; i += 3) groups.push(words.slice(i, i + 3).join(' '));
+  }
+  for (const g of groups) {
+    await speak(g, { ...opts, rate: Math.min(opts.rate ?? 0.85, 0.8) });
+    await pause(900);
+  }
+}

@@ -260,3 +260,38 @@ export async function recordSentence(r: SentenceResult, now = new Date(), db: Ac
     return { points };
   });
 }
+
+/**
+ * Guidage dégressif (spec 5.3), à la fin de chaque séance, pour chaque notion travaillée :
+ * 2 séances de suite sans erreur d'accord → niveau suivant ; 2 échecs de suite → niveau précédent.
+ * Niveau 3 atteint et réussi → notion « maîtrisée » (constellation).
+ */
+export async function updateGuidance(results: Map<string, boolean>, now = new Date(), db: AcademieDB = defaultDb): Promise<string[]> {
+  const mastered: string[] = [];
+  await db.transaction('rw', db.notions, async () => {
+    for (const [id, ok] of results) {
+      const n = await db.notions.get(id);
+      if (!n) continue;
+      let { guidanceLevel, streakOk, streakFail } = n;
+      if (ok) {
+        streakOk += 1;
+        streakFail = 0;
+        if (streakOk >= 2 && guidanceLevel < 3) {
+          guidanceLevel = (guidanceLevel + 1) as GuidanceLevel;
+          streakOk = 0;
+        }
+      } else {
+        streakFail += 1;
+        streakOk = 0;
+        if (streakFail >= 2 && guidanceLevel > 1) {
+          guidanceLevel = (guidanceLevel - 1) as GuidanceLevel;
+          streakFail = 0;
+        }
+      }
+      const becomesMastered = !n.masteredAt && guidanceLevel === 3 && ok && streakOk >= 1;
+      if (becomesMastered) mastered.push(id);
+      await db.notions.update(id, { guidanceLevel, streakOk, streakFail, ...(becomesMastered ? { masteredAt: now.getTime() } : {}) });
+    }
+  });
+  return mastered;
+}

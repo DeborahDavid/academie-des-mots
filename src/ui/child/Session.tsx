@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { type SessionCompletion, type SessionKind, type WordTask, completeSession, planSession, recordPresentation } from '../../db/sessionRepo';
+import { type SentenceTask, type SessionCompletion, type SessionKind, type WordTask, completeSession, planSession, recordPresentation, recordSentence, updateGuidance } from '../../db/sessionRepo';
+import { type SentenceRun, notionOutcome } from '../../domain/sentenceRun';
+import { SentenceExercise } from './SentenceExercise';
 import { AFTER_FAIL_LINES, END_LINES, randomLine, successLine } from '../../domain/lines';
 import { newId } from '../../domain/model';
-import { requeue } from '../../domain/session';
+import { interleave, requeue } from '../../domain/session';
 import { frTypo } from '../../domain/typo';
 import { db } from '../../db/db';
 import { type WordRun, shouldRequeue } from '../../domain/wordRun';
@@ -15,12 +17,21 @@ import { usePortraitUrl } from '../components/Portrait';
 import { playStarChime, playSuccessChime } from '../../speech/sfx';
 import { WordExercise } from './WordExercise';
 
-interface Task {
+interface WordItem {
+  kind: 'word';
   key: string;
   word: WordTask;
   presentation: number;
   failures: number;
 }
+
+interface SentenceItem {
+  kind: 'sentence';
+  key: string;
+  task: SentenceTask;
+}
+
+type Task = WordItem | SentenceItem;
 
 interface Transition {
   expression: ElsaExpression;
@@ -36,6 +47,8 @@ interface Summary {
   toReview: number;
   stars: number;
   points: number;
+  sentencesOk: number;
+  sentences: number;
 }
 
 /** Durée d'une transition entre deux exercices (passable d'un tap). */
@@ -52,20 +65,25 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
   const [hasWords, setHasWords] = useState(true);
   const [index, setIndex] = useState(0);
   const [transition, setTransition] = useState<Transition | null>(null);
-  const [summary, setSummary] = useState<Summary>({ firstTry: 0, withHint: 0, toReview: 0, stars: 0, points: 0 });
+  const [summary, setSummary] = useState<Summary>({ firstTry: 0, withHint: 0, toReview: 0, stars: 0, points: 0, sentencesOk: 0, sentences: 0 });
 
   useEffect(() => {
     db.words.count().then((n) => setHasWords(n > 0));
     planSession().then((plan) => {
       setKind(plan.kind);
-      setQueue(plan.tasks.map((t) => ({ key: `${t.item.id}#1`, word: t, presentation: 1, failures: 0 })));
+      const words: Task[] = plan.tasks.map((t) => ({ kind: 'word', key: `${t.item.id}#1`, word: t, presentation: 1, failures: 0 }));
+      const sentences: Task[] = plan.sentences.map((t) => ({ kind: 'sentence', key: `s:${t.sentence.id}`, task: t }));
+      setQueue(interleave(words, sentences));
     });
   }, []);
 
+  // Résultats d'accord par notion pendant la séance (pour le guidage dégressif).
+  const notionResults = useRef(new Map<string, boolean>());
   const done = !!queue && queue.length > 0 && index >= queue.length && !transition;
   useEffect(() => {
     if (done && !completion)
-      completeSession(kind)
+      updateGuidance(notionResults.current)
+        .then(() => completeSession(kind))
         .then(async (c) => {
           setNewRewards(await syncUnlocks());
           return c;
@@ -86,7 +104,32 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
   const finished = index >= queue.length;
   const task = queue[index];
 
+  async function handleSentenceDone(run: SentenceRun) {
+    const t = (task as SentenceItem).task;
+    const nOutcome = notionOutcome(run);
+    const { points } = await recordSentence({
+      sessionId,
+      sentence: t.sentence,
+      scheduledNotionIds: t.scheduledNotionIds,
+      outcome: run.outcome!,
+      notionOutcome: nOutcome,
+      errorTypes: run.errorTypes,
+      hintUsed: run.hintUsed,
+    });
+    // Une notion « réussie » dans la séance = aucune erreur d'accord au premier essai.
+    for (const n of t.sentence.notionIds) notionResults.current.set(n, (notionResults.current.get(n) ?? true) && nOutcome === 'success');
+    const ok = run.outcome !== 'fail';
+    setSummary((s) => ({ ...s, sentences: s.sentences + 1, sentencesOk: s.sentencesOk + (ok ? 1 : 0), points: s.points + points }));
+    playSuccessChime(settings!.muted);
+    setTransition(
+      ok
+        ? { expression: 'fiere', line: run.outcome === 'success' ? 'Phrase parfaite !' : 'Tu as trouvé tes erreurs toute seule !', star: false, ada: false, points }
+        : { expression: 'contente', line: 'Cette phrase t’a appris quelque chose.', star: false, ada: false, points: 0 },
+    );
+  }
+
   async function handleDone(run: WordRun) {
+    if (task.kind !== 'word') return;
     const outcome = run.outcome!;
     const effect = await recordPresentation({
       sessionId,
@@ -99,12 +142,13 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
     });
     let nextQueue = queue!;
     if (shouldRequeue(run)) {
-      const again: Task = { ...task, key: `${task.word.item.id}#${task.presentation + 1}`, presentation: task.presentation + 1, failures: run.failures };
+      const again: WordItem = { ...task, key: `${task.word.item.id}#${task.presentation + 1}`, presentation: task.presentation + 1, failures: run.failures };
       nextQueue = requeue(queue!, index, again);
       setQueue(nextQueue);
     }
     const isLastPresentation = !shouldRequeue(run);
     setSummary((s) => ({
+      ...s,
       firstTry: s.firstTry + (task.presentation === 1 && outcome === 'success' ? 1 : 0),
       withHint: s.withHint + (outcome === 'success_hint' ? 1 : 0),
       toReview: s.toReview + (isLastPresentation && outcome === 'fail' ? 1 : 0),
@@ -176,6 +220,11 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
             <span className="muted small-text">(dont {completion.bonusPoints} de bonus {kind === 'daily' ? 'de la séance du jour' : 'de séance en plus'})</span>
           </p>
           <p>✦ {summary.firstTry} sort{summary.firstTry > 1 ? 's' : ''} réussi{summary.firstTry > 1 ? 's' : ''} du premier coup</p>
+          {summary.sentences > 0 && (
+            <p>
+              ✦ {summary.sentencesOk}/{summary.sentences} phrase{summary.sentences > 1 ? 's' : ''} réussie{summary.sentencesOk > 1 ? 's' : ''}
+            </p>
+          )}
           {summary.withHint > 0 && (
             <p>
               ✦ {summary.withHint} mot{summary.withHint > 1 ? 's' : ''} réussi{summary.withHint > 1 ? 's' : ''} avec un indice
@@ -222,15 +271,19 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
           {transition.ada && <p className="muted small-text">Ada s’est réveillée pour te voir !</p>}
         </button>
       ) : (
-        <WordExercise
-          key={task.key}
-          word={task.word.word}
-          itemId={task.word.item.id}
-          presentation={task.presentation}
-          failures={task.failures}
-          settings={settings}
-          onDone={handleDone}
-        />
+        task.kind === 'sentence' ? (
+          <SentenceExercise key={task.key} task={task.task} settings={settings} onDone={handleSentenceDone} />
+        ) : (
+          <WordExercise
+            key={task.key}
+            word={task.word.word}
+            itemId={task.word.item.id}
+            presentation={task.presentation}
+            failures={task.failures}
+            settings={settings}
+            onDone={handleDone}
+          />
+        )
       )}
     </main>
   );
