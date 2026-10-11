@@ -1,49 +1,82 @@
 import { type PointerEvent, useEffect, useRef, useState } from 'react';
 import { setPortrait } from '../../db/repo';
-import type { CharacterId } from '../../domain/model';
-import { Portrait } from '../components/Portrait';
+import type { ArtSlot } from '../../domain/model';
+import { usePortraitUrl } from '../components/Portrait';
 
 const VIEW = 280; // taille du cadre de recadrage (px)
 const OUT = 512; // taille de l'image enregistrée (px)
 
-const NAMES: Record<CharacterId, string> = { leyu: 'Leyu', elsa: 'Elsa' };
+
+interface SlotDef {
+  slot: ArtSlot;
+  label: string;
+  help: string;
+  /** Visage : recadrage rond. Sinon : grande case, image gardée telle quelle. */
+  face: boolean;
+}
+
+const SLOTS: SlotDef[] = [
+  { slot: 'leyu-pied', label: 'Leyu en pied', help: 'Grande case de l’écran d’accueil.', face: false },
+  { slot: 'leyu', label: 'Leyu — visage', help: 'Avatar, garde-robe.', face: true },
+  { slot: 'leyu-grimace', label: 'Leyu — grimace rigolote', help: 'Apparaît sur les réussites « Le POULET ! ».', face: true },
+  { slot: 'elsa-buste', label: 'Elsa en buste', help: 'Sa case sur l’écran d’accueil.', face: false },
+  { slot: 'elsa', label: 'Elsa — visage', help: 'Ses bulles pendant les séances.', face: true },
+];
 
 export function CharactersPanel() {
   return (
     <div className="stack">
       <p className="notice small-text">
-        Importez une illustration des filles, puis cadrez chaque visage. Les images restent <strong>uniquement dans ce navigateur</strong> :
-        elles ne sont jamais publiées avec le code du site. Pensez à exporter une sauvegarde (Réglages) pour les retrouver sur un autre appareil.
+        Importez les illustrations des filles. Elles restent <strong>uniquement dans ce navigateur</strong> et ne sont jamais publiées avec le code du
+        site. Les sauvegardes (Réglages) les incluent.
       </p>
       <div className="level-grid">
-        {(['leyu', 'elsa'] as CharacterId[]).map((who) => (
-          <CharacterCard key={who} who={who} />
+        {SLOTS.map((d) => (
+          <CharacterCard key={d.slot} def={d} />
         ))}
       </div>
     </div>
   );
 }
 
-function CharacterCard({ who }: { who: CharacterId }) {
+function CharacterCard({ def }: { def: SlotDef }) {
   const [src, setSrc] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const url = usePortraitUrl(def.slot);
   useEffect(() => () => void (src && URL.revokeObjectURL(src)), [src]);
 
   return (
     <section className="card stack" style={{ alignItems: 'center' }}>
-      <h2>{NAMES[who]}</h2>
+      <h3 style={{ margin: 0 }}>{def.label}</h3>
+      <p className="muted small-text" style={{ margin: 0 }}>
+        {def.help}
+      </p>
       {src ? (
-        <Cropper src={src} onCancel={() => setSrc(null)} onSave={async (blob) => (await setPortrait(who, blob), setSrc(null))} />
+        <Cropper src={src} onCancel={() => setSrc(null)} onSave={async (blob) => (await setPortrait(def.slot, blob), setSrc(null))} />
       ) : (
         <>
-          <Portrait who={who} size={160} fallback={who === 'elsa' ? '😊' : '🧙‍♀️'} />
+          {url ? (
+            def.face ? (
+              <div className="portrait" style={{ width: 140, height: 140 }}>
+                <img src={url} alt="" />
+              </div>
+            ) : (
+              <img src={url} alt="" style={{ maxHeight: 220, maxWidth: '100%', borderRadius: 10 }} />
+            )
+          ) : (
+            <div className="portrait" style={{ width: 140, height: 140 }}>
+              <span className="muted small-text">vide</span>
+            </div>
+          )}
           <div className="row center">
             <button className="primary" onClick={() => fileRef.current?.click()}>
-              Importer une image…
+              Importer…
             </button>
-            <button className="ghost" onClick={() => confirm(`Retirer le portrait de ${NAMES[who]} ?`) && setPortrait(who, null)}>
-              Retirer
-            </button>
+            {url && (
+              <button className="ghost" onClick={() => confirm(`Retirer « ${def.label} » ?`) && setPortrait(def.slot, null)}>
+                Retirer
+              </button>
+            )}
           </div>
         </>
       )}
@@ -54,8 +87,10 @@ function CharacterCard({ who }: { who: CharacterId }) {
         hidden
         onChange={(e) => {
           const f = e.target.files?.[0];
-          if (f) setSrc(URL.createObjectURL(f));
           e.target.value = '';
+          if (!f) return;
+          if (def.face) setSrc(URL.createObjectURL(f));
+          else setPortrait(def.slot, f);
         }}
       />
     </section>

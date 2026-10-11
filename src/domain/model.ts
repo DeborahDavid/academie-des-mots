@@ -114,6 +114,9 @@ export interface ImageAsset {
 
 export type CharacterId = 'leyu' | 'elsa';
 
+/** Emplacements d'illustration : visages (ronds) et grandes cases (format libre). */
+export type ArtSlot = 'leyu' | 'leyu-grimace' | 'leyu-pied' | 'elsa' | 'elsa-buste';
+
 export interface AudioClip {
   id: string;
   blob: Blob;
@@ -156,7 +159,7 @@ export interface Settings {
   /** Garde-robe : récompenses gagnées (définitivement) et tenue portée. */
   wardrobe?: { unlocked: Record<string, number>; worn: string[] };
   /** Portraits importés (id d'image), à la place des dessins par défaut. */
-  portraits?: Partial<Record<CharacterId, string>>;
+  portraits?: Partial<Record<ArtSlot, string>>;
   /** Version de la banque de phrases déjà proposée au parent. */
   seedSentencesVersion?: number;
 }

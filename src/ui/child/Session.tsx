@@ -11,6 +11,7 @@ import { useSettings } from '../hooks';
 import { syncUnlocks } from '../../db/rewardsRepo';
 import type { Reward } from '../../domain/rewards';
 import { RewardIcon } from '../components/Avatar';
+import { usePortraitUrl } from '../components/Portrait';
 import { playStarChime, playSuccessChime } from '../../speech/sfx';
 import { WordExercise } from './WordExercise';
 
@@ -42,6 +43,7 @@ const TRANSITION_MS = 1600;
 
 export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () => void }) {
   const settings = useSettings();
+  const grimaceUrl = usePortraitUrl('leyu-grimace');
   const sessionId = useRef(newId()).current;
   const [queue, setQueue] = useState<Task[] | null>(null);
   const [kind, setKind] = useState<SessionKind>('daily');
@@ -208,7 +210,14 @@ export function Session({ onExit, onAgain }: { onExit: () => void; onAgain: () =
       {transition ? (
         <button className="transition" onClick={next} aria-label="Continuer">
           {transition.star && <div className="transition-star">★</div>}
-          <Elsa expression={transition.expression} line={transition.line} />
+          <div className="row center" style={{ alignItems: 'flex-end' }}>
+            {transition.line === 'Le POULET !' && grimaceUrl && (
+              <div className="portrait" style={{ width: 110, height: 110 }} aria-hidden>
+                <img src={grimaceUrl} alt="" />
+              </div>
+            )}
+            <Elsa expression={transition.expression} line={transition.line} />
+          </div>
           {transition.points > 0 && <p className="gold">+{transition.points} points</p>}
           {transition.ada && <p className="muted small-text">Ada s’est réveillée pour te voir !</p>}
         </button>

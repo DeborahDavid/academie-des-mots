@@ -1,11 +1,11 @@
 import { useLiveQuery } from 'dexie-react-hooks';
-import { useEffect, useState } from 'react';
+import { type ReactNode, useEffect, useState } from 'react';
 import { db } from '../../db/db';
-import type { CharacterId } from '../../domain/model';
+import type { ArtSlot, CharacterId } from '../../domain/model';
 import { useSettings } from '../hooks';
 
 /** URL de l'image du portrait importé (ou undefined). */
-export function usePortraitUrl(who: CharacterId): string | undefined {
+export function usePortraitUrl(who: ArtSlot): string | undefined {
   const settings = useSettings();
   const id = settings?.portraits?.[who];
   const asset = useLiveQuery(() => (id ? db.images.get(id) : undefined), [id]);
@@ -26,6 +26,18 @@ export function Portrait({ who, size, fallback }: { who: CharacterId; size: numb
   return (
     <div className="portrait" style={{ width: s, height: s }}>
       {url ? <img src={url} alt="" /> : <span style={{ fontSize: s * 0.6 }}>{fallback}</span>}
+    </div>
+  );
+}
+
+/** Grande case façon manga (illustration en pied ou en buste). */
+export function MangaPanel({ slot, height, children }: { slot: ArtSlot; height: number; children?: ReactNode }) {
+  const url = usePortraitUrl(slot);
+  if (!url) return null;
+  return (
+    <div className="manga-panel" style={{ height }}>
+      <img src={url} alt="" />
+      {children}
     </div>
   );
 }

@@ -3,11 +3,13 @@ import { getWardrobe, setWorn } from '../../db/rewardsRepo';
 import { REWARDS, type RewardId, wearNew } from '../../domain/rewards';
 import { frTypo } from '../../domain/typo';
 import { Avatar, RewardIcon } from '../components/Avatar';
+import { MangaPanel, usePortraitUrl } from '../components/Portrait';
 
 /** Garde-robe : tout ce qui est gagné est combinable. Rien ne s'achète, tout se gagne par la maîtrise. */
 export function Wardrobe({ onBack }: { onBack: () => void }) {
   // liveQuery suit les tables lues : se met à jour quand la tenue portée change.
   const wardrobe = useLiveQuery(() => getWardrobe(), []);
+  const hasArt = !!usePortraitUrl('leyu-pied');
   if (!wardrobe) return null;
   const { unlocked, worn, stats } = wardrobe;
 
@@ -28,8 +30,22 @@ export function Wardrobe({ onBack }: { onBack: () => void }) {
       </header>
       <div className="wardrobe-body">
         <div className="wardrobe-avatar">
-          <Avatar worn={worn} size={260} />
-          <p className="muted small-text">Maillot et cape toujours portés</p>
+          {hasArt ? (
+            <MangaPanel slot="leyu-pied" height={380}>
+              <span className="charms">
+                {worn.map((id) => (
+                  <span key={id} className="charm">
+                    <RewardIcon id={id} />
+                  </span>
+                ))}
+              </span>
+            </MangaPanel>
+          ) : (
+            <>
+              <Avatar worn={worn} size={260} />
+              <p className="muted small-text">Maillot et cape toujours portés</p>
+            </>
+          )}
         </div>
         <div className="wardrobe-items">
           {REWARDS.map((r) => {

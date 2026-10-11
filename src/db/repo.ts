@@ -14,7 +14,7 @@ import { nextMoonPhase } from '../domain/moon';
 import { seedNotions } from '../domain/notions';
 import { type ParsedEntry, wordKey } from '../domain/parseList';
 import { SEED_SENTENCES, SEED_SENTENCES_VERSION } from '../content/seedSentences';
-import type { CharacterId, Sentence, ValidationStatus } from '../domain/model';
+import type { ArtSlot, Sentence, ValidationStatus } from '../domain/model';
 
 /** Crée les notions et réglages par défaut au premier lancement. */
 export async function ensureSeeded(db: AcademieDB = defaultDb): Promise<void> {
@@ -200,7 +200,7 @@ export async function deleteSentence(id: string, db: AcademieDB = defaultDb) {
 }
 
 /** Enregistre (ou retire) le portrait d'un personnage. */
-export async function setPortrait(who: CharacterId, blob: Blob | null, db: AcademieDB = defaultDb) {
+export async function setPortrait(who: ArtSlot, blob: Blob | null, db: AcademieDB = defaultDb) {
   await db.transaction('rw', db.images, db.settings, async () => {
     const s = await getSettings(db);
     const old = s.portraits?.[who];

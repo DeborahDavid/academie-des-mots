@@ -7,7 +7,8 @@ import { nextReward } from '../../domain/rewards';
 import { frTypo } from '../../domain/typo';
 import { navigate } from '../../router';
 import { Avatar } from '../components/Avatar';
-import { Portrait } from '../components/Portrait';
+import { MangaPanel, Portrait, usePortraitUrl } from '../components/Portrait';
+import { RewardIcon } from '../components/Avatar';
 import { useSettings } from '../hooks';
 import { Session } from './Session';
 import { Wardrobe } from './Wardrobe';
@@ -19,6 +20,8 @@ export function ChildHome() {
   const progress = useLiveQuery(() => getProgress(), [session]);
   const wardrobe = useLiveQuery(() => getWardrobe(), [session]);
   const settings = useSettings();
+  const hasLeyuArt = !!usePortraitUrl('leyu-pied');
+  const hasElsaArt = !!usePortraitUrl('elsa-buste');
 
   useEffect(() => {
     syncUnlocks();
@@ -52,12 +55,37 @@ export function ChildHome() {
       <p className="muted">La Tour des meilleures amies et d’Ada</p>
       <div className="friends">
         <div className="friend">
-          <Avatar worn={wardrobe?.worn ?? []} size={190} />
-          <span className="title-chip">{settings?.titles[0] ?? 'Titre 1'}</span>
+          {hasLeyuArt ? (
+            <MangaPanel slot="leyu-pied" height={400}>
+              <span className="panel-caption">{settings?.titles[0] ?? 'Titre 1'}</span>
+              {!!wardrobe?.unlocked.size && (
+                <span className="charms" aria-label="Mes trésors">
+                  {[...wardrobe.unlocked].map((id) => (
+                    <span key={id} className="charm">
+                      <RewardIcon id={id} />
+                    </span>
+                  ))}
+                </span>
+              )}
+            </MangaPanel>
+          ) : (
+            <>
+              <Avatar worn={wardrobe?.worn ?? []} size={190} />
+              <span className="title-chip">{settings?.titles[0] ?? 'Titre 1'}</span>
+            </>
+          )}
         </div>
-        <div className="friend">
-          <Portrait who="elsa" size={130} fallback="😊" />
-          <span className="muted small-text">Elsa</span>
+        <div className="friend tilt">
+          {hasElsaArt ? (
+            <MangaPanel slot="elsa-buste" height={300}>
+              <span className="panel-caption">Elsa</span>
+            </MangaPanel>
+          ) : (
+            <>
+              <Portrait who="elsa" size={130} fallback="😊" />
+              <span className="muted small-text">Elsa</span>
+            </>
+          )}
         </div>
       </div>
       <button className="primary big" onClick={() => setSession(1)}>
