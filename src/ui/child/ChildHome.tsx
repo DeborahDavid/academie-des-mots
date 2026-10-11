@@ -13,8 +13,9 @@ import { syncExplorerRank } from '../../db/vocabRepo';
 import { nextReward } from '../../domain/rewards';
 import { frTypo } from '../../domain/typo';
 import { navigate } from '../../router';
-import { Avatar } from '../components/Avatar';
-import { Portrait, usePortraitUrl } from '../components/Portrait';
+import { usePortraitUrl } from '../components/Portrait';
+import { Icon } from '../components/Icon';
+import { Curtain } from './home/Curtain';
 import { useSettings } from '../hooks';
 import { Session } from './Session';
 import { Wardrobe } from './Wardrobe';
@@ -31,8 +32,6 @@ export function ChildHome() {
   const sky = useLiveQuery(() => getSky(), [session]);
   const settings = useSettings();
   const duoUrl = usePortraitUrl('duo');
-  const leyuFace = usePortraitUrl('leyu');
-  const elsaFace = usePortraitUrl('elsa');
   // Arrivée (~2 s) : le ciel s'illumine, Elsa dit bonjour, Ada ouvre un œil puis se rendort.
   const [arrival, setArrival] = useState<'sky' | 'hello' | 'eye' | 'idle'>('sky');
   useEffect(() => {
@@ -99,14 +98,14 @@ export function ChildHome() {
 
       <header className="h2-bar">
         <button className="h2-icon" onClick={() => navigate('parent')} aria-label="Mode parent" title="Mode parent">
-          🔒
+          <Icon name="lock" size={22} />
         </button>
         <div className="h2-pills">
           <span className={`h2-pill ${progress?.litToday ? 'lit' : ''}`} title="Jours de magie">
-            🔥 {progress?.flameDays ?? 0}
+            <Icon name="flame" size={20} /> {progress?.flameDays ?? 0}
           </span>
           <span className="h2-pill" title="Points">
-            ✦ {progress?.totalPoints ?? 0}
+            <Icon name="star" size={20} /> {progress?.totalPoints ?? 0}
           </span>
         </div>
         <div className="h2-icons">
@@ -116,7 +115,7 @@ export function ChildHome() {
             aria-label={settings?.musicOn === false ? 'Activer la musique' : 'Couper la musique'}
             title={settings?.musicOn === false ? 'Activer la musique' : 'Couper la musique'}
           >
-            🎵
+            <Icon name="music" size={22} />
           </button>
           <button
             className={`h2-icon ${settings?.muted ? 'off' : ''}`}
@@ -124,7 +123,7 @@ export function ChildHome() {
             aria-label={settings?.muted ? 'Activer les sons' : 'Couper les sons'}
             title={settings?.muted ? 'Activer les sons' : 'Couper les sons'}
           >
-            {settings?.muted ? '🔕' : '🔔'}
+            <Icon name={settings?.muted ? 'bell-off' : 'bell'} size={22} />
           </button>
         </div>
       </header>
@@ -140,35 +139,37 @@ export function ChildHome() {
             {sky && <WindowSky stars={sky.stars} moonPhase={sky.moonPhase} constellations={sky.constellations} wide={wide} />}
             {motion && <Sparkles count={16} seed={5} />}
           </div>
+          <span className="h2-rod" aria-hidden />
+          <Curtain side="left" />
+          <Curtain side="right" />
           <div className="h2-sill" />
         </div>
         <div className="h2-ada">
           <AdaSleeping awake={arrival === 'eye'} />
         </div>
-        <div className={`h2-friends ${duoUrl ? '' : 'faces'}`}>
-          {duoUrl ? (
+        {/* Sans illustration importée, la scène reste vide plutôt que d'afficher un dessin bas de gamme. */}
+        {duoUrl && (
+          <div className="h2-friends">
             <img src={duoUrl} alt="Leyu et Elsa, les meilleures amies" />
-          ) : (
-            <div className="h2-faces">
-              {leyuFace ? <img src={leyuFace} alt="Leyu" /> : <Avatar worn={wardrobe?.worn ?? []} size={150} />}
-              {elsaFace ? <img src={elsaFace} alt="Elsa" className="elsa" /> : <Portrait who="elsa" size={110} fallback="😊" />}
-            </div>
-          )}
-          <div className={`h2-bubble ${arrival === 'sky' ? 'hidden' : ''}`}>{frTypo(hello)}</div>
-          <span className="h2-title-chip">{settings?.titles[0] ?? 'Titre 1'}</span>
-        </div>
+            <div className={`h2-bubble ${arrival === 'sky' ? 'hidden' : ''}`}>{frTypo(hello)}</div>
+          </div>
+        )}
       </section>
 
       <nav className="h2-quests" aria-label="Les deux parcours">
         <button className="h2-quest spells" onClick={() => setSession(1)}>
-          <span className="h2-medal">🪄</span>
+          <span className="h2-medal">
+            <Icon name="wand" size={38} />
+          </span>
           <span className="h2-quest-text">
             <strong>La Salle des Sortilèges</strong>
             <span>{progress?.litToday ? frTypo('Encore une séance !') : 'Dictée du jour'}</span>
           </span>
         </button>
         <button className="h2-quest words" onClick={() => setScreen('quest')}>
-          <span className="h2-medal">🔭</span>
+          <span className="h2-medal">
+            <Icon name="telescope" size={38} />
+          </span>
           <span className="h2-quest-text">
             <strong>L’Exploratrice des mots</strong>
             <span>{rankName || 'Quête de vocabulaire'}</span>
@@ -178,16 +179,20 @@ export function ChildHome() {
 
       <nav className="h2-more" aria-label="Autres lieux">
         <button onClick={() => setScreen('path')}>
-          <span className="h2-badge">🗺️</span>
+          <span className="h2-badge">
+            <Icon name="map" size={32} />
+          </span>
           <span>Parcours</span>
         </button>
         <button onClick={() => setScreen('grimoire')}>
-          <span className="h2-badge">📖</span>
+          <span className="h2-badge">
+            <Icon name="book" size={32} />
+          </span>
           <span>Grimoire</span>
         </button>
         <button onClick={() => setScreen('wardrobe')} title={next && np ? `Prochaine récompense : ${next.name} (${np.current}/${np.target})` : undefined}>
           <span className="h2-badge">
-            👗
+            <Icon name="dress" size={32} />
             {next && np && (
               <span className="h2-ring" style={{ ['--p' as string]: `${(100 * np.current) / np.target}%` }} aria-hidden />
             )}
