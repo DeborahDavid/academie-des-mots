@@ -21,7 +21,7 @@ export function WordRow({ word }: { word: Word }) {
     }
   }
 
-  const save = (field: 'context' | 'hint') => (e: FocusEvent<HTMLInputElement>) => {
+  const save = (field: 'hint') => (e: FocusEvent<HTMLInputElement>) => {
     const v = e.target.value.trim().replace(/'/g, '’');
     if (v !== (word[field] ?? '')) updateWord(word.id, { [field]: v || undefined });
   };
@@ -38,7 +38,6 @@ export function WordRow({ word }: { word: Word }) {
           else e.target.value = word.text;
         }}
       />
-      <input defaultValue={word.context ?? ''} placeholder="(facultatif)" aria-label="Phrase de contexte" onBlur={save('context')} />
       <input defaultValue={word.hint ?? ''} placeholder="(optionnel)" aria-label="Indice" onBlur={save('hint')} />
       <div className="row" style={{ gap: '0.35rem', flexWrap: 'nowrap' }}>
         <button className="small" onClick={listen} disabled={playing} title={word.audioId ? 'Écouter (votre voix)' : 'Écouter (synthèse)'}>

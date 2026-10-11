@@ -15,10 +15,9 @@ describe('parseWordList', () => {
     ]);
   });
 
-  it('lit la phrase de contexte et l’indice', () => {
-    expect(parseWordList("grand | Le chêne est très grand. | Pense à 'grande'")).toEqual([
-      { text: 'grand', context: 'Le chêne est très grand.', hint: 'Pense à ’grande’' },
-    ]);
+  it('lit l’indice ; l’ancien format avec phrase reste accepté (phrase ignorée)', () => {
+    expect(parseWordList("grand | Pense à 'grande'")).toEqual([{ text: 'grand', hint: 'Pense à ’grande’' }]);
+    expect(parseWordList("grand | Le chêne est très grand. | Pense à 'grande'")).toEqual([{ text: 'grand', hint: 'Pense à ’grande’' }]);
   });
 
   it('ignore les doublons (casse et apostrophes)', () => {

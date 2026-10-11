@@ -8,7 +8,6 @@ export function VoicePanel() {
   const settings = useSettings();
   const [voices, setVoices] = useState<SpeechSynthesisVoice[] | null>(null);
   const [word, setWord] = useState('forêt');
-  const [context, setContext] = useState('Le loup se cache dans la forêt.');
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -23,7 +22,7 @@ export function VoicePanel() {
   async function test() {
     setError('');
     try {
-      await speakDictation(word, context, { voiceURI: selected?.voiceURI, rate: settings!.speechRate });
+      await speakDictation(word, { voiceURI: selected?.voiceURI, rate: settings!.speechRate });
     } catch (e) {
       setError((e as Error).message);
     }
@@ -39,10 +38,6 @@ export function VoicePanel() {
           </p>
         )}
         <div className="row">
-          <div style={{ flex: 2, minWidth: 240 }}>
-            <label htmlFor="v-ctx">Phrase de contexte</label>
-            <input id="v-ctx" style={{ width: '100%' }} value={context} onChange={(e) => setContext(e.target.value)} />
-          </div>
           <div style={{ flex: 1, minWidth: 140 }}>
             <label htmlFor="v-word">Mot</label>
             <input id="v-word" style={{ width: '100%' }} value={word} onChange={(e) => setWord(e.target.value)} />

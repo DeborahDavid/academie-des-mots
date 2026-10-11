@@ -1,4 +1,4 @@
-/** Petits sons originaux générés en direct (Web Audio). Jamais de son sur une erreur. */
+/** Petits sons originaux générés en direct (Web Audio). */
 
 let ctx: AudioContext | null = null;
 
@@ -42,4 +42,27 @@ export function playStarChime(muted: boolean) {
   if (!ac) return;
   const t = ac.currentTime + 0.02;
   [1046.5, 1318.5, 1568, 2093].forEach((f, i) => bell(ac, f, t + i * 0.09, 0.12, 1.4));
+}
+
+/** Après une erreur : deux notes graves et feutrées qui descendent (~0,4 s), jamais un buzzer. */
+export function playOopsSound(muted: boolean) {
+  if (muted) return;
+  const ac = audio();
+  if (!ac) return;
+  const t = ac.currentTime + 0.02;
+  [[392, 0], [311, 0.13]].forEach(([f, dt]) => {
+    const osc = ac.createOscillator();
+    const amp = ac.createGain();
+    const lp = ac.createBiquadFilter();
+    osc.type = 'triangle';
+    osc.frequency.value = f;
+    lp.type = 'lowpass';
+    lp.frequency.value = 1200;
+    amp.gain.setValueAtTime(0, t + dt);
+    amp.gain.linearRampToValueAtTime(0.09, t + dt + 0.015);
+    amp.gain.exponentialRampToValueAtTime(0.0001, t + dt + 0.28);
+    osc.connect(lp).connect(amp).connect(ac.destination);
+    osc.start(t + dt);
+    osc.stop(t + dt + 0.32);
+  });
 }

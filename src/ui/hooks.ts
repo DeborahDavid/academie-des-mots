@@ -14,5 +14,5 @@ export async function playWord(word: Word, settings: Settings): Promise<void> {
     const clip = await db.audio.get(word.audioId);
     if (clip) return playBlob(clip.blob);
   }
-  return speakDictation(word.text, word.context, { voiceURI: settings.voiceURI, rate: settings.speechRate });
+  return speakDictation(word.text, { voiceURI: settings.voiceURI, rate: settings.speechRate });
 }

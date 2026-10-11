@@ -6,7 +6,7 @@ interface Props {
   onClear: () => void;
 }
 
-/** Enregistrement micro (voix du parent). Dire la phrase de contexte puis le mot. */
+/** Enregistrement micro (voix du parent). Dire le mot. */
 export function Recorder({ hasAudio, onSave, onClear }: Props) {
   const [recording, setRecording] = useState(false);
   const recRef = useRef<MediaRecorder | null>(null);

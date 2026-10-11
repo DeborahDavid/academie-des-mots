@@ -6,6 +6,7 @@ import { frTypo } from '../../domain/typo';
 import { OOPS_LINES, randomLine } from '../../domain/lines';
 import { type WordRun, acceptHint, declineHint, startTyping, startWordRun, submitWord } from '../../domain/wordRun';
 import { stopSpeaking } from '../../speech/tts';
+import { playOopsSound } from '../../speech/sfx';
 import { AccentBar } from '../components/AccentBar';
 import { Elsa } from '../components/Elsa';
 import { playWord } from '../hooks';
@@ -55,7 +56,10 @@ export function WordExercise({ word, itemId, presentation, failures, settings, o
     if (next.phase === 'correction' && next.revealCorrect) setMarks(markMistakes(value, word.text));
     // On efface toujours la saisie : une forme fautive ne reste jamais à l'écran.
     setValue('');
-    if (run.phase === 'answer' && next.phase !== 'done') setOops(randomLine(OOPS_LINES));
+    if (run.phase === 'answer' && next.phase !== 'done') {
+      setOops(randomLine(OOPS_LINES));
+      playOopsSound(settings.muted);
+    }
     if (run.phase === 'correction' && next.phase === 'correction') setOops('Regarde encore une fois.');
     setRun(next);
   }

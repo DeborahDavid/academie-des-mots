@@ -19,7 +19,7 @@ export interface Word {
   weekId: string;
   text: string;
   level: Level;
-  /** Courte phrase de contexte lue avant le mot isolé. */
+  /** Ancien champ (phrase de contexte) : n’est plus lu. */
   context?: string;
   /** Indice personnalisé du parent (jamais de forme incorrecte). */
   hint?: string;

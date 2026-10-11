@@ -105,8 +105,7 @@ function AddWeekForm({ weeks }: { weeks: Week[] }) {
         ))}
       </div>
       <p className="muted small-text">
-        Un mot par ligne suffit : le mot est dit deux fois. Facultatif : <code>mot | phrase de contexte | indice</code>, ex.{' '}
-        <code>vert | Le pré est vert.</code> pour distinguer un homophone (vert, verre, ver).
+        Un mot par ligne : le mot est dit deux fois. Facultatif, un indice personnalisé : <code>grand | Pense à « grande » pour la lettre muette.</code>
       </p>
       <div className="row">
         <button className="primary" disabled={busy || parsed.length === 0} onClick={submit}>
@@ -165,7 +164,6 @@ function WeekCard({ week, words, defaultOpen }: { week: Week; words: Word[]; def
               </h3>
               <div className="muted small-text word-row" style={{ borderBottom: 'none', paddingBottom: 0 }}>
                 <span>Mot</span>
-                <span>Phrase de contexte (facultatif, utile pour les homophones)</span>
                 <span>Indice personnalisé</span>
                 <span />
               </div>

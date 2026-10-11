@@ -69,17 +69,10 @@ export async function speak(text: string, opts: SpeakOptions = {}): Promise<void
 
 const pause = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-/**
- * Dictée d'un mot : le mot, une pause, le mot à nouveau.
- * Si le parent a saisi une phrase de contexte (utile pour les homophones), elle est lue entre les deux.
- */
-export async function speakDictation(word: string, context: string | undefined, opts: SpeakOptions = {}): Promise<void> {
+/** Dictée d'un mot : le mot seul, une pause, le mot à nouveau. */
+export async function speakDictation(word: string, opts: SpeakOptions = {}): Promise<void> {
   await speak(word, opts);
-  await pause(700);
-  if (context) {
-    await speak(context, opts);
-    await pause(700);
-  }
+  await pause(800);
   await speak(word, opts);
 }
 

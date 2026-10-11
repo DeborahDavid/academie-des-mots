@@ -118,7 +118,7 @@ export async function addWordToWeek(weekId: string, level: Level, entry: ParsedE
   });
 }
 
-export async function updateWord(id: string, patch: Partial<Pick<Word, 'text' | 'level' | 'context' | 'hint'>>, db: AcademieDB = defaultDb) {
+export async function updateWord(id: string, patch: Partial<Pick<Word, 'text' | 'level' | 'hint'>>, db: AcademieDB = defaultDb) {
   await db.words.update(id, patch);
 }
 
