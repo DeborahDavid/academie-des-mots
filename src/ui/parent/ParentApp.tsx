@@ -6,8 +6,10 @@ import { SettingsPanel } from './SettingsPanel';
 import { CharactersPanel } from './CharactersPanel';
 import { VocabPanel } from './VocabPanel';
 import { SentencesPanel } from './SentencesPanel';
+import { DashboardPanel } from './DashboardPanel';
 
 const TABS = [
+  { id: 'dashboard', label: 'Tableau de bord' },
   { id: 'weeks', label: 'Listes de mots' },
   { id: 'notions', label: 'Notions' },
   { id: 'sentences', label: 'Phrases' },
@@ -36,6 +38,7 @@ export function ParentApp({ onExit }: { onExit: () => void }) {
           </button>
         ))}
       </nav>
+      {tab === 'dashboard' && <DashboardPanel />}
       {tab === 'weeks' && <WeeksPanel />}
       {tab === 'notions' && <NotionsPanel />}
       {tab === 'sentences' && <SentencesPanel />}
