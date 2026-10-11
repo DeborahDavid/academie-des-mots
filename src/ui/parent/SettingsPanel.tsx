@@ -79,7 +79,7 @@ export function SettingsPanel() {
           coupe, le bouton 🔔 coupe tous les sons.
         </p>
         <label className="row" style={{ color: 'var(--text)', gap: '0.5rem' }}>
-          <input type="checkbox" checked={settings.musicOn !== false} onChange={(e) => updateSettings({ musicOn: e.target.checked })} style={{ minHeight: 0, width: 20, height: 20 }} />
+          <input type="checkbox" checked={settings.musicOn === true} onChange={(e) => updateSettings({ musicOn: e.target.checked })} style={{ minHeight: 0, width: 20, height: 20 }} />
           Thème musical sur l’écran principal
         </label>
         <div className="row">

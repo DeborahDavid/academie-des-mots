@@ -55,6 +55,9 @@ export async function ensureSeeded(db: AcademieDB = defaultDb): Promise<void> {
       }
       await db.settings.put({ key: 'settings', value: { ...s, seedSentencesVersion: SEED_SENTENCES_VERSION } });
     }
+    // Préférences de son v1 : la musique devient facultative (coupée), les petits sons de réussite reviennent.
+    const cur = await getSettings(db);
+    if ((cur.audioPrefsVersion ?? 0) < 1) await db.settings.put({ key: 'settings', value: { ...cur, muted: false, musicOn: false, audioPrefsVersion: 1 } });
   });
 }
 

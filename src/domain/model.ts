@@ -172,8 +172,10 @@ export interface Settings {
   voiceURI?: string;
   speechRate: number;
   muted: boolean;
-  /** Thème musical de l'écran principal (jamais pendant les exercices). */
+  /** Thème musical de l'écran principal (jamais pendant les exercices) : désactivé tant qu'on ne l'allume pas. */
   musicOn?: boolean;
+  /** Version des préférences de son déjà appliquée (1 : musique coupée par défaut, petits sons réactivés). */
+  audioPrefsVersion?: number;
   /** Animations de l'écran principal (scintillement) : désactivables. */
   animations?: boolean;
   jersey: Jersey;

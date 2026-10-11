@@ -17,6 +17,7 @@ export type IconName =
   | 'book'
   | 'dress'
   | 'speaker'
+  | 'speaker-off'
   | 'turtle'
   | 'bulb'
   | 'magnifier'
@@ -132,6 +133,12 @@ const ICONS: Record<IconName, ReactNode> = {
     <>
       <path d="M5.5 12.5h4.5l6.5-5.5v18L10 19.5H5.5Z" fill={GOLD} {...line} />
       <path d="M20.5 12a5.5 5.5 0 0 1 0 8M23.8 8.8a10 10 0 0 1 0 14.4" fill="none" {...line} />
+    </>
+  ),
+  'speaker-off': (
+    <>
+      <path d="M5.5 12.5h4.5l6.5-5.5v18L10 19.5H5.5Z" fill="#E8DCCB" {...line} />
+      <path d="M20.5 12.5l6 7M26.5 12.5l-6 7" {...line} />
     </>
   ),
   turtle: (

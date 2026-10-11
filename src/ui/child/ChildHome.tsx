@@ -52,7 +52,7 @@ export function ChildHome() {
 
   // Thème musical : écran principal et lieux calmes ; silence pendant la dictée et la quête.
   const working = session > 0 || screen === 'quest';
-  const musicWanted = !!settings && !settings.muted && settings.musicOn !== false && !working;
+  const musicWanted = !!settings && !settings.muted && settings.musicOn === true && !working;
   useEffect(() => {
     if (!musicWanted) {
       stopTheme();
@@ -110,20 +110,20 @@ export function ChildHome() {
         </div>
         <div className="h2-icons">
           <button
-            className={`h2-icon ${settings?.musicOn === false ? 'off' : ''}`}
-            onClick={() => updateSettings({ musicOn: settings?.musicOn === false })}
-            aria-label={settings?.musicOn === false ? 'Activer la musique' : 'Couper la musique'}
-            title={settings?.musicOn === false ? 'Activer la musique' : 'Couper la musique'}
+            className={`h2-icon ${settings?.musicOn === true ? '' : 'off'}`}
+            onClick={() => updateSettings({ musicOn: settings?.musicOn !== true })}
+            aria-label={settings?.musicOn === true ? 'Couper la musique' : 'Mettre la musique'}
+            title={settings?.musicOn === true ? 'Couper la musique' : 'Mettre la musique'}
           >
             <Icon name="music" size={22} />
           </button>
           <button
             className={`h2-icon ${settings?.muted ? 'off' : ''}`}
             onClick={() => updateSettings({ muted: !settings?.muted })}
-            aria-label={settings?.muted ? 'Activer les sons' : 'Couper les sons'}
-            title={settings?.muted ? 'Activer les sons' : 'Couper les sons'}
+            aria-label={settings?.muted ? 'Remettre les petits sons (réussite, erreur)' : 'Couper les petits sons (réussite, erreur)'}
+            title={settings?.muted ? 'Remettre les petits sons (réussite, erreur)' : 'Couper les petits sons (réussite, erreur)'}
           >
-            <Icon name={settings?.muted ? 'bell-off' : 'bell'} size={22} />
+            <Icon name={settings?.muted ? 'speaker-off' : 'speaker'} size={22} />
           </button>
         </div>
       </header>
