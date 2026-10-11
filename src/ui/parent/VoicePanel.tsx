@@ -33,6 +33,11 @@ export function VoicePanel() {
     <div className="stack">
       <section className="card stack">
         <h2>Tester la dictée</h2>
+        {voices && (
+          <p className={selected ? 'ok' : 'warn'}>
+            {selected ? `Voix utilisée : ${selected.name} (${selected.lang})` : 'Aucune voix française dans ce navigateur : ouvrez l’application dans Safari ou Chrome.'}
+          </p>
+        )}
         <div className="row">
           <div style={{ flex: 2, minWidth: 240 }}>
             <label htmlFor="v-ctx">Phrase de contexte</label>

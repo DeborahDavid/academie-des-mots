@@ -47,14 +47,18 @@ export interface SpeakOptions {
   rate?: number;
 }
 
+export const NO_FRENCH_VOICE = 'Aucune voix française dans ce navigateur. Ouvrez l’application dans Safari ou Chrome.';
+
 export async function speak(text: string, opts: SpeakOptions = {}): Promise<void> {
   if (!ttsSupported()) throw new Error('La synthèse vocale n’est pas disponible dans ce navigateur.');
   speechSynthesis.cancel();
   const voice = await resolveVoice(opts.voiceURI);
+  // Sans voix française, le navigateur lirait le français avec une voix anglaise : on refuse.
+  if (!voice) throw new Error(NO_FRENCH_VOICE);
   return new Promise((resolve, reject) => {
     const u = new SpeechSynthesisUtterance(text);
-    u.lang = voice?.lang ?? 'fr-FR';
-    if (voice) u.voice = voice;
+    u.voice = voice;
+    u.lang = voice.lang;
     u.rate = opts.rate ?? 0.85;
     u.onend = () => resolve();
     u.onerror = (e) => (e.error === 'interrupted' || e.error === 'canceled' ? resolve() : reject(new Error(e.error)));

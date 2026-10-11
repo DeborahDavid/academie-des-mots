@@ -25,7 +25,11 @@ export function WordExercise({ word, itemId, presentation, failures, settings, o
   const inputRef = useRef<HTMLInputElement>(null);
   const hint = useMemo(() => word.hint || autoHint(word.text), [word]);
 
-  const listen = () => playWord(word, settings).catch(() => {});
+  const [voiceError, setVoiceError] = useState('');
+  const listen = () =>
+    playWord(word, settings)
+      .then(() => setVoiceError(''))
+      .catch((e: Error) => setVoiceError(e.message));
 
   useEffect(() => {
     listen();
@@ -74,6 +78,8 @@ export function WordExercise({ word, itemId, presentation, failures, settings, o
 
       <section className="exercise-main">
         <p className="instruction">{run.phase === 'correction' ? (run.revealCorrect ? 'Pas encore. Regarde :' : 'Écris-le de mémoire.') : 'Écris le mot que tu entends.'}</p>
+
+        {voiceError && <div className="hint-box">La voix ne marche pas : demande à un parent. ({voiceError})</div>}
 
         {run.phase === 'correction' && (
           <div className="model-word" aria-live="polite">
